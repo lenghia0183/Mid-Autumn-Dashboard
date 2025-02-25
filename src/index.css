@@ -1,0 +1,5 @@
+@import "../src/asset/fonts/barlow/stylesheet.css";
+@import "../src/asset/fonts/source-sans-pro/stylesheet.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

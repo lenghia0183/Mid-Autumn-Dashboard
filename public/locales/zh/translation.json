@@ -1,0 +1,265 @@
+{
+  "common": {
+    "byNow": "立即购买",
+    "midAutumnFestival": "中秋节",
+    "register": "注册",
+    "showMore": "查看更多",
+    "hidden": "隐藏",
+    "loading": "加载中...",
+    "cancel": "取消",
+    "saveChange": "保存更改",
+    "checkout": "结账",
+    "send": "发送",
+    "popularDishes": "热门菜品",
+    "sweetCakes": "甜月饼",
+    "showMenu": "查看菜单",
+    "autumnCake": "月饼",
+    "inStock": "有货",
+    "outOfStock": "缺货",
+    "apply": "应用",
+    "search": "搜索",
+    "logout": "退出登录",
+    "showMoreItem": "查看更多商品",
+    "toast": {
+      "hasErrorTryAgainLater": "发生错误，请稍后再试"
+    }
+  },
+
+  "validation": {
+    "required": "此字段是必填项。",
+    "invalidEmail": "无效的电子邮件地址。",
+    "invalidPhoneNumber": "无效的电话号码",
+    "invalidOption": "无效的选项",
+    "invalidPassword": "密码必须至少为6个字符",
+    "invalidOTP": "OTP必须为6个字符",
+    "invalidConfirmPassword": "确认密码不一致。"
+  },
+
+  "pageTitle": {
+    "home": "首页",
+    "about": "关于我们",
+    "contact": "联系我们",
+    "product": "产品",
+    "other": "其他",
+    "signIn": "登录",
+    "signUp": "注册",
+    "test": "测试",
+    "cart": "购物车",
+    "search": "搜索",
+    "checkout": "结账",
+    "forgot-password": "忘记密码",
+    "verify-forgot-password-otp": "验证忘记密码的OTP",
+    "reset-password": "重置密码",
+    "profile": "个人资料",
+    "me": "我的信息",
+    "viewed-products": "查看过的产品",
+    "change-password": "修改密码",
+    "order": "订单历史",
+    "favorites": "收藏"
+  },
+
+  "cart": {
+    "title": "购物车",
+    "total": "总计:",
+    "empty": "购物车为空",
+    "cartBtn": "购物车",
+    "checkoutBtn": "结账",
+    "dialog": {
+      "title": "确认删除",
+      "submitLabel": "确认",
+      "cancelLabel": "取消",
+      "desc": "您确定要从购物车中删除此商品吗？"
+    }
+  },
+
+  "order": {
+    "status": {
+      "pending": "待确认",
+      "confirmed": "已确认",
+      "reject": "已拒绝",
+      "shipping": "配送中",
+      "success": "成功",
+      "canceled": "已取消"
+    },
+    "paymentStatus": {
+      "paid": "已付款",
+      "unpaid": "未付款"
+    },
+    "buyerName": "买家姓名",
+    "recipientName": "收货人姓名",
+    "address": "地址",
+    "productTotal": "商品总额",
+    "shippingFee": "运费",
+    "totalAmount": "订单总额",
+    "paymentMethod": "支付方式",
+    "onlinePayment": "在线支付",
+    "cashOnDelivery": "货到付款",
+    "productList": "商品列表",
+    "cancel": "取消",
+    "proceedPayment": "进行支付",
+    "listTitle": "您的订单列表"
+  },
+  "shopInfo": {
+    "phoneNumber": "0966 859 061",
+    "address": "Xóm 2, Liên Phương, Thường Tín, Hà Nội",
+    "email": "Lenghia0183@gmail.com"
+  },
+
+  "footer": {
+    "itemList": {
+      "title": "产品分类",
+      "item1": "优质月饼",
+      "item2": "特制第二款烤月饼",
+      "item3": "绿色月饼",
+      "item4": "OREO月饼",
+      "item5": "第一款烤月饼",
+      "item6": "软月饼"
+    },
+    "serviceList": {
+      "title": "服务类别",
+      "service1": "定制服务",
+      "service2": "客户服务"
+    },
+    "freeShipTitle": "免费送货",
+    "freeShipDesc": "订单满500k可享受免费送货",
+    "paymentTitle": "多种支付方式",
+    "paymentDesc": "MoMo, ZaloPay, Mastercard等",
+    "refundTitle": "简单退货",
+    "refundDesc": "12小时内退货",
+    "copyRight": "产品：lenghia0183"
+  },
+
+  "banner": {
+    "title": "不可错过的月饼",
+    "desc": "本土品牌是消费者的首选",
+    "itemBtn": "产品"
+  },
+
+  "home": {
+    "section1": {
+      "title1": "优质月饼",
+      "desc1": "拥有完美品质和规格的正宗月饼",
+      "title2": "优质月饼",
+      "title3": "优质月饼"
+    },
+    "reason": {
+      "title": "理由",
+      "whyChoiceUs": "为什么选择我们",
+      "desc1": "我们保证提供完美品质和规格的正宗月饼。",
+      "desc2": "我们尊重中秋节的意义，每年创造新产品，以最优质的品质和设计为消费者提供具有意义的中秋节产品。"
+    },
+
+    "saleItems": {
+      "title": "热卖产品",
+      "desc": "我们月饼不张扬，简单而特别，代代相传，深受喜爱。"
+    },
+    "email": {
+      "title": "注册邮件推广",
+      "inputPlaceholder": "电子邮件地址..."
+    }
+  },
+  "about": {
+    "introduction": "介绍",
+    "mission": "愿景与使命",
+    "staff": "团队",
+    "desc01": "衷心感谢您的持续支持和信任。",
+    "desc02": "在这个中秋节，Kind推出了顶级月饼系列‘Trăng Vàng’。‘Trăng Vàng’月饼包含XO酱日本扇贝、红瑶蟹、白鳞虾、四季烤鸡等珍贵食材，寓意着家人团圆的珍贵。",
+    "desc03": "该品牌也是消费者公认的高品质越南月饼品牌之一，这一成就归功于我们的管理团队、员工以及烘焙师的不懈努力。",
+    "desc04": "最重要的是，衷心感谢多年来支持我们的品牌。我们相信，在顾客的支持下，我们会持续成长，为您提供更好的服务。",
+    "desc05": "我们致力于成为越南最受欢迎的月饼品牌，提供高品质、安全、创新的产品。",
+    "desc06": "我们的使命是不断创新，改善品质，为每一位顾客提供卓越体验，并通过家人之间的爱与联系传递我们的产品。",
+    "desc07": "我们不仅提供高质量的产品，也注重在生产、包装和客户服务的每一个环节注入激情。我们制造的月饼不仅仅是味道的艺术，更是充满爱与尊敬的工艺作品。",
+    "desc08": "未来，我们将持续发展和更新生产过程，采用先进技术，为消费者提供最佳体验。同时，我们承诺支持环保、资源优化及可持续发展。",
+    "desc09": "所有的产品不仅是中秋节期间意义深远的礼物，也是我们想要传递给每一个越南家庭的爱与联系的象征。我们将以明确的愿景和强烈的使命，为消费者创造长期的信任与价值。",
+    "desc10": "我们月饼简约不张扬，却独具特色，世代相传，赢得了众多粉丝。"
+  },
+  "changePassword": {
+    "title": "修改密码",
+    "currentPassword": "当前密码",
+    "newPassword": "新密码",
+    "confirmPassword": "确认密码",
+    "submit": "提交",
+    "errors": {
+      "currentPasswordRequired": "当前密码是必填项",
+      "newPasswordMin": "新密码必须至少6个字符",
+      "newPasswordRequired": "新密码是必填项",
+      "confirmPasswordMismatch": "确认密码不匹配",
+      "confirmPasswordRequired": "确认密码是必填项"
+    }
+  },
+  "profile": {
+    "title": "帐户信息",
+    "name": "全名",
+    "email": "电子邮件",
+    "phone": "电话",
+    "province": "省",
+    "district": "区",
+    "ward": "街道",
+    "street": "街"
+  },
+  "checkout": {
+    "title": "结账",
+    "userInfo": "用户信息",
+    "buyer": "购买者",
+    "name": "全名",
+    "email": "电子邮件",
+    "phone": "电话",
+    "province": "省",
+    "district": "区",
+    "ward": "街道",
+    "street": "街",
+    "useBuyerInfo": "使用购买者信息",
+    "recipient": "收货人",
+    "shippingAddress": "收货地址",
+    "shippingCompany": "配送公司",
+    "shippingFee": "运费",
+    "freeShip": "满500,000VND免运费",
+    "paymentMethod": "支付方式",
+    "cod": "货到付款",
+    "online": "在线支付",
+    "momo": "通过MoMo支付",
+    "zalo": "通过ZaloPay支付",
+    "orderInfo": "订单信息",
+    "totalOrder": "商品总额",
+    "totalShippingFee": "运费",
+    "tempFee": "临时费用",
+    "totalPayment": "总支付金额"
+  },
+  "products": {
+    "category": "产品类别",
+    "price": "产品价格",
+    "minPrice": "最低价格",
+    "maxPrice": "最高价格",
+    "brand": "品牌：",
+    "review": "评论",
+    "more": "更多",
+    "displayBy": "显示方式",
+    "latest": "最新",
+    "bestSeller": "最畅销",
+    "highestRating": "最高评分",
+    "priceAsc": "价格升序",
+    "priceDesc": "价格降序"
+  },
+  "contact": {
+    "title": "联系我们",
+    "desc": "留下您的信息，我们将尽快回复您。"
+  },
+  "forgotPassword": {
+    "title": "忘记密码",
+    "desc": "请输入您的电子邮件地址，我们将向您发送确认码（OTP），请检查您的收件箱。",
+    "email": "请输入电子邮件",
+    "submit": "提交",
+    "resend": "重新发送OTP"
+  },
+  "verifyForgotPasswordOTP": {
+    "title": "验证OTP",
+    "desc": "我们已向您的电子邮件发送OTP，请检查您的收件箱并输入OTP。",
+    "OTP": "请输入OTP"
+  },
+  "resetPassword": {
+    "title": "重置密码",
+    "newPassword": "新密码",
+    "confirmPassword": "确认新密码",
+    "reset": "重置密码"
+  }
+}

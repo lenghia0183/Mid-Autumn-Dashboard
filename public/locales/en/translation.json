@@ -1,0 +1,265 @@
+{
+  "common": {
+    "byNow": "BUY NOW",
+    "midAutumnFestival": "Mid Autumn Festival",
+    "register": "Register",
+    "showMore": "Show more",
+    "hidden": "Hide",
+    "loading": "Loading...",
+    "cancel": "Cancel",
+    "saveChange": "Save changes",
+    "checkout": "Checkout",
+    "send": "Send",
+    "popularDishes": "POPULAR DISHES",
+    "sweetCakes": "SWEET MOONCAKES",
+    "showMenu": "View Menu",
+    "autumnCake": "Mooncake",
+    "inStock": "In stock",
+    "outOfStock": "Out of stock",
+    "apply": "Apply",
+    "search": "Search",
+    "logout": "Logout",
+    "showMoreItem": "Show more items",
+    "toast": {
+      "hasErrorTryAgainLater": "An error occurred, please try again later"
+    }
+  },
+
+  "validation": {
+    "required": "This field is required.",
+    "invalidEmail": "Invalid email.",
+    "invalidPhoneNumber": "Invalid phone number",
+    "invalidOption": "Invalid selection",
+    "invalidPassword": "Password must be at least 6 characters",
+    "invalidOTP": "OTP must be exactly 6 characters",
+    "invalidConfirmPassword": "Confirm password does not match."
+  },
+
+  "pageTitle": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "product": "Product",
+    "other": "Other",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "test": "TEST",
+    "cart": "Cart",
+    "search": "Search",
+    "checkout": "Checkout",
+    "forgot-password": "Forgot Password",
+    "verify-forgot-password-otp": "Verify OTP",
+    "reset-password": "Reset Password",
+    "profile": "Profile",
+    "me": "My Information",
+    "viewed-products": "Viewed Products",
+    "change-password": "Change Password",
+    "order": "Your Orders",
+    "favorites": "Favorite Products"
+  },
+
+  "cart": {
+    "title": "Your Cart",
+    "total": "Total:",
+    "empty": "Your cart is empty",
+    "cartBtn": "Cart",
+    "checkoutBtn": "Checkout",
+    "dialog": {
+      "title": "Confirm Deletion",
+      "submitLabel": "Confirm",
+      "cancelLabel": "Cancel",
+      "desc": "Are you sure you want to remove this item from the cart?"
+    }
+  },
+
+  "shopInfo": {
+    "phoneNumber": "0966 859 061",
+    "address": "Xóm 2, Liên Phương, Thường Tín, Hà Nội",
+    "email": "Lenghia0183@gmail.com"
+  },
+
+  "footer": {
+    "itemList": {
+      "title": "Product Categories",
+      "item1": "Premium Mooncake",
+      "item2": "Special 2-Egg Baked Mooncake",
+      "item3": "Green Mooncake",
+      "item4": "OREO Mooncake",
+      "item5": "1-Egg Baked Mooncake",
+      "item6": "Soft Mooncake"
+    },
+    "serviceList": {
+      "title": "Service Categories",
+      "service1": "Custom Service",
+      "service2": "Customer Service"
+    },
+    "freeShipTitle": "Free Shipping",
+    "freeShipDesc": "For orders over 500k",
+    "paymentTitle": "Multiple Payment Methods",
+    "paymentDesc": "MoMo, ZaloPay, Mastercard, ...",
+    "refundTitle": "Easy Returns",
+    "refundDesc": "Within 12 hours",
+    "copyRight": "Products by lenghia0183"
+  },
+  "order": {
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "reject": "Rejected",
+      "shipping": "Shipping",
+      "success": "Success",
+      "canceled": "Canceled"
+    },
+    "paymentStatus": {
+      "paid": "Paid",
+      "unpaid": "Unpaid"
+    },
+    "buyerName": "Buyer Name",
+    "recipientName": "Recipient Name",
+    "address": "Address",
+    "productTotal": "Product Total",
+    "shippingFee": "Shipping Fee",
+    "totalAmount": "Total Amount",
+    "paymentMethod": "Payment Method",
+    "onlinePayment": "Online Payment",
+    "cashOnDelivery": "Cash on Delivery",
+    "productList": "Product List",
+    "cancel": "Cancel",
+    "proceedPayment": "Proceed to Payment",
+    "listTitle": "Your Order List"
+  },
+
+  "banner": {
+    "title": "MOONCAKES YOU CAN'T MISS",
+    "desc": "The national brand is the top choice of consumers",
+    "itemBtn": "PRODUCT"
+  },
+
+  "home": {
+    "section1": {
+      "title1": "Premium Mooncakes",
+      "desc1": "Authentic mooncakes with perfect quality and specifications",
+      "title2": "Premium Mooncakes",
+      "title3": "Premium Mooncakes"
+    },
+    "reason": {
+      "title": "Reasons",
+      "whyChoiceUs": "Why choose us",
+      "desc1": "We guarantee that we deliver authentic Mooncakes with perfect quality and specifications.",
+      "desc2": "Respecting the meaning of the Mid-Autumn Festival, we continually create and invest in new products every year with the best quality and designs, contributing to a meaningful Mid-Autumn Festival with rich Vietnamese identity."
+    },
+
+    "saleItems": {
+      "title": "HOT OFFERS",
+      "desc": "Not too fancy, but our mooncakes are simple and special, making many generations fall in love."
+    },
+    "email": {
+      "title": "Sign up for email promotions",
+      "inputPlaceholder": "Email address..."
+    }
+  },
+  "about": {
+    "introduction": "Introduction",
+    "mission": "Vision and Mission",
+    "staff": "Our Team",
+    "desc01": "We sincerely thank you for your continuous support and trust in our products!",
+    "desc02": "This Mid-Autumn Festival, the most impressive product from Kinh Đô is the high-end Trăng Vàng collection. With the precious meaning of familial bonds and relationships, Kinh Đô launches a new collection of Trăng Vàng mooncakes, including Trăng Vàng Kim Cương, Trăng Vàng Bạch Kim, Trăng Vàng Hoàng Kim, and Trăng Vàng Hồng Ngọc, with luxury ingredients like Japanese Scallop XO sauce, Huỳnh Đế Crab, Bách Hoa Shrimp, and Tứ Quý Roasted Chicken.",
+    "desc03": "We are also one of the brands of mooncakes that consumers have voted as high-quality Vietnamese products. This success is thanks to the continuous efforts of our management team, staff, and bakers.",
+    "desc04": "Above all, we would like to express our deepest thanks to our customers for supporting our brand over the years. We believe that with our continuous efforts and the favor of our customers, we will continue to grow stronger to serve consumers even better.",
+    "desc05": "We aim to become the number one mooncake brand in Vietnam, with a commitment to providing high-end, safe, and creative products to satisfy all customers.",
+    "desc06": "Our mission is to constantly innovate, improve quality, and provide exceptional experiences for customers with every product, through familial love and connections.",
+    "desc07": "We believe that success comes not only from providing quality products but also from the dedication in every step of production, packaging, and customer service. Every mooncake we create is a work of art, containing not just flavor, but also love and respect for our customers.",
+    "desc08": "In the future, we will continuously develop and upgrade our production process, applying modern technology to provide the best experiences for consumers. At the same time, we commit to protecting the environment, optimizing resource use, and always supporting sustainable development.",
+    "desc09": "Every product is not just a meaningful gift during Mid-Autumn Festival but also a symbol of love and connection that we aim to convey to every Vietnamese family. With a clear vision and strong mission, we hope to bring long-term value, creating trust and love from consumers.",
+    "desc10": "Not too fancy, mooncakes with a rustic and distinctive feature that have captivated generations of fans."
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "submit": "Submit",
+    "errors": {
+      "currentPasswordRequired": "Current password is required",
+      "newPasswordMin": "New password must be at least 6 characters",
+      "newPasswordRequired": "New password is required",
+      "confirmPasswordMismatch": "Confirm password does not match",
+      "confirmPasswordRequired": "Confirm password is required"
+    }
+  },
+  "profile": {
+    "title": "Account Information",
+    "name": "Full name",
+    "email": "Email",
+    "phone": "Phone number",
+    "province": "Province/City:",
+    "district": "District:",
+    "ward": "Ward",
+    "street": "Street"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "userInfo": "Customer Information",
+    "buyer": "BUYER",
+    "name": "Full Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "province": "Province/City:",
+    "district": "District:",
+    "ward": "Ward",
+    "street": "Street",
+    "useBuyerInfo": "Use buyer's information",
+    "recipient": "RECIPIENT",
+    "shippingAddress": "SHIPPING ADDRESS",
+    "shippingCompany": "SHIPPING COMPANY",
+    "shippingFee": "Delivery fee",
+    "freeShip": "Free shipping for orders from 500,000 VND",
+    "paymentMethod": "PAYMENT METHOD",
+    "cod": "Cash on delivery",
+    "online": "Online payment",
+    "momo": "Pay via MoMo",
+    "zalo": "Pay via ZaloPay",
+    "orderInfo": "ORDER INFORMATION",
+    "totalOrder": "Total product price",
+    "totalShippingFee": "Shipping fee",
+    "tempFee": "Temporary fee",
+    "totalPayment": "Total payment"
+  },
+  "products": {
+    "category": "Product Category",
+    "price": "Product Price",
+    "minPrice": "Minimum Price",
+    "maxPrice": "Maximum Price",
+    "brand": "Brand:",
+    "review": "Review",
+    "more": "More",
+    "displayBy": "Display By",
+    "latest": "Latest",
+    "bestSeller": "Best Seller",
+    "highestRating": "Highest Rating",
+    "priceAsc": "Price: Low to High",
+    "priceDesc": "Price: High to Low"
+  },
+  "contact": {
+    "title": "CONTACT US",
+    "desc": "Please leave your message, we will get back to you as soon as possible."
+  },
+  "forgotPassword": {
+    "title": "Forgot Password",
+    "desc": "Enter your email address, we will send a verification code (OTP) to your email. Please check your inbox.",
+    "email": "Enter email",
+    "submit": "Submit",
+    "resend": "Resend OTP"
+  },
+  "verifyForgotPasswordOTP": {
+    "title": "Verify OTP",
+    "desc": "We have sent an OTP to your email, please check your inbox and enter it below to confirm.",
+    "OTP": "Enter OTP"
+  },
+  "resetPassword": {
+    "title": "Reset Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "reset": "Reset Password"
+  }
+}
