@@ -7,12 +7,12 @@ const Radio = ({
   value = "",
   checked = false,
   label = "",
-  orientation = "horizontal",
+  vertical = false,
   onChange = () => {},
   className = "",
   width = "100%",
   disabled = false,
-  hideInput = false, // New prop to hide the input
+  hideInput = false,
   labelClassName = "",
   ...props
 }) => {
@@ -21,8 +21,8 @@ const Radio = ({
   return (
     <div
       className={clsx("flex", className, {
-        "items-center": orientation === "horizontal",
-        "flex-col items-center": orientation === "vertical",
+        "items-center": !vertical,
+        "flex-col items-center": vertical,
       })}
       style={{ width }}
     >
@@ -35,7 +35,7 @@ const Radio = ({
         className={clsx("form-radio h-4 w-4 text-blue-600", {
           "cursor-not-allowed": disabled,
           "cursor-pointer": !disabled,
-          hidden: hideInput, // Apply hidden class if hideInput is true
+          hidden: hideInput,
         })}
         id={id}
         disabled={disabled}
@@ -44,9 +44,9 @@ const Radio = ({
       {label && (
         <label
           htmlFor={id}
-          className={clsx("text-sm select-none", labelClassName, {
-            "ml-2": orientation === "horizontal",
-            "block mt-2": orientation === "vertical",
+          className={clsx("select-none", labelClassName, {
+            "ml-2": !vertical,
+            "block mt-1": vertical,
             "text-gray-500 cursor-not-allowed": disabled,
             "cursor-pointer": !disabled,
           })}
@@ -62,7 +62,7 @@ Radio.propTypes = {
   name: PropTypes.string.isRequired,
   checked: PropTypes.bool,
   label: PropTypes.string,
-  orientation: PropTypes.oneOf(["vertical", "horizontal"]),
+  vertical: PropTypes.bool,
   onChange: PropTypes.func,
   className: PropTypes.string,
   width: PropTypes.string,

@@ -9,6 +9,7 @@ const FormikRadio = ({
   ...props
 }) => {
   const [field, meta, helpers] = useField(name);
+
   const { setValue } = helpers;
 
   const handleChange = (value) => {

@@ -1,43 +1,50 @@
 import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
+import { useField } from "formik";
 
-const RadioGroup = ({
-  name,
-  selectedValue,
-  onChange,
-  children,
-  error,
-  orientation = "horizontal",
-  className,
-}) => {
-  const handleChange = (value) => {
-    onChange(value);
+const RadioGroup = ({ name, children, vertical = true, className }) => {
+  const [field, meta, helpers] = useField(name);
+
+  const enhanceChildren = (children) => {
+    return React.Children.map(children, (child) => {
+      if (!React.isValidElement(child)) return child;
+
+      if (child.type?.name === "FormikRadio") {
+        return React.cloneElement(child, {
+          name,
+        });
+      }
+
+      if (child.props?.children) {
+        return React.cloneElement(child, {
+          children: enhanceChildren(child.props.children),
+        });
+      }
+
+      return child;
+    });
   };
+
+  if (vertical)
+    return (
+      <>
+        <div className={clsx("flex flex-col", className)}>
+          {enhanceChildren(children)}
+          {meta.error && (
+            <div className="text-red-500 text-sm mt-1 text-left">
+              {meta.error}
+            </div>
+          )}
+        </div>
+      </>
+    );
 
   return (
     <>
-      <div
-        className={clsx(
-          "flex ",
-          orientation === "vertical" ? "flex-col" : "flex-row",
-          className
-        )}
-      >
-        {React.Children.map(children, (child) => {
-          if (child.type.name === "FormikRadio") {
-            return React.cloneElement(child, {
-              name,
-              checked: child.props.value === selectedValue,
-              onChange: handleChange,
-            });
-          } else {
-            return child;
-          }
-        })}
-      </div>
-      {error && (
-        <div className="text-red-500 text-sm mt-1 text-center">{error}</div>
+      <div className={clsx("flex", className)}>{enhanceChildren(children)}</div>
+      {meta.error && (
+        <div className="text-red-500 text-sm mt-1 text-left">{meta.error}</div>
       )}
     </>
   );
@@ -48,8 +55,6 @@ RadioGroup.propTypes = {
   selectedValue: PropTypes.string,
   onChange: PropTypes.func,
   children: PropTypes.node,
-  error: PropTypes.string,
-  orientation: PropTypes.oneOf(["vertical", "horizontal"]),
 };
 
 export default RadioGroup;
