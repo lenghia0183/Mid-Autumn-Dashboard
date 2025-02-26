@@ -101,14 +101,14 @@ const Autocomplete = ({
 
   useEffect(() => {
     // cho ra 1 useEffect rieng de khong bi call api moi khi dong mo
-    if (autoFetch && values[asyncRequestDeps]) {
+    if (autoFetch && values?.[asyncRequestDeps]) {
       fetchData();
     }
-  }, [values[asyncRequestDeps]]);
+  }, [values?.[asyncRequestDeps]]);
 
   useEffect(() => {
     if (asyncRequest) {
-      if (!asyncRequestDeps && !values[asyncRequestDeps]) {
+      if (!asyncRequestDeps && !values?.[asyncRequestDeps]) {
         if (!filterActive) {
           if (autoFetch && !hasFetchData) {
             fetchData();
@@ -175,8 +175,12 @@ const Autocomplete = ({
           }
         }
       }
+    } else {
+      if (filterActive) {
+        filterData();
+      }
     }
-  }, [autoFetch, values[asyncRequestDeps], showOptions, debouncedInputValue]);
+  }, [autoFetch, values?.[asyncRequestDeps], showOptions, debouncedInputValue]);
 
   const handleFocus = () => {
     setShowOptions(true);
