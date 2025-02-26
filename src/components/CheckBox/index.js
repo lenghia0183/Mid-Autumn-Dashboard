@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import useColorClasses from "../../hooks/useColorClasses";
 
-const CustomCheckBox = ({
+const CheckBox = ({
   label = "Checkbox",
   checked = false,
   onChange,
@@ -81,4 +81,4 @@ const CustomCheckBox = ({
   );
 };
 
-export default CustomCheckBox;
+export default CheckBox;

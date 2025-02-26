@@ -3,11 +3,9 @@ import PropTypes from "prop-types";
 import useDebounce from "../../hooks/useDebouce";
 import Input from "./Input";
 import OptionsList from "./OptionsList";
-import SelectedTags from "./SelectedTags";
 import useResponsiveStyle from "../../hooks/useResponsiveStyle";
 import clsx from "clsx";
 import { useFormikContext } from "formik";
-import { filter } from "lodash";
 
 const Autocomplete = ({
   options = [],
@@ -42,9 +40,6 @@ const Autocomplete = ({
   required,
 }) => {
   const { values } = useFormikContext();
-
-  // console.log("fomikcontext values", values);
-  // console.log("values of dependencies", values[asyncRequestDeps]);
 
   const [optionsList, setOptionsList] = useState(options);
   const [inputValue, setInputValue] = useState("");
@@ -92,11 +87,17 @@ const Autocomplete = ({
           getOptionsLabel(option)
             ?.toLowerCase()
             ?.trim()
-            ?.includes(debouncedInputValue.toLowerCase())
+            ?.includes(debouncedInputValue?.toLowerCase() || "")
         )
       );
     }
   };
+
+  useEffect(() => {
+    if (!inputValue) {
+      setInputValue(getOptionsLabel(value));
+    }
+  }, [showOptions]);
 
   useEffect(() => {
     // cho ra 1 useEffect rieng de khong bi call api moi khi dong mo
@@ -208,10 +209,6 @@ const Autocomplete = ({
     ) {
       setShowOptions(false);
 
-      if (!inputValue) {
-        setInputValue(getOptionsLabel(value));
-      }
-
       if (!autoFetch) {
         setHasFetchData(false);
       }
@@ -226,16 +223,10 @@ const Autocomplete = ({
   }, []);
 
   const clearInput = () => {
-    setSelectedValues(multiple ? [] : null);
+    setSelectedValues(null);
     setInputValue("");
     setIsUserInput(true);
     onChange(null);
-  };
-
-  const clearAllSelected = () => {
-    setSelectedValues([]);
-    setInputValue("");
-    onChange("");
   };
 
   const removeSelectedOption = () => {
@@ -248,10 +239,6 @@ const Autocomplete = ({
   const isSelected = (option) => {
     return selectedValues && isEqualValue(selectedValues, option);
   };
-
-  const visibleTags = multiple ? selectedValues?.slice(0, 2) : [];
-  const hiddenTagCount =
-    selectedValues?.length > 2 ? selectedValues.length - 2 : 0;
 
   const verticalAutocomplete = () => {
     return (
@@ -293,17 +280,6 @@ const Autocomplete = ({
             }
           )}
         >
-          {multiple && (
-            <SelectedTags
-              visibleTags={visibleTags}
-              getOptionsLabel={getOptionsLabel}
-              hiddenTagCount={hiddenTagCount}
-              clearAllSelected={clearAllSelected}
-              selectedValues={selectedValues}
-              removeSelectedOption={removeSelectedOption}
-            />
-          )}
-
           <Input
             inputValue={inputValue}
             handleInputChange={handleInputChange}
@@ -313,6 +289,8 @@ const Autocomplete = ({
             height={height}
             onClick={handleFocus}
             onBlur={onBlur}
+            selectedValues={selectedValues}
+            getOptionsLabel={getOptionsLabel}
             disabled={disabled}
             ref={inputRef}
             id={id}
@@ -386,17 +364,6 @@ const Autocomplete = ({
               }
             )}
           >
-            {multiple && (
-              <SelectedTags
-                visibleTags={visibleTags}
-                getOptionsLabel={getOptionsLabel}
-                hiddenTagCount={hiddenTagCount}
-                clearAllSelected={clearAllSelected}
-                selectedValues={selectedValues}
-                removeSelectedOption={removeSelectedOption}
-              />
-            )}
-
             <Input
               inputValue={inputValue}
               handleInputChange={handleInputChange}
@@ -407,6 +374,8 @@ const Autocomplete = ({
               onClick={handleFocus}
               onBlur={onBlur}
               disabled={disabled}
+              selectedValues={selectedValues}
+              getOptionsLabel={getOptionsLabel}
               ref={inputRef}
               id={id}
             />

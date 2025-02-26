@@ -15,17 +15,24 @@ const Input = forwardRef(
       onClick,
       onBlur,
       disabled,
+      selectedValues,
+      getOptionsLabel,
       id,
     },
     inputRef
   ) => {
     return (
       <div
-        className={clsx("input-container flex items-center gap-4 h-full ", {
+        className={clsx("input-container flex items-center gap-1 h-full ", {
           "bg-gray-100": disabled,
         })}
         onClick={onClick}
       >
+        {selectedValues && showOptions && (
+          <div className="max-w-[30%] min-w-0 flex-shrink-0 overflow-hidden h-[30px] whitespace-nowrap text-ellipsis bg-gray-200 rounded-full px-3 transition-all duration-300">
+            {getOptionsLabel(selectedValues)}
+          </div>
+        )}
         <input
           id={id}
           type="text"

@@ -1,16 +1,27 @@
 import React from "react";
 import { Form, Formik } from "formik";
-import * as Yup from "yup"; // Import Yup
-import RadioGroup from "../../components/RadioGroup";
-import FormikRadio from "../../components/Formik/FormikRadio";
+import * as Yup from "yup";
+
 import { api } from "../../service/api";
-import AutoComplete from "../../components/AutoComplete";
-import FormikCheckBox from "./../../components/Formik/FormikCheckBox";
-import FormikTextField from "./../../components/Formik/FormikTextField";
+
 import FormikAutoComplete from "../../components/Formik/FormikAutoComplete";
+import FormikCheckBox from "../../components/Formik/FormikCheckBox";
+import CheckBoxGroup from "../../components/CheckBoxGroup";
 
 const validationSchema = Yup.object().shape({
-  test: Yup.string().required("Bạn phải chọn một giá trị"), // Thêm validate
+  callApi: Yup.string().required("Vui lòng nhập call api"),
+  checkBoxSingle: Yup.boolean().oneOf([true], "Bạn phải chọn checkBoxSingle"),
+  arrayTest: Yup.array()
+    .of(Yup.string())
+    .min(1, "Bạn phải chọn ít nhất một checkbox trong group"),
+  category: Yup.object()
+    .nullable()
+    .required("Bạn phải chọn danh mục")
+    .test(
+      "has-id",
+      "Danh mục không hợp lệ",
+      (value) => value && value._id !== undefined && value._id !== ""
+    ),
 });
 
 const Test = () => {
@@ -22,6 +33,9 @@ const Test = () => {
     <div className="h-screen">
       <Formik
         initialValues={{
+          checkBoxSingle: false,
+
+          arrayTest: [],
           test: "",
           callApi: "haha",
           category: {
@@ -31,23 +45,49 @@ const Test = () => {
               "https://res.cloudinary.com/lenghia0183/image/upload/v1739535126/mid-autumn/qy5jyahzwbvtxysdpxyf.png",
           },
         }}
-        validationSchema={validationSchema} // Thêm schema vào Formik
+        validationSchema={validationSchema}
         onSubmit={(values) => {
-          console.log("Giá trị đã chọn:", values.test);
+          console.log("Giá trị đã chọn:", values);
         }}
       >
-        {({}) => (
+        {() => (
           <Form className="grid grid-cols-4 gap-5">
-            <div></div>
+            <div>
+              <FormikCheckBox
+                name="checkBoxSingle"
+                value="checkBoxSingle"
+                label="checkBoxSingle"
+              />
+            </div>
 
-            <FormikTextField name="callApi" label="call api" />
+            <CheckBoxGroup name="arrayTest">
+              <FormikCheckBox
+                name="checkBox1"
+                value="checkBox1"
+                label="checkBox1"
+              />
+              <FormikCheckBox
+                name="checkBox2"
+                value="checkBox2"
+                label="checkBox2"
+              />
+              <FormikCheckBox
+                name="checkBox3"
+                value="checkBox3"
+                label="checkBox3"
+              />
+              <FormikCheckBox
+                name="checkBox4"
+                value="checkBox4"
+                label="checkBox4"
+              />
+            </CheckBoxGroup>
 
             <FormikAutoComplete
               name="category"
               className="mt-10"
               asyncRequest={getCategoryList}
               asyncRequestHelper={(res) => {
-                console.log("res", res);
                 return res.data.categories;
               }}
               getOptionsLabel={(opt) => opt?.name}
