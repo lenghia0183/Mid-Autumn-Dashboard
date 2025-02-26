@@ -15,7 +15,7 @@ const Autocomplete = ({
   getOptionsLabel = (option) => option?.label,
   getOptionSubLabel = () => null,
   isEqualValue = (val, opt) => val?.id === opt?.id,
-  isCloseAfterSelect = true,
+  isCloseAfterSelect = false,
   asyncRequestHelper = (res) => res,
   multiple = false,
   width = "100%",
@@ -86,14 +86,16 @@ const Autocomplete = ({
   };
 
   const filterData = () => {
-    setFilteredOptions(
-      optionsList.filter((option) =>
-        getOptionsLabel(option)
-          ?.toLowerCase()
-          ?.trim()
-          ?.includes(debouncedInputValue.toLowerCase())
-      )
-    );
+    if (isUserInput) {
+      setFilteredOptions(
+        optionsList.filter((option) =>
+          getOptionsLabel(option)
+            ?.toLowerCase()
+            ?.trim()
+            ?.includes(debouncedInputValue.toLowerCase())
+        )
+      );
+    }
   };
 
   useEffect(() => {
@@ -110,7 +112,12 @@ const Autocomplete = ({
           if (autoFetch && !hasFetchData) {
             fetchData();
           }
-          if (autoFetch && hasFetchData && debouncedInputValue && isUserInput) {
+          if (
+            autoFetch &&
+            hasFetchData &&
+            (debouncedInputValue || debouncedInputValue === "") &&
+            isUserInput
+          ) {
             fetchData();
           }
 
@@ -187,26 +194,11 @@ const Autocomplete = ({
   };
 
   const handleOptionSelect = (option) => {
-    let newSelectedValues;
-
-    if (multiple) {
-      if (selectedValues.some((selected) => isEqualValue(selected, option))) {
-        newSelectedValues = selectedValues.filter(
-          (item) => !isEqualValue(item, option)
-        );
-      } else {
-        newSelectedValues = [...selectedValues, option];
-        setShowOptions(!isCloseAfterSelect);
-      }
-    } else {
-      newSelectedValues = option;
-      setInputValue(getOptionsLabel(option));
-      setShowOptions(!isCloseAfterSelect);
-      setIsUserInput(false);
-    }
-
-    setSelectedValues(newSelectedValues);
-    onChange(newSelectedValues);
+    setInputValue("");
+    setShowOptions(!isCloseAfterSelect);
+    setIsUserInput(false);
+    setSelectedValues(option);
+    onChange(option);
   };
 
   const handleClickOutside = (event) => {
@@ -215,6 +207,11 @@ const Autocomplete = ({
       !inputContainerRef.current.contains(event.target)
     ) {
       setShowOptions(false);
+
+      if (!inputValue) {
+        setInputValue(getOptionsLabel(value));
+      }
+
       if (!autoFetch) {
         setHasFetchData(false);
       }
@@ -232,7 +229,7 @@ const Autocomplete = ({
     setSelectedValues(multiple ? [] : null);
     setInputValue("");
     setIsUserInput(true);
-    onChange("");
+    onChange(null);
   };
 
   const clearAllSelected = () => {
@@ -241,20 +238,15 @@ const Autocomplete = ({
     onChange("");
   };
 
-  const removeSelectedOption = (option) => {
-    const newSelectedValues = multiple
-      ? selectedValues.filter((selected) => !isEqualValue(selected, option))
-      : null;
-    setSelectedValues(newSelectedValues);
+  const removeSelectedOption = () => {
+    setSelectedValues(null);
     setInputValue("");
-    onChange(multiple ? newSelectedValues : null);
+    onChange(null);
     setIsUserInput(true);
   };
 
   const isSelected = (option) => {
-    return multiple
-      ? selectedValues.some((selected) => isEqualValue(selected, option))
-      : selectedValues && isEqualValue(selectedValues, option);
+    return selectedValues && isEqualValue(selectedValues, option);
   };
 
   const visibleTags = multiple ? selectedValues?.slice(0, 2) : [];

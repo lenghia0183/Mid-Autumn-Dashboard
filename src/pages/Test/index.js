@@ -7,6 +7,7 @@ import { api } from "../../service/api";
 import AutoComplete from "../../components/AutoComplete";
 import FormikCheckBox from "./../../components/Formik/FormikCheckBox";
 import FormikTextField from "./../../components/Formik/FormikTextField";
+import FormikAutoComplete from "../../components/Formik/FormikAutoComplete";
 
 const validationSchema = Yup.object().shape({
   test: Yup.string().required("Bạn phải chọn một giá trị"), // Thêm validate
@@ -22,7 +23,13 @@ const Test = () => {
       <Formik
         initialValues={{
           test: "",
-          callApi: "haha", // Giá trị ban đầu là rỗng để kiểm tra validate
+          callApi: "haha",
+          category: {
+            _id: "67af3317f5819066168dd964",
+            name: "Bánh trăng vàng cao cấp",
+            image:
+              "https://res.cloudinary.com/lenghia0183/image/upload/v1739535126/mid-autumn/qy5jyahzwbvtxysdpxyf.png",
+          },
         }}
         validationSchema={validationSchema} // Thêm schema vào Formik
         onSubmit={(values) => {
@@ -35,7 +42,8 @@ const Test = () => {
 
             <FormikTextField name="callApi" label="call api" />
 
-            <AutoComplete
+            <FormikAutoComplete
+              name="category"
               className="mt-10"
               asyncRequest={getCategoryList}
               asyncRequestHelper={(res) => {
@@ -45,8 +53,8 @@ const Test = () => {
               getOptionsLabel={(opt) => opt?.name}
               isEqualValue={(val, opt) => val._id === opt._id}
               label="Danh sách danh mục"
-              autoFetch={false}
-              filterActive={false}
+              autoFetch={true}
+              filterActive={true}
             />
             <div></div>
             <div></div>
