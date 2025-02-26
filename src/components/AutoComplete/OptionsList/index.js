@@ -10,7 +10,7 @@ const OptionsList = ({
   heightPerOption,
   loading,
   showOptions,
-  optionsState,
+  optionsList,
   row,
   handleOptionSelect,
   getOptionSubLabel,
@@ -35,22 +35,22 @@ const OptionsList = ({
           )}
           style={{
             height: showOptions
-              ? optionsState?.length > 0
-                ? `${Math.min(optionsState.length, row) * height.value + 2}${
+              ? optionsList?.length > 0
+                ? `${Math.min(optionsList.length, row) * height.value + 2}${
                     height.unit
                   }`
                 : "auto" // Set height to auto if there are no options
               : "0px",
             overflow: showOptions
-              ? optionsState?.length > 0
+              ? optionsList?.length > 0
                 ? "auto"
                 : "hidden"
               : "hidden",
             opacity: showOptions ? "1" : "0", // Keep opacity management the same
           }}
         >
-          {optionsState?.length > 0 ? (
-            optionsState.map((option, index) => (
+          {optionsList?.length > 0 ? (
+            optionsList.map((option, index) => (
               <li
                 key={index}
                 onClick={() => handleOptionSelect(option)}
@@ -62,7 +62,7 @@ const OptionsList = ({
                       isSelected(option),
                   },
                   {
-                    "border-b-2": index !== optionsState.length - 1,
+                    "border-b-2": index !== optionsList.length - 1,
                   },
                   optionsClassName
                 )}
@@ -100,7 +100,7 @@ const OptionsList = ({
 };
 
 OptionsList.propTypes = {
-  optionsState: PropTypes.array.isRequired,
+  optionsList: PropTypes.array.isRequired,
   isSelected: PropTypes.func.isRequired,
   heightPerOption: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,

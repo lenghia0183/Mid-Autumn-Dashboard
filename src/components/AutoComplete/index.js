@@ -7,6 +7,7 @@ import SelectedTags from "./SelectedTags";
 import useResponsiveStyle from "../../hooks/useResponsiveStyle";
 import clsx from "clsx";
 import { useFormikContext } from "formik";
+import { filter } from "lodash";
 
 const Autocomplete = ({
   options = [],
@@ -31,7 +32,7 @@ const Autocomplete = ({
   labelClassName = "",
   optionsListClassName = "",
   optionsClassName = "",
-  orientation = "vertical",
+  vertical = true,
   asyncRequestDeps = "",
   errorClass,
   filterActive = false,
@@ -45,7 +46,7 @@ const Autocomplete = ({
   // console.log("fomikcontext values", values);
   // console.log("values of dependencies", values[asyncRequestDeps]);
 
-  const [optionsState, setOptions] = useState(options);
+  const [optionsList, setOptionsList] = useState(options);
   const [inputValue, setInputValue] = useState("");
   const debouncedInputValue = useDebounce(inputValue, 500);
   // eslint-disable-next-line no-unused-vars
@@ -57,7 +58,8 @@ const Autocomplete = ({
   const inputContainerRef = useRef(null);
   const inputRef = useRef(null);
 
-  const labelRef = useRef();
+  const [hasFetchData, setHasFetchData] = useState(false);
+
   const id = useId();
 
   const heightStyle = useResponsiveStyle(height, "h");
@@ -65,62 +67,112 @@ const Autocomplete = ({
 
   useEffect(() => {
     if (options?.length > 0) {
-      setOptions(options);
+      setOptionsList(options);
     }
   }, [options]);
 
   const fetchData = async () => {
     if (!asyncRequest) return;
 
+    setHasFetchData(true);
     setLoading(true);
     const result = await asyncRequest(inputValue);
     const transformedData = asyncRequestHelper(result);
-    setOptions(transformedData);
+    setOptionsList(transformedData);
+    if (filterActive) {
+      setFilteredOptions(transformedData);
+    }
     setLoading(false);
   };
 
-  useEffect(() => {
-    if (autoFetch) {
-      if (asyncRequestDeps && values[asyncRequestDeps]) {
-        fetchData();
-      } else if (!asyncRequestDeps) {
-        fetchData();
-      }
-    }
-  }, [autoFetch, values[asyncRequestDeps]]);
-
-  useEffect(() => {
-    if (filterActive) return;
-    if (debouncedInputValue?.trim() && isUserInput) {
-      fetchData();
-    }
-  }, [debouncedInputValue]);
-
-  const handleFocus = () => {
-    setShowOptions(true);
-    if (!autoFetch && !showOptions && !isUserInput) {
-      fetchData();
-    }
+  const filterData = () => {
+    setFilteredOptions(
+      optionsList.filter((option) =>
+        getOptionsLabel(option)
+          ?.toLowerCase()
+          ?.trim()
+          ?.includes(debouncedInputValue.toLowerCase())
+      )
+    );
   };
 
   useEffect(() => {
-    const filterOptions = () => {
-      if (inputValue && (!asyncRequest || optionsState?.length > 0)) {
-        setFilteredOptions(
-          optionsState.filter((option) =>
-            getOptionsLabel(option)
-              ?.toLowerCase()
-              ?.trim()
-              ?.includes(inputValue.toLowerCase())
-          )
-        );
-      } else {
-        setFilteredOptions(optionsState);
-      }
-    };
+    // cho ra 1 useEffect rieng de khong bi call api moi khi dong mo
+    if (autoFetch && values[asyncRequestDeps]) {
+      fetchData();
+    }
+  }, [values[asyncRequestDeps]]);
 
-    filterOptions();
-  }, [inputValue, optionsState]);
+  useEffect(() => {
+    if (asyncRequest) {
+      if (!asyncRequestDeps && !values[asyncRequestDeps]) {
+        if (!filterActive) {
+          if (autoFetch && !hasFetchData) {
+            fetchData();
+          }
+          if (autoFetch && hasFetchData && debouncedInputValue && isUserInput) {
+            fetchData();
+          }
+
+          if (!autoFetch && showOptions) {
+            fetchData();
+          }
+        } else {
+          // call api lần đầu để lấy dữ liệu tìm kiếm trong nội bộ
+          if (autoFetch) {
+            // nếu chưa có data thì call để lấy data
+            if (!hasFetchData) {
+              fetchData();
+              // nếu có rồi thì sẽ tìm kiếm trong nội bộ
+            } else {
+              filterData();
+            }
+          }
+
+          // mỗi lần mở sẽ call api và khi gõ sẽ tìm kiếm luôn trong nội bộ
+          if (!autoFetch && showOptions) {
+            //  nếu chưa call sẽ call để tìm kiếm
+            if (!hasFetchData) {
+              fetchData();
+              // nếu đã call thì sẽ tìm kiếm trong nội bộ
+            } else {
+              filterData();
+            }
+          }
+        }
+      } else {
+        if (!filterActive) {
+          if (autoFetch && debouncedInputValue && showOptions) {
+            fetchData();
+          }
+
+          if (!autoFetch && showOptions) {
+            fetchData();
+          }
+        } else {
+          if (!autoFetch && !hasFetchData && showOptions) {
+            fetchData();
+          }
+
+          if (!autoFetch && showOptions && hasFetchData) {
+            filterData();
+          }
+
+          if (
+            autoFetch &&
+            showOptions &&
+            (debouncedInputValue || debouncedInputValue === "")
+          ) {
+            filterData();
+          }
+        }
+      }
+    }
+  }, [autoFetch, values[asyncRequestDeps], showOptions, debouncedInputValue]);
+
+  const handleFocus = () => {
+    setShowOptions(true);
+  };
 
   useEffect(() => {
     setSelectedValues(value);
@@ -129,7 +181,6 @@ const Autocomplete = ({
 
   const handleInputChange = (e) => {
     const newValue = e.target.value;
-
     setInputValue(newValue);
     setShowOptions(true);
     setIsUserInput(true);
@@ -137,8 +188,6 @@ const Autocomplete = ({
 
   const handleOptionSelect = (option) => {
     let newSelectedValues;
-
-    console.log("newSelectedValues", option);
 
     if (multiple) {
       if (selectedValues.some((selected) => isEqualValue(selected, option))) {
@@ -166,6 +215,9 @@ const Autocomplete = ({
       !inputContainerRef.current.contains(event.target)
     ) {
       setShowOptions(false);
+      if (!autoFetch) {
+        setHasFetchData(false);
+      }
     }
   };
 
@@ -279,7 +331,7 @@ const Autocomplete = ({
             heightPerOption={heightPerOption}
             loading={loading}
             showOptions={showOptions}
-            optionsState={filterActive ? filteredOptions : optionsState}
+            optionsList={filterActive ? filteredOptions : optionsList}
             row={row}
             handleOptionSelect={handleOptionSelect}
             getOptionSubLabel={getOptionSubLabel}
@@ -372,7 +424,7 @@ const Autocomplete = ({
               heightPerOption={heightPerOption}
               loading={loading}
               showOptions={showOptions}
-              optionsState={filterActive ? filteredOptions : optionsState}
+              optionsList={filterActive ? filteredOptions : optionsList}
               row={row}
               handleOptionSelect={handleOptionSelect}
               getOptionSubLabel={getOptionSubLabel}
@@ -402,9 +454,7 @@ const Autocomplete = ({
     );
   };
 
-  return orientation === "vertical"
-    ? verticalAutocomplete()
-    : horizontalAutocomplete();
+  return vertical ? verticalAutocomplete() : horizontalAutocomplete();
 };
 
 Autocomplete.propTypes = {
