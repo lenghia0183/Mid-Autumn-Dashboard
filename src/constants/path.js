@@ -6,6 +6,7 @@ export const PATH = {
   PRODUCT: "/product",
   PRODUCT_LIST: "/product/list",
   PRODUCT_DETAIL: "/product/detail/:productId",
+  PRODUCT_EDIT: "/product/edit/:productId",
 };
 
 export const PAGE_TITLE = {

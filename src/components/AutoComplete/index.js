@@ -351,10 +351,7 @@ const Autocomplete = ({
           <label
             htmlFor={id}
             style={{ width: labelWidth }}
-            className={clsx(
-              " flex-shrink-0 text-dark font-medium",
-              labelClassName
-            )}
+            className={clsx(" flex-shrink-0 text-dark", labelClassName)}
           >
             {required && <span className="text-red-500">*</span>}
             <span> {label}</span>

@@ -66,7 +66,11 @@ const ProductList = () => {
     formatCurrency(product.price),
     <div className="flex items-center gap-2 justify-center">
       <IconButton iconName="bin" textColor="gray-500" textHoverColor="blue" />
-      <IconButton iconName="edit" textColor="gray-500" />
+      <IconButton
+        iconName="edit"
+        textColor="gray-500"
+        to={PATH.PRODUCT_EDIT.replace(":productId", product._id)}
+      />
       <IconButton
         iconName="eye"
         textColor="gray-500"

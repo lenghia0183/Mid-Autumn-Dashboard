@@ -40,6 +40,7 @@ const ProductDetail = () => {
           <Button
             variant="outlined"
             startIcon={<Icon name="edit" size={1.5} />}
+            to={PATH.PRODUCT_EDIT.replace(":productId", params.productId)}
           >
             Chỉnh sửa
           </Button>

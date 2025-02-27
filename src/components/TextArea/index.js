@@ -29,13 +29,13 @@ const TextField = forwardRef(
       onBlur = () => {},
       required = false,
       rows = 4,
-      orientation = "vertical", // or "horizontal"
+      orientation = "vertical",
     },
     inputRef
   ) => {
     const id = useId();
     const [isFocused, setIsFocused] = useState(false);
-    const [showPassword, setShowPassword] = useState(false); // Trạng thái cho hiển thị mật khẩu
+    const [showPassword, setShowPassword] = useState(false);
 
     const widthStyle = useResponsiveStyle(width, "w");
     const heightStyle = useResponsiveStyle(height, "h");
@@ -167,7 +167,7 @@ const TextField = forwardRef(
     );
 
     const horizontalInput = (
-      <div>
+      <div className={className}>
         <div
           className={clsx(className, "relative flex items-start text-lg h-fit")}
           style={{ ...widthStyle }}
