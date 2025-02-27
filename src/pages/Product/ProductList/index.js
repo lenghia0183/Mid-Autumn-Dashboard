@@ -8,9 +8,10 @@ import { useQueryState } from "../../../hooks/useQueryState";
 import { api } from "../../../service/api";
 import Table from "../../../components/Table";
 import Pagination from "../../../components/Pagination";
-import { useGetProduct } from "../../../service/https";
+import { useDeleteProduct, useGetProduct } from "../../../service/https";
 import formatCurrency from "../../../utils/formatCurrency";
 import { PATH } from "../../../constants/path";
+import DeleteDialog from "../Dialog/delete";
 
 const getCategoryList = () => {
   return api.get("v1/category");
@@ -22,6 +23,8 @@ const getManufacturerList = () => {
 
 const ProductList = () => {
   const { page, pageSize, keyword, filters, setMultiple } = useQueryState();
+  const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+  const [selectedItem, setSelectedItem] = useState();
 
   const {
     data: productData,
@@ -65,7 +68,15 @@ const ProductList = () => {
     product.categoryId.name,
     formatCurrency(product.price),
     <div className="flex items-center gap-2 justify-center">
-      <IconButton iconName="bin" textColor="gray-500" textHoverColor="blue" />
+      <IconButton
+        iconName="bin"
+        textColor="gray-500"
+        textHoverColor="blue"
+        onClick={() => {
+          setIsOpenDeleteDialog(true);
+          setSelectedItem(product);
+        }}
+      />
       <IconButton
         iconName="edit"
         textColor="gray-500"
@@ -174,6 +185,16 @@ const ProductList = () => {
         pageCount={productData?.data.totalPage}
         currentPage={page}
         className="ml-auto mt-10"
+      />
+
+      <DeleteDialog
+        isOpen={isOpenDeleteDialog}
+        product={selectedItem}
+        refreshProductList={refreshProductList}
+        onCancel={() => {
+          setIsOpenDeleteDialog(false);
+          setSelectedItem(null);
+        }}
       />
     </div>
   );

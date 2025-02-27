@@ -26,6 +26,14 @@ export const useAddProduct = (config) => {
   return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
 };
 
+export const useDeleteProduct = (productId, config) => {
+  const url = `v1/product/${productId}`;
+  const fetcher = async () => {
+    return api.delete(url);
+  };
+  return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
+};
+
 export const useGetProduct = (filters, config) => {
   const url = "v1/product";
   const fetcher = async (url) => {
