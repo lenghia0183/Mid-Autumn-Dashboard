@@ -3,20 +3,48 @@ import LabelValue from "./../../../components/LabelValue/index";
 import { useParams } from "react-router-dom";
 import { useGetProductDetail } from "../../../service/https";
 import formatCurrency from "./../../../utils/formatCurrency";
-import ImageGallery from "./../../../components/ImageGallery/index";
-import { isArray } from "lodash";
 import Image from "../../../components/Image";
+import Button from "../../../components/Button";
+import Icon from "../../../components/Icon";
+import { PATH } from "../../../constants/path";
 
 const ProductDetail = () => {
   const params = useParams();
-  console.log("params", params);
 
   const { data: productDetail } = useGetProductDetail(params.productId);
-  console.log("productDetail", productDetail);
 
   return (
     <div>
       <h2 className="text-[28px] font-medium mb-4">Chi tiết sản phẩm</h2>
+      <div className="flex gap-3 justify-between w-[90%] my-5">
+        <Button
+          variant="outlined"
+          borderColor="gray-500"
+          textColor="gray-500"
+          bgHoverColor="gray-200"
+          to={PATH.PRODUCT_LIST}
+        >
+          Trở về danh sách
+        </Button>
+
+        <div className="flex gap-3">
+          <Button
+            variant="outlined"
+            borderColor="crimson"
+            textColor="crimson"
+            bgHoverColor="crimson-300"
+            startIcon={<Icon name="bin" size={1.5} />}
+          >
+            Xóa
+          </Button>
+          <Button
+            variant="outlined"
+            startIcon={<Icon name="edit" size={1.5} />}
+          >
+            Chỉnh sửa
+          </Button>
+        </div>
+      </div>
       <Formik>
         <Form>
           <div className="grid grid-cols-2 gap-3">
