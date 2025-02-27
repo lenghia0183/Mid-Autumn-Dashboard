@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import styles from "./AuthLayout.module.scss";
 import clsx from "clsx";
 import { Outlet } from "react-router-dom";
-import Comment from "../../pages/Home/Comment";
+
 import images from "../../asset/images";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
@@ -83,7 +83,6 @@ function AuthLayout() {
         </div>
       </div>
 
-      <Comment />
       <Footer />
       <GoToTop />
     </>

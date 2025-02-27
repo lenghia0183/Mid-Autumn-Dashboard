@@ -8,10 +8,10 @@ import Test from "../pages/Test";
 import MainLayout from "../layouts/MainLayout";
 import Login from "../pages/Login";
 
-import AuthLayout from "../layouts/AuthLayout";
-
 import { checkNotLoggedIn, checkLoggedIn } from "../loaders/authentications";
-import Home from "../pages/Home";
+import AuthLayout from "./../layouts/AuthLayout/index";
+import ProductList from "./../pages/Product/ProductList/index";
+import ProductDetail from "../pages/Product/ProductDetail";
 
 const router = createBrowserRouter([
   // main layout
@@ -25,8 +25,19 @@ const router = createBrowserRouter([
         element: <Test />,
       },
       {
-        path: PATH.HOME,
-        element: <Home />,
+        path: PATH.PRODUCT,
+        children: [
+          {
+            path: PATH.PRODUCT_LIST,
+            element: <ProductList />,
+            // loader: checkLoggedIn,
+          },
+          {
+            path: PATH.PRODUCT_DETAIL,
+            element: <ProductDetail />,
+            // loader: checkLoggedIn,
+          },
+        ],
       },
     ],
   },

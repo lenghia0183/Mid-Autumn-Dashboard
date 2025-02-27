@@ -1,25 +1,11 @@
 export const PATH = {
   HOME: "/",
-  ABOUT: "/about",
   AUTH: "/auth",
   LOGIN: "/auth/login",
-  SIGN_UP: "/auth/sign-up",
-  FORGOT_PASSWORD: "/auth/forgot-password",
-  VERIFY_FORGOT_OTP: "/auth/verify-forgot-password-otp",
-  RESET_PASSWORD: "/auth/reset-password",
-  CART: "/cart",
   TEST: "/test",
-  PRODUCTS: "/products",
-  PRODUCT_DETAIL: "/product/:productId",
-  PROFILE: "/profile",
-  PROFILE_EDIT: "/profile/me",
-  VIEWED_PRODUCTS: "/profile/viewed-products",
-  CHANGE_PASSWORD: "/profile/change-password",
-  FAVORITE: "/profile/favorites",
-  ORDER: "/profile/order",
-  CHECKOUT: "/checkout",
-  OTHER: "/other",
-  CONTACT: "/contact",
+  PRODUCT: "/product",
+  PRODUCT_LIST: "/product/list",
+  PRODUCT_DETAIL: "/product/detail/:productId",
 };
 
 export const PAGE_TITLE = {
