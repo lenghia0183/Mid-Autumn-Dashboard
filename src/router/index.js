@@ -32,22 +32,22 @@ const router = createBrowserRouter([
           {
             path: PATH.PRODUCT_LIST,
             element: <ProductList />,
-            // loader: checkLoggedIn,
+            loader: checkNotLoggedIn,
           },
           {
             path: PATH.PRODUCT_DETAIL,
             element: <ProductDetail />,
-            // loader: checkLoggedIn,
+            loader: checkNotLoggedIn,
           },
           {
             path: PATH.PRODUCT_EDIT,
             element: <ProductEdit />,
-            // loader: checkLoggedIn,
+            loader: checkNotLoggedIn,
           },
           {
             path: PATH.PRODUCT_CREATE,
             element: <ProductCreate />,
-            // loader: checkLoggedIn,
+            loader: checkNotLoggedIn,
           },
         ],
       },

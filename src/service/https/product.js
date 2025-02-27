@@ -1,11 +1,34 @@
 import useSWR from "swr";
 import { api } from "../api";
 import { sleep } from "./../../utils/sleep";
+import useSWRMutation from "swr/mutation";
+
+export const useAddProduct = (config) => {
+  const url = `v1/product`;
+
+  const fetcher = (url, { arg }) => {
+    const formData = new FormData();
+
+    Object.entries(arg).forEach(([key, value]) => {
+      if (key === "images" && Array.isArray(value)) {
+        value.forEach((file) => formData.append("images", file));
+      } else {
+        formData.append(
+          key,
+          value instanceof File ? value : JSON.stringify(value)
+        );
+      }
+    });
+
+    return api.postMultiplePart(url, formData);
+  };
+
+  return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
+};
 
 export const useGetProduct = (filters, config) => {
   const url = "v1/product";
   const fetcher = async (url) => {
-    await sleep(3000);
     return api.get(url, filters);
   };
 

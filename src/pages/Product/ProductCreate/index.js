@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
-import { useParams } from "react-router-dom";
-import { useGetProductDetail } from "../../../service/https";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAddProduct, useGetProductDetail } from "../../../service/https";
 import Image from "../../../components/Image";
 import Button from "../../../components/Button";
 import Icon from "../../../components/Icon";
@@ -17,6 +17,8 @@ import {
 } from "./../../../constants/common";
 import FormikFileInput from "../../../components/FileInput";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import { validateStatus } from "../../../utils/api";
 const getCategoryList = () => {
   return api.get("v1/category");
 };
@@ -27,8 +29,12 @@ const getManufacturerList = () => {
 
 const ProductCreate = () => {
   const [reviewList, setReviewList] = useState();
-  console.log("reviewList", reviewList);
+
   const { t } = useTranslation();
+
+  const navigate = useNavigate();
+
+  const { trigger: handleAddProduct } = useAddProduct();
 
   return (
     <div>
@@ -65,21 +71,50 @@ const ProductCreate = () => {
       </div>
       <Formik
         initialValues={{
-          name: "",
-          code: "",
-          price: null,
-          manufacturerId: null,
-          categoryId: null,
-          description: "",
+          name: "san pham test",
+          code: "san pham test",
+          price: 10000,
+          manufacturerId: { name: "Như Lan", _id: "67af38a1f5819066168dd97e" },
+          categoryId: {
+            name: "Bánh nướng 2 trứng đặc biệt",
+            _id: "67af33d4f5819066168dd967",
+          },
+          description: "san pham rat tot",
         }}
         validationSchema={validateSchema(t)}
         onSubmit={(values) => {
           console.log("values", values);
+
+          const convertValue = {
+            name: values.name,
+            code: values.code,
+            price: values.price,
+            manufacturerId: values.manufacturerId._id,
+            categoryId: values.categoryId._id,
+            description: values.description,
+            images: values.images,
+          };
+
+          handleAddProduct(convertValue, {
+            onSuccess: (response) => {
+              if (validateStatus(response.code)) {
+                console.log("response", response);
+                toast.success(t("Tạo sản phẩm mới thành công"));
+                navigate(
+                  PATH.PRODUCT_DETAIL.replace(":productId", response?.data._id)
+                );
+              } else {
+                toast.error(response?.message);
+              }
+            },
+            onError: (error) => {
+              console.error("error", t("hasErrorTryAgainLater"));
+            },
+          });
         }}
         enableReinitialize
       >
-        {({ resetForm, errors }) => {
-          console.log("errors", errors);
+        {({ resetForm }) => {
           return (
             <Form>
               <div className="grid grid-cols-2 gap-5">
@@ -184,7 +219,7 @@ const ProductCreate = () => {
 
                 <FormikFileInput
                   className="w-[80%]"
-                  name="image"
+                  name="images"
                   multiple
                   onPreviewsChange={(val) => {
                     setReviewList(val);
