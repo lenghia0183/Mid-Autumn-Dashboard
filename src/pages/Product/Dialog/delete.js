@@ -1,13 +1,15 @@
 import { toast } from "react-toastify";
 import Dialog from "../../../components/Diaglog";
 import LabelValue from "../../../components/LabelValue";
-import { useDeleteProduct } from "../../../service/https";
 import { useTranslation } from "react-i18next";
-import { validateStatus } from "../../../utils/api";
 import formatCurrency from "../../../utils/formatCurrency";
 
-const DeleteDialog = ({ isOpen, onCancel, product, refreshProductList }) => {
-  const { trigger: handleDeleteProduct } = useDeleteProduct(product?._id);
+const DeleteDialog = ({
+  isOpen,
+  onCancel,
+  product,
+  handleSubmitDeleteProduct,
+}) => {
   const { t } = useTranslation();
   return (
     <>
@@ -15,27 +17,7 @@ const DeleteDialog = ({ isOpen, onCancel, product, refreshProductList }) => {
         open={isOpen}
         title="Xóa sản phẩm"
         onSubmit={() => {
-          handleDeleteProduct(
-            {},
-            {
-              onSuccess: (response) => {
-                if (validateStatus(response.code)) {
-                  toast.success("Xóa sản phẩm thành công");
-                  onCancel();
-                  if (refreshProductList) {
-                    refreshProductList();
-                  }
-                } else {
-                  toast.error(response.message);
-                  onCancel();
-                }
-              },
-              onError: () => {
-                toast.error(t("common.hasErrorTryAgainLater"));
-                onCancel();
-              },
-            }
-          );
+          handleSubmitDeleteProduct();
         }}
         submitLabel="Đồng ý"
         cancelLabel="Hủy"

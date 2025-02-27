@@ -12,6 +12,9 @@ import { useDeleteProduct, useGetProduct } from "../../../service/https";
 import formatCurrency from "../../../utils/formatCurrency";
 import { PATH } from "../../../constants/path";
 import DeleteDialog from "../Dialog/delete";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import { validateStatus } from "../../../utils/api";
 
 const getCategoryList = () => {
   return api.get("v1/category");
@@ -25,6 +28,7 @@ const ProductList = () => {
   const { page, pageSize, keyword, filters, setMultiple } = useQueryState();
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
   const [selectedItem, setSelectedItem] = useState();
+  const { t } = useTranslation();
 
   const {
     data: productData,
@@ -38,6 +42,37 @@ const ProductList = () => {
     categoryId: filters.categoryId,
     manufacturerId: filters.manufacturerId,
   });
+
+  const { trigger: handleDeleteProduct } = useDeleteProduct();
+
+  const handleCloseDeleteDialog = () => {
+    setIsOpenDeleteDialog(false);
+    setSelectedItem(null);
+  };
+
+  const handleSubmitDeleteProduct = () => {
+    handleDeleteProduct(
+      { _id: selectedItem?._id },
+      {
+        onSuccess: (response) => {
+          if (validateStatus(response.code)) {
+            toast.success("Xóa sản phẩm thành công");
+
+            if (refreshProductList) {
+              refreshProductList();
+            }
+            handleCloseDeleteDialog();
+          } else {
+            toast.error(response.message);
+          }
+        },
+        onError: () => {
+          toast.error(t("common.hasErrorTryAgainLater"));
+          handleCloseDeleteDialog();
+        },
+      }
+    );
+  };
 
   useEffect(() => {
     refreshProductList();
@@ -190,11 +225,8 @@ const ProductList = () => {
       <DeleteDialog
         isOpen={isOpenDeleteDialog}
         product={selectedItem}
-        refreshProductList={refreshProductList}
-        onCancel={() => {
-          setIsOpenDeleteDialog(false);
-          setSelectedItem(null);
-        }}
+        handleSubmitDeleteProduct={handleSubmitDeleteProduct}
+        onCancel={handleCloseDeleteDialog}
       />
     </div>
   );

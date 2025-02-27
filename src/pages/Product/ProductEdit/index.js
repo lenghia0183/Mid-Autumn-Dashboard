@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
-import { useParams } from "react-router-dom";
-import { useGetProductDetail } from "../../../service/https";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDeleteProduct, useGetProductDetail } from "../../../service/https";
 import Image from "../../../components/Image";
 import Button from "../../../components/Button";
 import Icon from "../../../components/Icon";
@@ -15,6 +15,10 @@ import {
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
 } from "./../../../constants/common";
+import { useState } from "react";
+import { validateStatus } from "../../../utils/api";
+import { toast } from "react-toastify";
+import DeleteDialog from "../Dialog/delete";
 const getCategoryList = () => {
   return api.get("v1/category");
 };
@@ -29,6 +33,37 @@ const ProductEdit = () => {
   const { t } = useTranslation();
 
   const { data: productDetail } = useGetProductDetail(params.productId);
+
+  const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleCloseDeleteDialog = () => {
+    setIsOpenDeleteDialog(false);
+  };
+
+  const { trigger: handleDeleteProduct } = useDeleteProduct();
+
+  const handleSubmitDeleteProduct = () => {
+    handleDeleteProduct(
+      { _id: params.productId },
+      {
+        onSuccess: (response) => {
+          if (validateStatus(response.code)) {
+            toast.success("Xóa sản phẩm thành công");
+            navigate(PATH.PRODUCT_LIST, { replace: true });
+            handleCloseDeleteDialog();
+          } else {
+            toast.error(response.message);
+          }
+        },
+        onError: () => {
+          toast.error(t("common.hasErrorTryAgainLater"));
+          handleCloseDeleteDialog();
+        },
+      }
+    );
+  };
 
   return (
     <div>
@@ -51,6 +86,7 @@ const ProductEdit = () => {
             textColor="crimson"
             bgHoverColor="crimson-300"
             startIcon={<Icon name="bin" size={1.5} />}
+            onClick={() => setIsOpenDeleteDialog(true)}
           >
             Xóa
           </Button>
@@ -213,6 +249,12 @@ const ProductEdit = () => {
           );
         }}
       </Formik>
+      <DeleteDialog
+        isOpen={isOpenDeleteDialog}
+        product={productDetail}
+        handleSubmitDeleteProduct={handleSubmitDeleteProduct}
+        onCancel={handleCloseDeleteDialog}
+      />
     </div>
   );
 };

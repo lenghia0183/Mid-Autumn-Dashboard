@@ -1,17 +1,55 @@
 import { Form, Formik } from "formik";
 import LabelValue from "./../../../components/LabelValue/index";
-import { useParams } from "react-router-dom";
-import { useGetProductDetail } from "../../../service/https";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDeleteProduct, useGetProductDetail } from "../../../service/https";
 import formatCurrency from "./../../../utils/formatCurrency";
 import Image from "../../../components/Image";
 import Button from "../../../components/Button";
 import Icon from "../../../components/Icon";
 import { PATH } from "../../../constants/path";
+import { useState } from "react";
+import { validateStatus } from "../../../utils/api";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import DeleteDialog from "../Dialog/delete";
 
 const ProductDetail = () => {
   const params = useParams();
 
   const { data: productDetail } = useGetProductDetail(params.productId);
+
+  const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+
+  const { t } = useTranslation();
+
+  const navigate = useNavigate();
+
+  const handleCloseDeleteDialog = () => {
+    setIsOpenDeleteDialog(false);
+  };
+
+  const { trigger: handleDeleteProduct } = useDeleteProduct();
+
+  const handleSubmitDeleteProduct = () => {
+    handleDeleteProduct(
+      { _id: params.productId },
+      {
+        onSuccess: (response) => {
+          if (validateStatus(response.code)) {
+            toast.success("Xóa sản phẩm thành công");
+            navigate(PATH.PRODUCT_LIST, { replace: true });
+            handleCloseDeleteDialog();
+          } else {
+            toast.error(response.message);
+          }
+        },
+        onError: () => {
+          toast.error(t("common.hasErrorTryAgainLater"));
+          handleCloseDeleteDialog();
+        },
+      }
+    );
+  };
 
   return (
     <div>
@@ -34,6 +72,7 @@ const ProductDetail = () => {
             textColor="crimson"
             bgHoverColor="crimson-300"
             startIcon={<Icon name="bin" size={1.5} />}
+            onClick={() => setIsOpenDeleteDialog(true)}
           >
             Xóa
           </Button>
@@ -106,6 +145,12 @@ const ProductDetail = () => {
           </div>
         </Form>
       </Formik>
+      <DeleteDialog
+        isOpen={isOpenDeleteDialog}
+        product={productDetail}
+        handleSubmitDeleteProduct={handleSubmitDeleteProduct}
+        onCancel={handleCloseDeleteDialog}
+      />
     </div>
   );
 };
