@@ -13,6 +13,7 @@ import AuthLayout from "./../layouts/AuthLayout/index";
 import ProductList from "./../pages/Product/ProductList/index";
 import ProductDetail from "../pages/Product/ProductDetail";
 import ProductEdit from "../pages/Product/ProductEdit";
+import ProductCreate from "./../pages/Product/ProductCreate/index";
 
 const router = createBrowserRouter([
   // main layout
@@ -41,6 +42,11 @@ const router = createBrowserRouter([
           {
             path: PATH.PRODUCT_EDIT,
             element: <ProductEdit />,
+            // loader: checkLoggedIn,
+          },
+          {
+            path: PATH.PRODUCT_CREATE,
+            element: <ProductCreate />,
             // loader: checkLoggedIn,
           },
         ],

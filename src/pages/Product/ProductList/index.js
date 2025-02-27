@@ -153,7 +153,16 @@ const ProductList = () => {
         )}
       </Formik>
 
-      <Button className="my-5">Thêm sản phẩm</Button>
+      <Button
+        className="my-5"
+        to={PATH.PRODUCT_CREATE}
+        bgColor="emerald"
+        textColor="white"
+        bgHoverColor="yellow"
+        textHoverColor="dark"
+      >
+        Thêm sản phẩm
+      </Button>
 
       <Table
         headers={headers}
