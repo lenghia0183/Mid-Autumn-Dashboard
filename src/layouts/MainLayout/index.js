@@ -19,7 +19,7 @@ const MainLayout = () => {
           <div className="flex-1">
             <Header />
 
-            <div className="p-2 h-screen">
+            <div className="p-2">
               <div className="p-5 shadow-lg">
                 <Outlet />
               </div>

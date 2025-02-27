@@ -15,6 +15,8 @@ import {
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
 } from "./../../../constants/common";
+import FormikFileInput from "../../../components/FileInput";
+import { useState } from "react";
 const getCategoryList = () => {
   return api.get("v1/category");
 };
@@ -24,8 +26,8 @@ const getManufacturerList = () => {
 };
 
 const ProductCreate = () => {
-  const params = useParams();
-
+  const [reviewList, setReviewList] = useState();
+  console.log("reviewList", reviewList);
   const { t } = useTranslation();
 
   return (
@@ -76,7 +78,8 @@ const ProductCreate = () => {
         }}
         enableReinitialize
       >
-        {({ resetForm }) => {
+        {({ resetForm, errors }) => {
+          console.log("errors", errors);
           return (
             <Form>
               <div className="grid grid-cols-2 gap-5">
@@ -179,22 +182,35 @@ const ProductCreate = () => {
                   </Button>
                 </div>
 
-                <h2 className="col-span-2 text-xl mt-3 font-medium">
-                  Danh sách hình ảnh
-                </h2>
+                <FormikFileInput
+                  className="w-[80%]"
+                  name="image"
+                  multiple
+                  onPreviewsChange={(val) => {
+                    setReviewList(val);
+                  }}
+                />
 
-                {/* {productDetail?.images?.length > 0 && (
-                  <div className="grid grid-cols-3 gap-4 mt-4">
-                    {productDetail?.images?.map((image, index) => (
-                      <Image
-                        key={index}
-                        src={image}
-                        alt={`Hình ${index + 1}`}
-                        className="w-full rounded-md shadow-md transition-transform transform hover:scale-105"
-                      />
-                    ))}
-                  </div>
-                )} */}
+                <div className="w-[80%]">
+                  <h2 className="col-span-2 text-xl mt-3 font-medium">
+                    Danh sách hình ảnh
+                  </h2>
+
+                  {reviewList?.length > 0 && (
+                    <div className="grid grid-cols-3 gap-4 mt-4">
+                      {reviewList?.map((item, index) => (
+                        <div>
+                          <Image
+                            key={index}
+                            src={item.previewUrl}
+                            alt={`Hình ${index + 1}`}
+                            className="w-full rounded-md shadow-md transition-transform transform hover:scale-105"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </Form>
           );
