@@ -15,6 +15,8 @@ const ImageGallery = ({
   const [mainImageHeight, setMainImageHeight] = useState(0);
   const mainImageRef = useRef(null);
 
+  console.log("images", images);
+
   const handlePrev = () => {
     if (currentIndex === 0) {
       setCurrentIndex(images.length - 1);

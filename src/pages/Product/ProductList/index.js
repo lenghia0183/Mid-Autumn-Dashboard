@@ -76,95 +76,93 @@ const ProductList = () => {
   ]);
 
   return (
-    <main className="pl-5 pt-5 h-screen">
-      <div className="p-5 shadow-xl h-auto">
-        <h2 className="text-[28px] font-medium mb-4">Danh sách sản phẩm</h2>
+    <div>
+      <h2 className="text-[28px] font-medium mb-4">Danh sách sản phẩm</h2>
 
-        {/* Thanh tìm kiếm sử dụng Formik */}
-        <Formik
-          initialValues={{ keyword: keyword }}
-          onSubmit={(values) => {
-            // setKeyword(values.keyword);
-            console.log("values", values);
-            setMultiple({
-              keyword: values?.keyword,
-              filters: {
-                categoryId: values?.category ? values?.category._id : null,
-                manufacturerId: values?.manufacturer
-                  ? [values?.manufacturer._id]
-                  : null,
-              },
-            });
-          }}
-        >
-          {({ resetForm }) => (
-            <Form>
-              <div className="grid grid-cols-4 gap-10 items-center mt-10">
-                <FormikTextField name="keyword" label="Tìm kiếm sản phẩm" />
-                <FormikAutoComplete
-                  name="category"
-                  asyncRequest={getCategoryList}
-                  asyncRequestHelper={(res) => {
-                    return res.data.categories;
+      {/* Thanh tìm kiếm sử dụng Formik */}
+      <Formik
+        initialValues={{ keyword: keyword }}
+        onSubmit={(values) => {
+          // setKeyword(values.keyword);
+          console.log("values", values);
+          setMultiple({
+            keyword: values?.keyword,
+            filters: {
+              categoryId: values?.category ? values?.category._id : null,
+              manufacturerId: values?.manufacturer
+                ? [values?.manufacturer._id]
+                : null,
+            },
+          });
+        }}
+      >
+        {({ resetForm }) => (
+          <Form>
+            <div className="grid grid-cols-4 gap-10 items-center mt-10">
+              <FormikTextField name="keyword" label="Tìm kiếm sản phẩm" />
+              <FormikAutoComplete
+                name="category"
+                asyncRequest={getCategoryList}
+                asyncRequestHelper={(res) => {
+                  return res.data.categories;
+                }}
+                getOptionsLabel={(opt) => opt?.name}
+                isEqualValue={(val, opt) => val._id === opt._id}
+                label="Danh sách danh mục"
+                autoFetch={true}
+                filterActive={true}
+              />
+
+              <FormikAutoComplete
+                name="manufacturer"
+                asyncRequest={getManufacturerList}
+                asyncRequestHelper={(res) => {
+                  return res.data.manufacturers;
+                }}
+                getOptionsLabel={(opt) => opt?.name}
+                isEqualValue={(val, opt) => val._id === opt._id}
+                label="Danh sách thương hiệu"
+                autoFetch={true}
+                filterActive={true}
+              />
+
+              <div className="flex gap-4">
+                <Button type="submit" height="40px">
+                  Tìm kiếm
+                </Button>
+
+                <Button
+                  height="40px"
+                  onClick={() => {
+                    resetForm();
+                    setMultiple({
+                      keyword: "",
+                      filters: {},
+                    });
                   }}
-                  getOptionsLabel={(opt) => opt?.name}
-                  isEqualValue={(val, opt) => val._id === opt._id}
-                  label="Danh sách danh mục"
-                  autoFetch={true}
-                  filterActive={true}
-                />
-
-                <FormikAutoComplete
-                  name="manufacturer"
-                  asyncRequest={getManufacturerList}
-                  asyncRequestHelper={(res) => {
-                    return res.data.manufacturers;
-                  }}
-                  getOptionsLabel={(opt) => opt?.name}
-                  isEqualValue={(val, opt) => val._id === opt._id}
-                  label="Danh sách thương hiệu"
-                  autoFetch={true}
-                  filterActive={true}
-                />
-
-                <div className="flex gap-4">
-                  <Button type="submit" height="40px">
-                    Tìm kiếm
-                  </Button>
-
-                  <Button
-                    height="40px"
-                    onClick={() => {
-                      resetForm();
-                      setMultiple({
-                        keyword: "",
-                        filters: {},
-                      });
-                    }}
-                  >
-                    Xóa tìm kiếm
-                  </Button>
-                </div>
+                >
+                  Xóa tìm kiếm
+                </Button>
               </div>
-            </Form>
-          )}
-        </Formik>
+            </div>
+          </Form>
+        )}
+      </Formik>
 
-        <Button className="my-5">Thêm sản phẩm</Button>
+      <Button className="my-5">Thêm sản phẩm</Button>
 
-        <Table
-          headers={headers}
-          rows={rows}
-          isLoading={isGettingProductList || isValidatingProductList}
-        />
+      <Table
+        headers={headers}
+        rows={rows}
+        isLoading={isGettingProductList || isValidatingProductList}
+      />
 
-        <Pagination
-          pageCount={productData?.data.totalPage}
-          currentPage={page}
-          className="ml-auto mt-10"
-        />
-      </div>
-    </main>
+      <Pagination
+        pageCount={productData?.data.totalPage}
+        currentPage={page}
+        className="ml-auto mt-10"
+      />
+    </div>
   );
 };
 
