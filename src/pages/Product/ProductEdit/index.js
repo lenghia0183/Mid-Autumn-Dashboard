@@ -1,6 +1,10 @@
 import { Form, Formik } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDeleteProduct, useGetProductDetail } from "../../../service/https";
+import {
+  useDeleteProduct,
+  useGetProductDetail,
+  useUpdateProduct,
+} from "../../../service/https";
 import Image from "../../../components/Image";
 import Button from "../../../components/Button";
 import Icon from "../../../components/Icon";
@@ -65,6 +69,8 @@ const ProductEdit = () => {
     );
   };
 
+  const { trigger: handleUpdateProduct } = useUpdateProduct();
+
   return (
     <div>
       <h2 className="text-[28px] font-medium mb-4">Chỉnh sửa sản phẩm</h2>
@@ -101,7 +107,7 @@ const ProductEdit = () => {
       </div>
       <Formik
         initialValues={{
-          id: productDetail?._id,
+          _id: productDetail?._id,
           name: productDetail?.name,
           code: productDetail?.code,
           price: productDetail?.price,
@@ -112,6 +118,34 @@ const ProductEdit = () => {
         validationSchema={validateSchema(t)}
         onSubmit={(values) => {
           console.log("values", values);
+          handleUpdateProduct(
+            {
+              _id: values?._id,
+              body: {
+                name: values?.name,
+                code: values?.code,
+                price: values?.price,
+                manufacturerId: values?.manufacturerId,
+                categoryId: values?.categoryId,
+                description: values?.description,
+              },
+            },
+            {
+              onSuccess: (response) => {
+                if (validateStatus(response.code)) {
+                  toast.success("Cập nhật sản phẩm thành công");
+                  navigate(
+                    PATH.PRODUCT_DETAIL.replace(":productId", params.productId)
+                  );
+                } else {
+                  toast.error(response.message);
+                }
+              },
+              onError: () => {
+                toast.error(t("common.hasErrorTryAgainLater"));
+              },
+            }
+          );
         }}
         enableReinitialize
       >
@@ -120,7 +154,7 @@ const ProductEdit = () => {
             <Form>
               <div className="grid grid-cols-2 gap-5">
                 <FormikTextField
-                  name="id"
+                  name="_id"
                   label="ID sản phẩm:"
                   orientation="horizontal"
                   required
