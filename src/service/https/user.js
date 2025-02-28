@@ -30,3 +30,14 @@ export const useGetMe = (config) => {
 
   return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
 };
+
+export const useGetUser = (filter, config) => {
+  const url = "v1/user";
+  const fetcher = async (url) => {
+    const response = await api.get(url, filter);
+
+    return response;
+  };
+
+  return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
+};

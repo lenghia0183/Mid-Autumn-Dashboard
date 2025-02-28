@@ -4,34 +4,25 @@ import LabelValue from "../../../components/LabelValue";
 import { useTranslation } from "react-i18next";
 import formatCurrency from "../../../utils/formatCurrency";
 
-const DeleteDialog = ({
-  isOpen,
-  onCancel,
-  product,
-  handleSubmitDeleteProduct,
-}) => {
+const DeleteDialog = ({ isOpen, onCancel, user, handleSubmitDeleteUser }) => {
   const { t } = useTranslation();
   return (
     <>
       <Dialog
         open={isOpen}
-        title={t("product.deleteDialog.title")}
+        title={t("user.deleteDialog.title")}
         onSubmit={() => {
-          handleSubmitDeleteProduct();
+          handleSubmitDeleteUser();
         }}
         submitLabel={t("common.confirm")}
         cancelLabel={t("common.cancel")}
         onCancel={onCancel}
       >
-        <p className="my-3">{t("product.deleteDialog.content")}</p>
-        <LabelValue label={t("product.deleteDialog.ID")} value={product?._id} />
+        <p className="my-3">{t("user.deleteDialog.content")}</p>
+        <LabelValue label={t("user.deleteDialog.ID")} value={user?._id} />
         <LabelValue
-          label={t("product.deleteDialog.name")}
-          value={product?.name}
-        />
-        <LabelValue
-          label={t("product.deleteDialog.price")}
-          value={formatCurrency(product?.price)}
+          label={t("user.deleteDialog.name")}
+          value={user?.fullname}
         />
       </Dialog>
     </>
