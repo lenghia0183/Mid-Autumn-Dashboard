@@ -27,7 +27,7 @@ import { toast } from "react-toastify";
 import DeleteDialog from "../Dialog/delete";
 import { getCategoryList } from "../../../service/https/category";
 
-const ProductEdit = () => {
+const CategoryEdit = () => {
   const params = useParams();
 
   const { t } = useTranslation();
@@ -293,4 +293,4 @@ const ProductEdit = () => {
   );
 };
 
-export default ProductEdit;
+export default CategoryEdit;

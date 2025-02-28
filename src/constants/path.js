@@ -8,6 +8,12 @@ export const PATH = {
   PRODUCT_DETAIL: "/product/detail/:productId",
   PRODUCT_EDIT: "/product/edit/:productId",
   PRODUCT_CREATE: "/product/create",
+
+  CATEGORY: "/category",
+  CATEGORY_LIST: "/category/list",
+  CATEGORY_DETAIL: "/category/detail/:categoryId",
+  CATEGORY_EDIT: "/category/edit/:categoryId",
+  CATEGORY_CREATE: "/category/create",
 };
 
 export const PAGE_TITLE = {

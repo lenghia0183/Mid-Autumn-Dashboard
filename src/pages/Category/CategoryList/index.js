@@ -22,7 +22,7 @@ import FormikTextField from "../../../components/Formik/FormikTextField";
 import FormikAutoComplete from "../../../components/Formik/FormikAutoComplete";
 import DeleteDialog from "../Dialog/delete";
 
-const ProductList = () => {
+const CategoryList = () => {
   const { page, pageSize, keyword, filters, setMultiple } = useQueryState();
   const { t } = useTranslation();
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
@@ -214,4 +214,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default CategoryList;

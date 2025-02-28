@@ -10,7 +10,7 @@ import images from "../../../asset/images";
 const navItems = [
   { path: PATH.DASHBOARD, icon: "key", label: "Dashboard Home" },
   { path: PATH.PRODUCT_LIST, icon: "order", label: "Danh sách sản phẩm" },
-  { path: PATH.CUSTOMERS, icon: "eye", label: "Customers" },
+  { path: PATH.CATEGORY_LIST, icon: "eye", label: "Danh sách danh mục" },
   { path: PATH.ANALYTICS, icon: "cart", label: "Analytics" },
   { path: PATH.SETTINGS, icon: "edit", label: "Settings" },
   { path: PATH.SUPPORT, icon: "heart", label: "Support" },
