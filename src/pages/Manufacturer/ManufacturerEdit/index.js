@@ -1,13 +1,11 @@
 import { Form, Formik } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
 
-import Image from "../../../components/Image";
 import Button from "../../../components/Button";
 import Icon from "../../../components/Icon";
 import { PATH } from "../../../constants/path";
 import FormikTextField from "../../../components/Formik/FormikTextField";
 
-import FormikFileInput from "./../../../components/FileInput/index";
 import { validateSchema } from "./schema";
 import { useTranslation } from "react-i18next";
 import { TEXTFIELD_REQUIRED_LENGTH } from "./../../../constants/common";
@@ -15,11 +13,7 @@ import { useState } from "react";
 import { validateStatus } from "../../../utils/api";
 import { toast } from "react-toastify";
 import DeleteDialog from "../Dialog/delete";
-import {
-  useDeleteCategory,
-  useGetCategoryDetail,
-  useUpdateCategory,
-} from "../../../service/https/category";
+
 import {
   useDeleteManufacturer,
   useGetManufacturerDetail,

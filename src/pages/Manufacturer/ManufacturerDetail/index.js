@@ -27,8 +27,6 @@ const ManufacturerDetail = () => {
 
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 
-  console.log("manufacturerDetail", manufacturerDetail);
-
   const { t } = useTranslation();
 
   const navigate = useNavigate();

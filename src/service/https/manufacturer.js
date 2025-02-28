@@ -2,6 +2,16 @@ import useSWR from "swr";
 import { api } from "../api";
 import useSWRMutation from "swr/mutation";
 
+export const useAddManufacturer = (config) => {
+  const url = `v1/manufacturer`;
+
+  const fetcher = (url, { arg }) => {
+    return api.post(url, arg);
+  };
+
+  return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
+};
+
 export const useGetManufacturer = (filter, config) => {
   const url = "v1/manufacturer";
   const fetcher = async (url) => {

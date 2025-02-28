@@ -6,7 +6,7 @@ import { SWRConfig } from "swr";
 
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
-import { CartProvider, UserProvider } from "./context";
+import { UserProvider } from "./context";
 import { LoadingProvider } from "./context/loadingContext";
 import loadingMiddleware from "./middlewares/loadingMiddleware";
 
@@ -24,9 +24,7 @@ root.render(
           }}
         >
           <UserProvider>
-            <CartProvider>
-              <App />
-            </CartProvider>
+            <App />
           </UserProvider>
         </SWRConfig>
       </LoadingProvider>

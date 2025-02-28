@@ -1,6 +1,10 @@
 import { Form, Formik } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
-import { getManufacturerList, useAddProduct } from "../../../service/https";
+import {
+  getManufacturerList,
+  useAddManufacturer,
+  useAddProduct,
+} from "../../../service/https";
 import Image from "../../../components/Image";
 import Button from "../../../components/Button";
 
@@ -25,18 +29,16 @@ import {
 } from "../../../service/https/category";
 
 const ManufacturerCreate = () => {
-  const [reviewList, setReviewList] = useState();
-
   const { t } = useTranslation();
 
   const navigate = useNavigate();
 
-  const { trigger: handleAddCategory } = useAddCategory();
+  const { trigger: handleAddManufacturer } = useAddManufacturer();
 
   return (
     <div>
       <h2 className="text-[28px] font-medium mb-4">
-        {t("category.create.title")}
+        {t("manufacturer.create.title")}
       </h2>
       <div className="flex gap-3 justify-between w-[90%] my-5">
         <Button
@@ -46,7 +48,7 @@ const ManufacturerCreate = () => {
           bgHoverColor="blue-200"
           textHoverColor="blue"
           borderHoverColor="blue"
-          to={PATH.CATEGORY_LIST}
+          to={PATH.MANUFACTURER_LIST}
         >
           {t("common.backToList")}
         </Button>
@@ -54,7 +56,6 @@ const ManufacturerCreate = () => {
       <Formik
         initialValues={{
           name: "",
-          image: null,
         }}
         validationSchema={validateSchema(t)}
         onSubmit={(values) => {
@@ -62,17 +63,16 @@ const ManufacturerCreate = () => {
 
           const convertValue = {
             name: values.name,
-            ...(values?.image?.[0] && { image: values.image[0] }),
           };
 
-          handleAddCategory(convertValue, {
+          handleAddManufacturer(convertValue, {
             onSuccess: (response) => {
               if (validateStatus(response.code)) {
                 console.log("response", response);
-                toast.success(t("category.create.success"));
+                toast.success(t("manufacturer.create.success"));
                 navigate(
-                  PATH.CATEGORY_DETAIL.replace(
-                    ":categoryId",
+                  PATH.MANUFACTURER_DETAIL.replace(
+                    ":manufacturerId",
                     response?.data._id
                   )
                 );
@@ -93,7 +93,7 @@ const ManufacturerCreate = () => {
               <div className="grid grid-cols-2 gap-5">
                 <FormikTextField
                   name="name"
-                  label={t("category.create.name")}
+                  label={t("manufacturer.create.name")}
                   vertical={false}
                   required
                   labelWidth="150px"
@@ -105,7 +105,7 @@ const ManufacturerCreate = () => {
 
                 <div className="col-span-2 mt-4 flex gap-3 justify-end w-[90%]">
                   <Button variant="outlined" type="submit">
-                    {t("category.btn.addCategory")}
+                    {t("manufacturer.btn.addManufacturer")}
                   </Button>
                   <Button
                     variant="outlined"
@@ -118,36 +118,6 @@ const ManufacturerCreate = () => {
                   >
                     {t("common.cancel")}
                   </Button>
-                </div>
-
-                <FormikFileInput
-                  className="w-[80%]"
-                  name="image"
-                  multiple={false}
-                  onPreviewsChange={(val) => {
-                    setReviewList(val);
-                  }}
-                />
-
-                <div className="w-[80%]">
-                  <h2 className="col-span-2 text-xl mt-3 font-medium">
-                    {t("category.create.images")}
-                  </h2>
-
-                  {reviewList?.length > 0 && (
-                    <div className="grid grid-cols-3 gap-4 mt-4">
-                      {reviewList?.map((item, index) => (
-                        <div>
-                          <Image
-                            key={index}
-                            src={item.previewUrl}
-                            alt={`Hình ${index + 1}`}
-                            className="w-full rounded-md shadow-md transition-transform transform hover:scale-105"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
                 </div>
               </div>
             </Form>

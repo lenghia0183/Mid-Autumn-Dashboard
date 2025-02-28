@@ -257,7 +257,7 @@
       "title": "Thêm thương hiệu",
       "name": "Tên thương hiệu:",
       "code": "Mã thương hiệu:",
-      "images": "Danh sách hình ảnh",
+
       "success": "Tạo thương hiệu thành công"
     },
 
@@ -265,9 +265,7 @@
       "title": "Chi tiết thương hiệu",
 
       "ID": "ID thương hiệu:",
-      "name": "Tên thương hiệu:",
-
-      "images": "Danh sách hình ảnh"
+      "name": "Tên thương hiệu:"
     },
 
     "delete": {
@@ -284,9 +282,7 @@
       "title": "Chỉnh sửa thương hiệu",
       "success": "Chỉnh sửa thương hiệu thành công",
       "ID": "ID thương hiệu:",
-      "name": "Tên thương hiệu:",
-
-      "images": "Danh sách hình ảnh"
+      "name": "Tên thương hiệu:"
     }
   }
 }
