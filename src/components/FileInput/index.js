@@ -34,7 +34,8 @@ const FormikFileInput = ({
   }, [meta.value, initialValues]);
 
   const updatePreviews = (files) => {
-    const filePreviews = files.map((file) => ({
+    const validFiles = Array.isArray(files) ? files : [];
+    const filePreviews = validFiles.map((file) => ({
       name: file.name,
       previewUrl: URL.createObjectURL(file),
     }));
@@ -49,14 +50,18 @@ const FormikFileInput = ({
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files || []);
+    console.log("files", files);
     if (!files.length) return;
+
+    // Đảm bảo selectedFiles luôn là một mảng
+    const existingFiles = Array.isArray(selectedFiles) ? selectedFiles : [];
 
     let newFiles = files.filter(
       (file) =>
-        !selectedFiles.some((existingFile) => existingFile.name === file.name)
+        !existingFiles.some((existingFile) => existingFile.name === file.name)
     );
 
-    const totalFiles = [...selectedFiles, ...newFiles].slice(0, maxFiles);
+    const totalFiles = [...existingFiles, ...newFiles].slice(0, maxFiles);
     const validFiles = totalFiles.filter(
       (file) => file.size <= maxSize && allowedTypes.includes(file.type)
     );
@@ -71,7 +76,6 @@ const FormikFileInput = ({
     setSelectedFiles(validFiles);
     updatePreviews(validFiles);
   };
-
   const handleRemoveFile = (index) => {
     const newFiles = selectedFiles.filter((_, i) => i !== index);
     URL.revokeObjectURL(previews[index].previewUrl);

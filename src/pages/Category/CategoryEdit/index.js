@@ -14,6 +14,7 @@ import { PATH } from "../../../constants/path";
 import FormikTextField from "../../../components/Formik/FormikTextField";
 import FormikAutoComplete from "../../../components/Formik/FormikAutoComplete";
 import FormikTextArea from "./../../../components/Formik/FormikTextArea";
+import FormikFileInput from "./../../../components/FileInput/index";
 import { validateSchema } from "./schema";
 import { useTranslation } from "react-i18next";
 import {
@@ -41,6 +42,7 @@ const CategoryEdit = () => {
   console.log("categoryDetail", categoryDetail);
 
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+  const [preview, setPreview] = useState(null);
 
   const navigate = useNavigate();
 
@@ -50,7 +52,7 @@ const CategoryEdit = () => {
 
   const { trigger: handleDeleteCategory } = useDeleteCategory();
 
-  const handleSubmitDeleteProduct = () => {
+  const handleSubmitDeleteCategory = () => {
     handleDeleteCategory(
       { _id: params.categoryId },
       {
@@ -115,6 +117,7 @@ const CategoryEdit = () => {
         initialValues={{
           _id: categoryDetail?._id,
           name: categoryDetail?.name,
+          image: categoryDetail?.image || null,
         }}
         validationSchema={validateSchema(t)}
         onSubmit={(values) => {
@@ -124,7 +127,7 @@ const CategoryEdit = () => {
               _id: values?._id,
               body: {
                 name: values?.name,
-                image: values?.image,
+                image: values?.image[0],
               },
             },
             {
@@ -196,11 +199,19 @@ const CategoryEdit = () => {
                   {t("category.edit.images")}
                 </h2>
 
+                <FormikFileInput
+                  name="image"
+                  multiple={false}
+                  onPreviewsChange={(val) => {
+                    setPreview(val);
+                  }}
+                />
+
                 <div className="grid grid-cols-3 gap-4 mt-4">
                   <Image
-                    key={categoryDetail._id}
-                    src={categoryDetail.image}
-                    alt={categoryDetail.name}
+                    key={categoryDetail?._id}
+                    src={preview?.[0]?.previewUrl || categoryDetail?.image}
+                    alt={categoryDetail?.name}
                     className="w-full rounded-md shadow-md transition-transform transform hover:scale-105"
                   />
                 </div>
@@ -212,7 +223,7 @@ const CategoryEdit = () => {
       <DeleteDialog
         isOpen={isOpenDeleteDialog}
         category={categoryDetail}
-        handleSubmitDeleteProduct={handleSubmitDeleteProduct}
+        handleSubmitDeleteCategory={handleSubmitDeleteCategory}
         onCancel={handleCloseDeleteDialog}
       />
     </div>

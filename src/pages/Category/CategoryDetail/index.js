@@ -12,13 +12,19 @@ import { validateStatus } from "../../../utils/api";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import DeleteDialog from "../Dialog/delete";
+import {
+  useDeleteCategory,
+  useGetCategoryDetail,
+} from "../../../service/https/category";
 
 const CategoryDetail = () => {
   const params = useParams();
 
-  const { data: productDetail } = useGetProductDetail(params.productId);
+  const { data: categoryDetail } = useGetCategoryDetail(params.categoryId);
 
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+
+  console.log("categoryDetail", categoryDetail);
 
   const { t } = useTranslation();
 
@@ -28,16 +34,16 @@ const CategoryDetail = () => {
     setIsOpenDeleteDialog(false);
   };
 
-  const { trigger: handleDeleteProduct } = useDeleteProduct();
+  const { trigger: handleDeleteCategory } = useDeleteCategory();
 
-  const handleSubmitDeleteProduct = () => {
-    handleDeleteProduct(
-      { _id: params.productId },
+  const handleSubmitDeleteCategory = () => {
+    handleDeleteCategory(
+      { _id: params.categoryId },
       {
         onSuccess: (response) => {
           if (validateStatus(response.code)) {
             toast.success(t("product.delete.success"));
-            navigate(PATH.PRODUCT_LIST, { replace: true });
+            navigate(PATH.CATEGORY_LIST, { replace: true });
             handleCloseDeleteDialog();
           } else {
             toast.error(response.message);
@@ -64,7 +70,7 @@ const CategoryDetail = () => {
           bgHoverColor="blue-200"
           textHoverColor="blue"
           borderHoverColor="blue"
-          to={PATH.PRODUCT_LIST}
+          to={PATH.CATEGORY_LIST}
         >
           {t("common.backToList")}
         </Button>
@@ -83,7 +89,7 @@ const CategoryDetail = () => {
           <Button
             variant="outlined"
             startIcon={<Icon name="edit" size={1.5} />}
-            to={PATH.PRODUCT_EDIT.replace(":productId", params.productId)}
+            to={PATH.CATEGORY_EDIT.replace(":productId", params.categoryId)}
           >
             {t("common.edit")}
           </Button>
@@ -95,64 +101,33 @@ const CategoryDetail = () => {
             <LabelValue
               labelWidth="150px"
               label={t("product.detail.ID")}
-              value={productDetail?._id}
+              value={categoryDetail?._id}
             />
             <LabelValue
               labelWidth="150px"
               label={t("product.detail.name")}
-              value={productDetail?.name}
-            />
-            <LabelValue
-              labelWidth="150px"
-              label={t("product.detail.code")}
-              value={productDetail?.code}
-            />
-            <LabelValue
-              labelWidth="150px"
-              label={t("product.detail.price")}
-              value={formatCurrency(productDetail?.price)}
-            />
-            <LabelValue
-              labelWidth="150px"
-              label={t("product.detail.manufacturer")}
-              value={productDetail?.manufacturerId?.name}
-            />
-            <LabelValue
-              labelWidth="150px"
-              label={t("product.detail.category")}
-              value={productDetail?.categoryId?.name}
-            />
-
-            <LabelValue
-              labelWidth="150px"
-              className="col-span-2"
-              label={t("product.detail.description")}
-              value={productDetail?.description}
+              value={categoryDetail?.name}
             />
 
             <h2 className="col-span-2 text-xl mt-3 font-medium">
               {t("product.detail.images")}
             </h2>
 
-            {productDetail?.images?.length > 0 && (
-              <div className="grid grid-cols-3 gap-4 mt-4">
-                {productDetail?.images?.map((image, index) => (
-                  <Image
-                    key={index}
-                    src={image}
-                    alt={`Hình ${index + 1}`}
-                    className="w-full rounded-md shadow-md transition-transform transform hover:scale-105"
-                  />
-                ))}
-              </div>
-            )}
+            <div className="grid grid-cols-3 gap-4 mt-4">
+              <Image
+                key={categoryDetail?._id}
+                src={categoryDetail?.image}
+                alt={categoryDetail?.name}
+                className="w-full rounded-md shadow-md transition-transform transform hover:scale-105"
+              />
+            </div>
           </div>
         </Form>
       </Formik>
       <DeleteDialog
         isOpen={isOpenDeleteDialog}
-        product={productDetail}
-        handleSubmitDeleteProduct={handleSubmitDeleteProduct}
+        category={categoryDetail}
+        handleSubmitDeleteCategory={handleSubmitDeleteCategory}
         onCancel={handleCloseDeleteDialog}
       />
     </div>
