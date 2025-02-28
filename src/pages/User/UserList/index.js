@@ -4,14 +4,9 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 import { useQueryState } from "../../../hooks/useQueryState";
-import {
-  getManufacturerList,
-  useDeleteProduct,
-  useGetProduct,
-} from "../../../service/https";
-import { getCategoryList } from "../../../service/https/category";
+
 import { validateStatus } from "../../../utils/api";
-import formatCurrency from "../../../utils/formatCurrency";
+
 import { PATH } from "../../../constants/path";
 
 import Button from "../../../components/Button";
@@ -19,9 +14,8 @@ import IconButton from "../../../components/IconButton";
 import Table from "../../../components/Table";
 import Pagination from "../../../components/Pagination";
 import FormikTextField from "../../../components/Formik/FormikTextField";
-import FormikAutoComplete from "../../../components/Formik/FormikAutoComplete";
 import DeleteDialog from "../Dialog/delete";
-import { useGetUser } from "../../../service/https/user";
+import { useDeleteUser, useGetUser } from "../../../service/https/user";
 import CheckBox from "./../../../components/CheckBox/index";
 
 const UserList = () => {
@@ -43,7 +37,7 @@ const UserList = () => {
 
   console.log("userData", userData);
 
-  const { trigger: handleDeleteProduct } = useDeleteProduct();
+  const { trigger: handleDeleteUser } = useDeleteUser();
 
   useEffect(() => {
     refreshProductList();
@@ -55,7 +49,7 @@ const UserList = () => {
   };
 
   const handleSubmitDeleteUser = () => {
-    handleDeleteProduct(
+    handleDeleteUser(
       { _id: selectedItem?._id },
       {
         onSuccess: (response) => {

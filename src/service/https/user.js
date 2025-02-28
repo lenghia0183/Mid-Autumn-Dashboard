@@ -2,6 +2,29 @@ import useSWRMutation from "swr/mutation";
 import { api } from "../api";
 import useSWR from "swr";
 
+export const useAddUser = (config) => {
+  const url = `v1/user`;
+
+  const fetcher = (url, { arg }) => {
+    const formData = new FormData();
+
+    Object.entries(arg).forEach(([key, value]) => {
+      if (key === "images" && Array.isArray(value)) {
+        value.forEach((file) => formData.append("images", file));
+      } else {
+        formData.append(
+          key,
+          value instanceof File ? value : JSON.stringify(value)
+        );
+      }
+    });
+
+    return api.postMultiplePart(url, formData);
+  };
+
+  return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
+};
+
 export const useUpdateMe = (config) => {
   const url = `v1/auth/me`;
 

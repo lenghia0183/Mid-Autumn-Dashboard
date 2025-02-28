@@ -132,13 +132,15 @@
 
     "create": {
       "title": "Thêm người dùng",
+      "ID": "ID người dùng:",
       "name": "Tên người dùng:",
-      "code": "Mã người dùng:",
-      "manufacturer": "Thương hiệu:",
-      "category": "Loại người dùng:",
-      "price": "Giá người dùng:",
+      "email": "Email:",
+      "phone": "Số điện thoại:",
+      "lockedStatus": "Trạng thái khóa:",
       "images": "Danh sách hình ảnh",
-      "description": "Mô tả người dùng:",
+      "role": "Vai trò:",
+      "password": "Mật khẩu",
+      "confirmPassword": "Xác nhận mật khẩu",
       "success": "Tạo người dùng thành công"
     },
 

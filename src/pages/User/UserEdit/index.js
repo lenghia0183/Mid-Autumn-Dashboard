@@ -135,8 +135,8 @@ const UserEdit = () => {
               _id: values?._id,
               body: {
                 fullname: values?.name,
-                email: values?.email,
-                phone: values?.phone,
+                email: values?.email || "",
+                phone: values?.phone || "",
                 isLocked: values?.isLocked,
                 role: values?.role,
                 ...(values?.avatar?.[0] && { image: values.avatar[0] }),
