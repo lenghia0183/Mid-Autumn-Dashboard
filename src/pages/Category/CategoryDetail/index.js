@@ -89,7 +89,7 @@ const CategoryDetail = () => {
           <Button
             variant="outlined"
             startIcon={<Icon name="edit" size={1.5} />}
-            to={PATH.CATEGORY_EDIT.replace(":productId", params.categoryId)}
+            to={PATH.CATEGORY_EDIT.replace(":categoryId", params.categoryId)}
           >
             {t("common.edit")}
           </Button>

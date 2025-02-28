@@ -50,7 +50,9 @@ const FormikFileInput = ({
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files || []);
+
     console.log("files", files);
+
     if (!files.length) return;
 
     // Đảm bảo selectedFiles luôn là một mảng
@@ -61,7 +63,10 @@ const FormikFileInput = ({
         !existingFiles.some((existingFile) => existingFile.name === file.name)
     );
 
-    const totalFiles = [...existingFiles, ...newFiles].slice(0, maxFiles);
+    const totalFiles = [...existingFiles, ...newFiles].slice(
+      0,
+      multiple ? maxFiles : 1
+    );
     const validFiles = totalFiles.filter(
       (file) => file.size <= maxSize && allowedTypes.includes(file.type)
     );

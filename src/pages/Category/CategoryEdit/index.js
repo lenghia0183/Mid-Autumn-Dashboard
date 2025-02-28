@@ -117,17 +117,16 @@ const CategoryEdit = () => {
         initialValues={{
           _id: categoryDetail?._id,
           name: categoryDetail?.name,
-          image: categoryDetail?.image || null,
+          image: null,
         }}
         validationSchema={validateSchema(t)}
         onSubmit={(values) => {
-          console.log("values", values);
           handleUpdateCategory(
             {
               _id: values?._id,
               body: {
                 name: values?.name,
-                image: values?.image[0],
+                ...(values?.image?.[0] && { image: values.image[0] }),
               },
             },
             {
