@@ -22,6 +22,10 @@ import ManufacturerList from "./../pages/Manufacturer/ManufacturerList/index";
 import ManufacturerDetail from "./../pages/Manufacturer/ManufacturerDetail/index";
 import ManufacturerEdit from "./../pages/Manufacturer/ManufacturerEdit/index";
 import ManufacturerCreate from "./../pages/Manufacturer/ManufacturerCreate/index";
+import UserList from "./../pages/User/UserList/index";
+import UserDetail from "./../pages/User/UserDetail/index";
+import UserEdit from "./../pages/User/UserEdit/index";
+import UserCreate from "./../pages/User/UserCreate/index";
 
 const router = createBrowserRouter([
   // main layout
@@ -108,6 +112,33 @@ const router = createBrowserRouter([
           {
             path: PATH.MANUFACTURER_CREATE,
             element: <ManufacturerCreate />,
+            loader: checkNotLoggedIn,
+          },
+        ],
+      },
+
+      {
+        path: PATH.USER,
+        children: [
+          // user
+          {
+            path: PATH.USER_LIST,
+            element: <UserList />,
+            loader: checkNotLoggedIn,
+          },
+          {
+            path: PATH.USER_DETAIL,
+            element: <UserDetail />,
+            loader: checkNotLoggedIn,
+          },
+          {
+            path: PATH.USER_EDIT,
+            element: <UserEdit />,
+            loader: checkNotLoggedIn,
+          },
+          {
+            path: PATH.USER_CREATE,
+            element: <UserCreate />,
             loader: checkNotLoggedIn,
           },
         ],

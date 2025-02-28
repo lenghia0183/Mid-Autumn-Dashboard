@@ -21,6 +21,12 @@ export const PATH = {
   MANUFACTURER_DETAIL: "/manufacturer/detail/:manufacturerId",
   MANUFACTURER_EDIT: "/manufacturer/edit/:manufacturerId",
   MANUFACTURER_CREATE: "/manufacturer/create",
+
+  USER: "/user",
+  USER_LIST: "/user/list",
+  USER_DETAIL: "/user/detail/:userId",
+  USER_EDIT: "/user/edit/:userId",
+  USER_CREATE: "/user/create",
 };
 
 export const PAGE_TITLE = {
