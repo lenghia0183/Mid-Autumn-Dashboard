@@ -20,6 +20,7 @@
     "search": "Tìm kiếm",
     "deleteSearch": "Xóa tìm kiếm",
     "logout": "Đăng xuất",
+    "login": "Đăng nhập",
     "showMoreItem": "Xem thêm sản phẩm",
     "showItemDetail": "Xem chi tiết sản phẩm",
     "rowPerPage": "Số dòng mỗi trang",
@@ -29,6 +30,7 @@
     "showDetail": "Xem chi tiết",
     "backToList": "Trở về danh sách",
     "confirm": "Xác nhận",
+    "hello": "Xin chào:",
     "toast": {
       "hasErrorTryAgainLater": "Đã có lỗi xảy ra vui lòng thử lại sau"
     },
@@ -109,9 +111,8 @@
     "title": "Đăng nhập",
     "email": "Email",
     "password": "Mật khẩu",
-    "forgotPassword": "Quên mật khẩu?",
-    "register": "Tạo tài khoản",
-    "noAccount": "Bạn chưa có tài khoản?",
+    "desc01": "Chào mừng bạn đến với Trang quản trị Hãy đăng nhập để quản lý hệ thống một cách dễ dàng và hiệu quả.",
+    "desc02": "Nếu bạn gặp sự cố khi đăng nhập, vui lòng liên hệ với quản trị viên để được hỗ trợ.",
     "toast": {
       "success": "Đăng nhập thành công",
       "failed": "Đăng nhập thất bại, vui lòng thử lại",

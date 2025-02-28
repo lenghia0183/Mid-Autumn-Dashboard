@@ -75,25 +75,8 @@ function Login() {
           <Button type="submit" className="mt-10 px-8 py-3 !text-xl">
             {t("login.title")}
           </Button>
-
-          <Button
-            to={PATH.FORGOT_PASSWORD}
-            size="zeroPadding"
-            className="text-lg font-semibold text-emerald hover:text-yellow mt-4"
-          >
-            - {t("login.forgotPassword")}
-          </Button>
-
-          <div className="flex items-center text-lg mt-2">
-            <p className="text-gray-500 mr-2">- {t("login.noAccount")}</p>
-            <Button
-              to={PATH.SIGN_UP}
-              size="zeroPadding"
-              className="text-lg font-semibold text-emerald hover:text-yellow"
-            >
-              {t("login.register")}
-            </Button>
-          </div>
+          <p className="mt-4 text-lg text-gray-600">{t("login.desc01")}</p>
+          <p className="mt-2 text-gray-500">{t("login.desc02")}</p>
         </Form>
       </Formik>
     </>

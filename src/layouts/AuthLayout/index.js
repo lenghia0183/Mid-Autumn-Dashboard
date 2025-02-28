@@ -51,7 +51,7 @@ function AuthLayout() {
       <Backdrop open={isLoading} />
       <Breadcrumb items={breadcrumbAuthLayout} />
 
-      <div className="container xl:flex items-center xl:mt-14 mt-6 xl:space-x-7 space-y-6">
+      <div className="container xl:flex items-center xl:my-14 mt-6 xl:space-x-7 space-y-6">
         <div
           className={clsx(
             "flex-1 aspect-[5/4] hidden sm:block",

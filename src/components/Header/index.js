@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
+import Button from "./../Button/index";
+import { useUser } from "../../context/userContext";
+import { PATH } from "../../constants/path";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
-const fakeUser = {
-  name: "Nguyễn Văn A",
-  avatar: "https://i.pravatar.cc/150?img=3",
-};
-
-const Header = ({ onLogin, onLogout }) => {
+const Header = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const navigate = useNavigate();
+
+  const { user: userData, logout } = useUser();
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const timerId = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -34,28 +39,32 @@ const Header = ({ onLogin, onLogout }) => {
       </div>
 
       <div className="flex items-center gap-4">
-        {fakeUser ? (
+        {userData?.isLoggedIn ? (
           <>
-            <span className="text-lg">Xin chào {fakeUser.name}</span>
+            <span className="text-lg">
+              {t("common.hello")} <span>{userData?.user?.fullname}</span>
+            </span>
             <img
-              src={fakeUser.avatar}
-              alt={fakeUser.name}
+              src={userData?.user?.avatar}
+              alt={userData?.user?.fullname}
               className="w-10 h-10 rounded-full object-cover"
             />
-            <button
-              onClick={onLogout}
-              className="px-4 py-2 bg-red-500 rounded hover:bg-red-600 transition-colors duration-200"
+            <Button
+              onClick={() => {
+                logout(navigate);
+              }}
+              variant="outlined"
+              borderColor="crimson"
+              textColor="crimson"
+              bgHoverColor="crimson-200"
             >
-              Đăng xuất
-            </button>
+              {t("common.logout")}
+            </Button>
           </>
         ) : (
-          <button
-            onClick={onLogin}
-            className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-600 transition-colors duration-200"
-          >
-            Đăng nhập
-          </button>
+          <Button to={PATH.LOGIN} variant="outlined">
+            {t("common.login")}
+          </Button>
         )}
       </div>
     </header>
