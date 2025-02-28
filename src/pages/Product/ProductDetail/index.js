@@ -36,7 +36,7 @@ const ProductDetail = () => {
       {
         onSuccess: (response) => {
           if (validateStatus(response.code)) {
-            toast.success("Xóa sản phẩm thành công");
+            toast.success(t("product.delete.success"));
             navigate(PATH.PRODUCT_LIST, { replace: true });
             handleCloseDeleteDialog();
           } else {
@@ -44,7 +44,7 @@ const ProductDetail = () => {
           }
         },
         onError: () => {
-          toast.error(t("common.hasErrorTryAgainLater"));
+          toast.error(t("common.toast.hasErrorTryAgainLater"));
           handleCloseDeleteDialog();
         },
       }
@@ -53,16 +53,20 @@ const ProductDetail = () => {
 
   return (
     <div>
-      <h2 className="text-[28px] font-medium mb-4">Chi tiết sản phẩm</h2>
+      <h2 className="text-[28px] font-medium mb-4">
+        {t("product.detail.title")}
+      </h2>
       <div className="flex gap-3 justify-between w-[90%] my-5">
         <Button
           variant="outlined"
           borderColor="gray-500"
           textColor="gray-500"
-          bgHoverColor="gray-200"
+          bgHoverColor="blue-200"
+          textHoverColor="blue"
+          borderHoverColor="blue"
           to={PATH.PRODUCT_LIST}
         >
-          Trở về danh sách
+          {t("common.backToList")}
         </Button>
 
         <div className="flex gap-3">
@@ -74,14 +78,14 @@ const ProductDetail = () => {
             startIcon={<Icon name="bin" size={1.5} />}
             onClick={() => setIsOpenDeleteDialog(true)}
           >
-            Xóa
+            {t("common.delete")}
           </Button>
           <Button
             variant="outlined"
             startIcon={<Icon name="edit" size={1.5} />}
             to={PATH.PRODUCT_EDIT.replace(":productId", params.productId)}
           >
-            Chỉnh sửa
+            {t("common.edit")}
           </Button>
         </div>
       </div>
@@ -90,44 +94,44 @@ const ProductDetail = () => {
           <div className="grid grid-cols-2 gap-3">
             <LabelValue
               labelWidth="150px"
-              label="ID sản phẩm:"
+              label={t("product.detail.ID")}
               value={productDetail?._id}
             />
             <LabelValue
               labelWidth="150px"
-              label="Tên sản phẩm:"
+              label={t("product.detail.name")}
               value={productDetail?.name}
             />
             <LabelValue
               labelWidth="150px"
-              label="Mã sản phẩm:"
+              label={t("product.detail.code")}
               value={productDetail?.code}
             />
             <LabelValue
               labelWidth="150px"
-              label="Giá sản phẩm:"
+              label={t("product.detail.price")}
               value={formatCurrency(productDetail?.price)}
             />
             <LabelValue
               labelWidth="150px"
-              label="Thương hiệu:"
+              label={t("product.detail.manufacturer")}
               value={productDetail?.manufacturerId?.name}
             />
             <LabelValue
               labelWidth="150px"
-              label="Thể loại:"
+              label={t("product.detail.category")}
               value={productDetail?.categoryId?.name}
             />
 
             <LabelValue
               labelWidth="150px"
               className="col-span-2"
-              label="Giới thiệu:"
+              label={t("product.detail.description")}
               value={productDetail?.description}
             />
 
             <h2 className="col-span-2 text-xl mt-3 font-medium">
-              Danh sách hình ảnh
+              {t("product.detail.images")}
             </h2>
 
             {productDetail?.images?.length > 0 && (

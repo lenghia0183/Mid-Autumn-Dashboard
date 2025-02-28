@@ -1,6 +1,7 @@
 import { Form, Formik } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
 import {
+  getManufacturerList,
   useDeleteProduct,
   useGetProductDetail,
   useUpdateProduct,
@@ -23,13 +24,7 @@ import { useState } from "react";
 import { validateStatus } from "../../../utils/api";
 import { toast } from "react-toastify";
 import DeleteDialog from "../Dialog/delete";
-const getCategoryList = () => {
-  return api.get("v1/category");
-};
-
-const getManufacturerList = () => {
-  return api.get("v1/manufacturer");
-};
+import { getCategoryList } from "../../../service/https/category";
 
 const ProductEdit = () => {
   const params = useParams();
@@ -54,7 +49,7 @@ const ProductEdit = () => {
       {
         onSuccess: (response) => {
           if (validateStatus(response.code)) {
-            toast.success("Xóa sản phẩm thành công");
+            toast.success(t("product.delete.success"));
             navigate(PATH.PRODUCT_LIST, { replace: true });
             handleCloseDeleteDialog();
           } else {
@@ -62,7 +57,7 @@ const ProductEdit = () => {
           }
         },
         onError: () => {
-          toast.error(t("common.hasErrorTryAgainLater"));
+          toast.error(t("common.toast.hasErrorTryAgainLater"));
           handleCloseDeleteDialog();
         },
       }
@@ -73,16 +68,20 @@ const ProductEdit = () => {
 
   return (
     <div>
-      <h2 className="text-[28px] font-medium mb-4">Chỉnh sửa sản phẩm</h2>
+      <h2 className="text-[28px] font-medium mb-4">
+        {t("product.edit.title")}
+      </h2>
       <div className="flex gap-3 justify-between w-[90%] my-5">
         <Button
           variant="outlined"
           borderColor="gray-500"
           textColor="gray-500"
-          bgHoverColor="gray-200"
+          bgHoverColor="blue-200"
+          textHoverColor="blue"
+          borderHoverColor="blue"
           to={PATH.PRODUCT_LIST}
         >
-          Trở về danh sách
+          {t("common.backToList")}
         </Button>
 
         <div className="flex gap-3">
@@ -94,14 +93,14 @@ const ProductEdit = () => {
             startIcon={<Icon name="bin" size={1.5} />}
             onClick={() => setIsOpenDeleteDialog(true)}
           >
-            Xóa
+            {t("common.delete")}
           </Button>
           <Button
             variant="outlined"
             startIcon={<Icon name="eye" size={1.5} />}
             to={PATH.PRODUCT_DETAIL.replace(":productId", params.productId)}
           >
-            Xem chi tiết
+            {t("common.showDetail")}
           </Button>
         </div>
       </div>
@@ -133,7 +132,7 @@ const ProductEdit = () => {
             {
               onSuccess: (response) => {
                 if (validateStatus(response.code)) {
-                  toast.success("Cập nhật sản phẩm thành công");
+                  toast.success(t("product.edit.success"));
                   navigate(
                     PATH.PRODUCT_DETAIL.replace(":productId", params.productId)
                   );
@@ -142,7 +141,7 @@ const ProductEdit = () => {
                 }
               },
               onError: () => {
-                toast.error(t("common.hasErrorTryAgainLater"));
+                toast.error(t("common.toast.hasErrorTryAgainLater"));
               },
             }
           );
@@ -155,7 +154,7 @@ const ProductEdit = () => {
               <div className="grid grid-cols-2 gap-5">
                 <FormikTextField
                   name="_id"
-                  label="ID sản phẩm:"
+                  label={t("product.edit.ID")}
                   orientation="horizontal"
                   required
                   labelWidth="150px"
@@ -165,7 +164,7 @@ const ProductEdit = () => {
 
                 <FormikTextField
                   name="name"
-                  label="Tên sản phẩm:"
+                  label={t("product.edit.name")}
                   orientation="horizontal"
                   required
                   labelWidth="150px"
@@ -177,7 +176,7 @@ const ProductEdit = () => {
 
                 <FormikTextField
                   name="code"
-                  label="Mã sản phẩm:"
+                  label={t("product.edit.code")}
                   orientation="horizontal"
                   required
                   labelWidth="150px"
@@ -188,7 +187,7 @@ const ProductEdit = () => {
                 />
                 <FormikTextField
                   name="price"
-                  label="Giá sản phẩm:"
+                  label={t("product.edit.price")}
                   orientation="horizontal"
                   required
                   labelWidth="150px"
@@ -206,7 +205,7 @@ const ProductEdit = () => {
                   }}
                   getOptionsLabel={(opt) => opt?.name}
                   isEqualValue={(val, opt) => val._id === opt._id}
-                  label="Danh mục:"
+                  label={t("product.edit.category")}
                   autoFetch={true}
                   filterActive={true}
                   labelWidth="150px"
@@ -223,7 +222,7 @@ const ProductEdit = () => {
                   }}
                   getOptionsLabel={(opt) => opt?.name}
                   isEqualValue={(val, opt) => val._id === opt._id}
-                  label="Thương hiệu:"
+                  label={t("product.edit.manufacturer")}
                   autoFetch={true}
                   filterActive={true}
                   labelWidth="150px"
@@ -234,7 +233,7 @@ const ProductEdit = () => {
 
                 <FormikTextArea
                   name="description"
-                  label="Giới thiệu sản phẩm"
+                  label={t("product.edit.description")}
                   className="col-span-2"
                   labelWidth="150px"
                   orientation="horizontal"
@@ -247,7 +246,7 @@ const ProductEdit = () => {
 
                 <div className="col-span-2 mt-4 flex gap-3 justify-end w-[90%]">
                   <Button variant="outlined" type="submit">
-                    Cập nhật
+                    {t("common.edit")}
                   </Button>
                   <Button
                     variant="outlined"
@@ -258,12 +257,12 @@ const ProductEdit = () => {
                       resetForm();
                     }}
                   >
-                    Hủy
+                    {t("common.cancel")}
                   </Button>
                 </div>
 
                 <h2 className="col-span-2 text-xl mt-3 font-medium">
-                  Danh sách hình ảnh
+                  {t("product.edit.images")}
                 </h2>
 
                 {productDetail?.images?.length > 0 && (

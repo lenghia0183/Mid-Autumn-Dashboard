@@ -11,3 +11,7 @@ export const useGetCategory = (config) => {
 
   return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
 };
+
+export const getCategoryList = () => {
+  return api.get("v1/category");
+};

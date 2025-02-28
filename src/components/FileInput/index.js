@@ -4,6 +4,7 @@ import Icon from "../Icon";
 import Button from "../Button";
 import IconButton from "../IconButton";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
 const FormikFileInput = ({
   className,
@@ -15,6 +16,8 @@ const FormikFileInput = ({
   allowedTypes = ["image/jpeg", "image/png", "image/jpg"],
   onPreviewsChange,
 }) => {
+  const { t } = useTranslation();
+
   const [, meta, helpers] = useField(name);
   const { setFieldValue, initialValues } = useFormikContext();
   const fileInputRef = useRef(null);
@@ -97,7 +100,7 @@ const FormikFileInput = ({
         variant="outlined"
         startIcon={<Icon name="upload" size={1.7} strokeWidth={3} />}
       >
-        Chọn tệp
+        {t("common.selectFile")}
       </Button>
       {selectedFiles.length > 0 && (
         <div className="mt-3 bg-blue-100 p-3 rounded-md w-full">

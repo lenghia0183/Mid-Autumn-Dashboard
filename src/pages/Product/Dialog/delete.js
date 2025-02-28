@@ -15,18 +15,24 @@ const DeleteDialog = ({
     <>
       <Dialog
         open={isOpen}
-        title="Xóa sản phẩm"
+        title={t("product.deleteDialog.title")}
         onSubmit={() => {
           handleSubmitDeleteProduct();
         }}
-        submitLabel="Đồng ý"
-        cancelLabel="Hủy"
+        submitLabel={t("common.confirm")}
+        cancelLabel={t("common.cancel")}
         onCancel={onCancel}
       >
-        <p className="my-3">Bạn có chắc muốn xóa sản phẩm này?</p>
-        <LabelValue label="ID sản phẩm:" value={product?._id} />
-        <LabelValue label="Tên sản phẩm:" value={product?.name} />
-        <LabelValue label="Giá:" value={formatCurrency(product?.price)} />
+        <p className="my-3">{t("product.deleteDialog.content")}</p>
+        <LabelValue label={t("product.deleteDialog.ID")} value={product?._id} />
+        <LabelValue
+          label={t("product.deleteDialog.name")}
+          value={product?.name}
+        />
+        <LabelValue
+          label={t("product.deleteDialog.price")}
+          value={formatCurrency(product?.price)}
+        />
       </Dialog>
     </>
   );

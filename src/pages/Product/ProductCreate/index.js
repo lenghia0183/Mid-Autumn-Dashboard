@@ -1,9 +1,9 @@
 import { Form, Formik } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAddProduct, useGetProductDetail } from "../../../service/https";
+import { getManufacturerList, useAddProduct } from "../../../service/https";
 import Image from "../../../components/Image";
 import Button from "../../../components/Button";
-import Icon from "../../../components/Icon";
+
 import { PATH } from "../../../constants/path";
 import FormikTextField from "../../../components/Formik/FormikTextField";
 import FormikAutoComplete from "../../../components/Formik/FormikAutoComplete";
@@ -19,13 +19,7 @@ import FormikFileInput from "../../../components/FileInput";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { validateStatus } from "../../../utils/api";
-const getCategoryList = () => {
-  return api.get("v1/category");
-};
-
-const getManufacturerList = () => {
-  return api.get("v1/manufacturer");
-};
+import { getCategoryList } from "../../../service/https/category";
 
 const ProductCreate = () => {
   const [reviewList, setReviewList] = useState();
@@ -38,48 +32,30 @@ const ProductCreate = () => {
 
   return (
     <div>
-      <h2 className="text-[28px] font-medium mb-4">Chỉnh sửa sản phẩm</h2>
+      <h2 className="text-[28px] font-medium mb-4">
+        {t("product.create.title")}
+      </h2>
       <div className="flex gap-3 justify-between w-[90%] my-5">
         <Button
           variant="outlined"
           borderColor="gray-500"
           textColor="gray-500"
-          bgHoverColor="gray-200"
+          bgHoverColor="blue-200"
+          textHoverColor="blue"
+          borderHoverColor="blue"
           to={PATH.PRODUCT_LIST}
         >
-          Trở về danh sách
+          {t("common.backToList")}
         </Button>
-
-        {/* <div className="flex gap-3">
-          <Button
-            variant="outlined"
-            borderColor="crimson"
-            textColor="crimson"
-            bgHoverColor="crimson-300"
-            startIcon={<Icon name="bin" size={1.5} />}
-          >
-            Xóa
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<Icon name="eye" size={1.5} />}
-            to={PATH.PRODUCT_DETAIL.replace(":productId", params.productId)}
-          >
-            Xem chi tiết
-          </Button>
-        </div> */}
       </div>
       <Formik
         initialValues={{
-          name: "san pham test",
-          code: "san pham test",
+          name: "",
+          code: "",
           price: 10000,
-          manufacturerId: { name: "Như Lan", _id: "67af38a1f5819066168dd97e" },
-          categoryId: {
-            name: "Bánh nướng 2 trứng đặc biệt",
-            _id: "67af33d4f5819066168dd967",
-          },
-          description: "san pham rat tot",
+          manufacturerId: null,
+          categoryId: null,
+          description: "",
         }}
         validationSchema={validateSchema(t)}
         onSubmit={(values) => {
@@ -99,7 +75,7 @@ const ProductCreate = () => {
             onSuccess: (response) => {
               if (validateStatus(response.code)) {
                 console.log("response", response);
-                toast.success(t("Tạo sản phẩm mới thành công"));
+                toast.success(t("product.create.success"));
                 navigate(
                   PATH.PRODUCT_DETAIL.replace(":productId", response?.data._id)
                 );
@@ -107,8 +83,8 @@ const ProductCreate = () => {
                 toast.error(response?.message);
               }
             },
-            onError: (error) => {
-              console.error("error", t("hasErrorTryAgainLater"));
+            onError: () => {
+              toast.error(t("common.toast.hasErrorTryAgainLater"));
             },
           });
         }}
@@ -120,7 +96,7 @@ const ProductCreate = () => {
               <div className="grid grid-cols-2 gap-5">
                 <FormikTextField
                   name="name"
-                  label="Tên sản phẩm:"
+                  label={t("product.create.name")}
                   orientation="horizontal"
                   required
                   labelWidth="150px"
@@ -132,7 +108,7 @@ const ProductCreate = () => {
 
                 <FormikTextField
                   name="code"
-                  label="Mã sản phẩm:"
+                  label={t("product.create.code")}
                   orientation="horizontal"
                   required
                   labelWidth="150px"
@@ -143,7 +119,7 @@ const ProductCreate = () => {
                 />
                 <FormikTextField
                   name="price"
-                  label="Giá sản phẩm:"
+                  label={t("product.create.price")}
                   orientation="horizontal"
                   required
                   labelWidth="150px"
@@ -161,7 +137,7 @@ const ProductCreate = () => {
                   }}
                   getOptionsLabel={(opt) => opt?.name}
                   isEqualValue={(val, opt) => val._id === opt._id}
-                  label="Danh mục:"
+                  label={t("product.create.category")}
                   autoFetch={true}
                   filterActive={true}
                   labelWidth="150px"
@@ -178,7 +154,7 @@ const ProductCreate = () => {
                   }}
                   getOptionsLabel={(opt) => opt?.name}
                   isEqualValue={(val, opt) => val._id === opt._id}
-                  label="Thương hiệu:"
+                  label={t("product.create.manufacturer")}
                   autoFetch={true}
                   filterActive={true}
                   labelWidth="150px"
@@ -189,7 +165,7 @@ const ProductCreate = () => {
 
                 <FormikTextArea
                   name="description"
-                  label="Giới thiệu sản phẩm"
+                  label={t("product.create.description")}
                   className="col-span-2"
                   labelWidth="150px"
                   orientation="horizontal"
@@ -202,7 +178,7 @@ const ProductCreate = () => {
 
                 <div className="col-span-2 mt-4 flex gap-3 justify-end w-[90%]">
                   <Button variant="outlined" type="submit">
-                    Tạo mới
+                    {t("product.btn.addProduct")}
                   </Button>
                   <Button
                     variant="outlined"
@@ -213,7 +189,7 @@ const ProductCreate = () => {
                       resetForm();
                     }}
                   >
-                    Hủy
+                    {t("common.cancel")}
                   </Button>
                 </div>
 
@@ -228,7 +204,7 @@ const ProductCreate = () => {
 
                 <div className="w-[80%]">
                   <h2 className="col-span-2 text-xl mt-3 font-medium">
-                    Danh sách hình ảnh
+                    {t("product.create.images")}
                   </h2>
 
                   {reviewList?.length > 0 && (

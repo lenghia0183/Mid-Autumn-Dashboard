@@ -11,3 +11,7 @@ export const useGetManufacturer = (config) => {
 
   return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
 };
+
+export const getManufacturerList = () => {
+  return api.get("v1/manufacturer");
+};

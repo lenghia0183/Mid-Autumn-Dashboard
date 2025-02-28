@@ -5,24 +5,20 @@ import IconButton from "../../../components/IconButton";
 import FormikTextField from "../../../components/Formik/FormikTextField";
 import FormikAutoComplete from "../../../components/Formik/FormikAutoComplete";
 import { useQueryState } from "../../../hooks/useQueryState";
-import { api } from "../../../service/api";
 import Table from "../../../components/Table";
 import Pagination from "../../../components/Pagination";
-import { useDeleteProduct, useGetProduct } from "../../../service/https";
+import {
+  getManufacturerList,
+  useDeleteProduct,
+  useGetProduct,
+} from "../../../service/https";
 import formatCurrency from "../../../utils/formatCurrency";
 import { PATH } from "../../../constants/path";
 import DeleteDialog from "../Dialog/delete";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { validateStatus } from "../../../utils/api";
-
-const getCategoryList = () => {
-  return api.get("v1/category");
-};
-
-const getManufacturerList = () => {
-  return api.get("v1/manufacturer");
-};
+import { getCategoryList } from "../../../service/https/category";
 
 const ProductList = () => {
   const { page, pageSize, keyword, filters, setMultiple } = useQueryState();
@@ -56,7 +52,7 @@ const ProductList = () => {
       {
         onSuccess: (response) => {
           if (validateStatus(response.code)) {
-            toast.success("Xóa sản phẩm thành công");
+            toast.success(t("product.delete.success"));
 
             if (refreshProductList) {
               refreshProductList();
@@ -67,7 +63,7 @@ const ProductList = () => {
           }
         },
         onError: () => {
-          toast.error(t("common.hasErrorTryAgainLater"));
+          toast.error(t("common.common.hasErrorTryAgainLater"));
           handleCloseDeleteDialog();
         },
       }
@@ -81,13 +77,13 @@ const ProductList = () => {
   const productList = productData?.data?.products || [];
 
   const headers = [
-    "STT",
-    "ID",
-    "Tên sản phẩm",
-    "Thương hiệu",
-    "Loại sản phẩm",
-    "Giá",
-    "Hành động",
+    t("product.list.NO"),
+    t("product.list.ID"),
+    t("product.list.name"),
+    t("product.list.manufacturer"),
+    t("product.list.category"),
+    t("product.list.price"),
+    t("product.list.action"),
   ];
   const rows = productList.map((product, index) => [
     index + 1,
@@ -127,14 +123,13 @@ const ProductList = () => {
 
   return (
     <div>
-      <h2 className="text-[28px] font-medium mb-4">Danh sách sản phẩm</h2>
+      <h2 className="text-[28px] font-medium mb-4">
+        {t("product.list.title")}
+      </h2>
 
-      {/* Thanh tìm kiếm sử dụng Formik */}
       <Formik
         initialValues={{ keyword: keyword }}
         onSubmit={(values) => {
-          // setKeyword(values.keyword);
-          console.log("values", values);
           setMultiple({
             keyword: values?.keyword,
             filters: {
@@ -149,7 +144,10 @@ const ProductList = () => {
         {({ resetForm }) => (
           <Form>
             <div className="grid grid-cols-4 gap-10 items-center mt-10">
-              <FormikTextField name="keyword" label="Tìm kiếm sản phẩm" />
+              <FormikTextField
+                name="keyword"
+                label={t("product.list.searchProduct")}
+              />
               <FormikAutoComplete
                 name="category"
                 asyncRequest={getCategoryList}
@@ -158,7 +156,7 @@ const ProductList = () => {
                 }}
                 getOptionsLabel={(opt) => opt?.name}
                 isEqualValue={(val, opt) => val._id === opt._id}
-                label="Danh sách danh mục"
+                label={t("product.list.categoryList")}
                 autoFetch={true}
                 filterActive={true}
               />
@@ -171,14 +169,14 @@ const ProductList = () => {
                 }}
                 getOptionsLabel={(opt) => opt?.name}
                 isEqualValue={(val, opt) => val._id === opt._id}
-                label="Danh sách thương hiệu"
+                label={t("product.list.manufacturerList")}
                 autoFetch={true}
                 filterActive={true}
               />
 
               <div className="flex gap-4">
                 <Button type="submit" height="40px">
-                  Tìm kiếm
+                  {t("common.search")}
                 </Button>
 
                 <Button
@@ -191,7 +189,7 @@ const ProductList = () => {
                     });
                   }}
                 >
-                  Xóa tìm kiếm
+                  {t("common.deleteSearch")}
                 </Button>
               </div>
             </div>
@@ -207,7 +205,7 @@ const ProductList = () => {
         bgHoverColor="yellow"
         textHoverColor="dark"
       >
-        Thêm sản phẩm
+        {t("product.btn.addProduct")}
       </Button>
 
       <Table

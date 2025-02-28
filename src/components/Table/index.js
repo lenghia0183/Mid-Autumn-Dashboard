@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import FormikAutoComplete from "../Formik/FormikAutoComplete";
 import { Form, Formik } from "formik";
 import { useQueryState } from "../../hooks/useQueryState";
+import { useTranslation } from "react-i18next";
 
 const SkeletonRow = ({ columns }) => (
   <tr>
@@ -19,6 +20,8 @@ const Table = ({ headers, rows, className = "", isLoading = false }) => {
     { value: 15, label: "15" },
     { value: 20, label: "20" },
   ];
+
+  const { t } = useTranslation();
 
   const { pageSize, setPageSize } = useQueryState({ limit: 10 });
 
@@ -61,7 +64,7 @@ const Table = ({ headers, rows, className = "", isLoading = false }) => {
             <FormikAutoComplete
               name="row"
               options={options}
-              label="Số dòng mỗi trang"
+              label={t("common.rowPerPage")}
               labelWidth="140px"
               labelClassName="font-normal text-base"
               className="mt-10"
