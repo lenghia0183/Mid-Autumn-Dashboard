@@ -186,5 +186,56 @@
       "images": "Danh sách hình ảnh",
       "description": "Mô tả sản phẩm:"
     }
+  },
+
+  "category": {
+    "btn": {
+      "addCategory": "Thêm thể loại"
+    },
+
+    "list": {
+      "title": "Danh sách thể loại",
+      "NO": "STT",
+      "ID": "Mã thể loại",
+      "name": "Tên thể loại",
+      "action": "Hành động",
+      "searchCategory": "Tìm kiếm sản phẩm"
+    },
+
+    "create": {
+      "title": "Thêm thể loại",
+      "name": "Tên thể loại:",
+      "code": "Mã thể loại:",
+      "images": "Danh sách hình ảnh",
+      "success": "Tạo thể loại thành công"
+    },
+
+    "detail": {
+      "title": "Chi tiết thể loại",
+
+      "ID": "ID thể loại:",
+      "name": "Tên thể loại:",
+
+      "images": "Danh sách hình ảnh"
+    },
+
+    "delete": {
+      "success": "Xóa thể loại thành công"
+    },
+
+    "deleteDialog": {
+      "title": "Xóa thể loại",
+      "content": "Bạn có chắc muốn xóa thể loại này?",
+      "ID": "ID thể loại:",
+      "name": "Tên thể loại:"
+    },
+    "edit": {
+      "title": "Chỉnh sửa thể loại",
+      "success": "Chỉnh sửa thể loại thành công",
+      "ID": "ID thể loại:",
+      "name": "Tên thể loại:",
+
+      "images": "Danh sách hình ảnh"
+    }
   }
 }

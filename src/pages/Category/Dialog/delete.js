@@ -7,31 +7,30 @@ import formatCurrency from "../../../utils/formatCurrency";
 const DeleteDialog = ({
   isOpen,
   onCancel,
-  product,
-  handleSubmitDeleteProduct,
+  category,
+  handleSubmitDeleteCategory,
 }) => {
   const { t } = useTranslation();
   return (
     <>
       <Dialog
         open={isOpen}
-        title={t("product.deleteDialog.title")}
+        title={t("category.deleteDialog.title")}
         onSubmit={() => {
-          handleSubmitDeleteProduct();
+          handleSubmitDeleteCategory();
         }}
         submitLabel={t("common.confirm")}
         cancelLabel={t("common.cancel")}
         onCancel={onCancel}
       >
-        <p className="my-3">{t("product.deleteDialog.content")}</p>
-        <LabelValue label={t("product.deleteDialog.ID")} value={product?._id} />
+        <p className="my-3">{t("category.deleteDialog.content")}</p>
         <LabelValue
-          label={t("product.deleteDialog.name")}
-          value={product?.name}
+          label={t("category.deleteDialog.ID")}
+          value={category?._id}
         />
         <LabelValue
-          label={t("product.deleteDialog.price")}
-          value={formatCurrency(product?.price)}
+          label={t("category.deleteDialog.name")}
+          value={category?.name}
         />
       </Dialog>
     </>

@@ -19,8 +19,8 @@ import IconButton from "../../../components/IconButton";
 import Table from "../../../components/Table";
 import Pagination from "../../../components/Pagination";
 import FormikTextField from "../../../components/Formik/FormikTextField";
-import FormikAutoComplete from "../../../components/Formik/FormikAutoComplete";
 import DeleteDialog from "../Dialog/delete";
+import { useGetCategory } from "./../../../service/https/category";
 
 const CategoryList = () => {
   const { page, pageSize, keyword, filters, setMultiple } = useQueryState();
@@ -29,22 +29,20 @@ const CategoryList = () => {
   const [selectedItem, setSelectedItem] = useState();
 
   const {
-    data: productData,
-    mutate: refreshProductList,
-    isLoading: isGettingProductList,
-    isValidating: isValidatingProductList,
-  } = useGetProduct({
+    data: categoryData,
+    mutate: refreshCategoryList,
+    isLoading: isGettingCategoryList,
+    isValidating: isValidatingCategoryList,
+  } = useGetCategory({
     page,
     limit: pageSize,
     keyword,
-    categoryId: filters.categoryId,
-    manufacturerId: filters.manufacturerId,
   });
 
-  const { trigger: handleDeleteProduct } = useDeleteProduct();
+  const { trigger: handleDeleteCategory } = useDeleteProduct();
 
   useEffect(() => {
-    refreshProductList();
+    refreshCategoryList();
   }, [page, pageSize, keyword, filters]);
 
   const handleCloseDeleteDialog = () => {
@@ -52,14 +50,14 @@ const CategoryList = () => {
     setSelectedItem(null);
   };
 
-  const handleSubmitDeleteProduct = () => {
-    handleDeleteProduct(
+  const handleSubmitDeleteCategory = () => {
+    handleDeleteCategory(
       { _id: selectedItem?._id },
       {
         onSuccess: (response) => {
           if (validateStatus(response.code)) {
-            toast.success(t("product.delete.success"));
-            refreshProductList();
+            toast.success(t("category.delete.success"));
+            refreshCategoryList();
             handleCloseDeleteDialog();
           } else {
             toast.error(response.message);
@@ -73,30 +71,25 @@ const CategoryList = () => {
     );
   };
 
-  const productList = productData?.data?.products || [];
+  const categoryList = categoryData?.data?.categories || [];
   const headers = [
-    t("product.list.NO"),
-    t("product.list.ID"),
-    t("product.list.name"),
-    t("product.list.manufacturer"),
-    t("product.list.category"),
-    t("product.list.price"),
-    t("product.list.action"),
+    t("category.list.NO"),
+    t("category.list.ID"),
+    t("category.list.name"),
+    t("category.list.action"),
   ];
 
-  const rows = productList.map((product, index) => [
+  const rows = categoryList.map((category, index) => [
     index + 1,
     <Button
-      to={PATH.PRODUCT_DETAIL.replace(":productId", product._id)}
+      to={PATH.CATEGORY_DETAIL.replace(":categoryId", category._id)}
       size="zeroPadding"
       className="m-auto hover:underline"
     >
-      {product._id}
+      {category._id}
     </Button>,
-    product.name,
-    product.manufacturerId.name,
-    product.categoryId.name,
-    formatCurrency(product.price),
+    category.name,
+
     <div className="flex items-center gap-2 justify-center">
       <IconButton
         iconName="bin"
@@ -104,18 +97,18 @@ const CategoryList = () => {
         textHoverColor="blue"
         onClick={() => {
           setIsOpenDeleteDialog(true);
-          setSelectedItem(product);
+          setSelectedItem(category);
         }}
       />
       <IconButton
         iconName="edit"
         textColor="gray-500"
-        to={PATH.PRODUCT_EDIT.replace(":productId", product._id)}
+        to={PATH.CATEGORY_EDIT.replace(":categoryId", category._id)}
       />
       <IconButton
         iconName="eye"
         textColor="gray-500"
-        to={PATH.PRODUCT_DETAIL.replace(":productId", product._id)}
+        to={PATH.CATEGORY_DETAIL.replace(":categoryId", category._id)}
       />
     </div>,
   ]);
@@ -123,7 +116,7 @@ const CategoryList = () => {
   return (
     <div>
       <h2 className="text-[28px] font-medium mb-4">
-        {t("product.list.title")}
+        {t("category.list.title")}
       </h2>
       <Formik
         initialValues={{ keyword }}
@@ -144,28 +137,9 @@ const CategoryList = () => {
             <div className="grid grid-cols-4 gap-10 items-center mt-10">
               <FormikTextField
                 name="keyword"
-                label={t("product.list.searchProduct")}
+                label={t("category.list.searchCategory")}
               />
-              <FormikAutoComplete
-                name="category"
-                asyncRequest={getCategoryList}
-                asyncRequestHelper={(res) => res.data.categories}
-                getOptionsLabel={(opt) => opt?.name}
-                isEqualValue={(val, opt) => val._id === opt._id}
-                label={t("product.list.categoryList")}
-                autoFetch
-                filterActive
-              />
-              <FormikAutoComplete
-                name="manufacturer"
-                asyncRequest={getManufacturerList}
-                asyncRequestHelper={(res) => res.data.manufacturers}
-                getOptionsLabel={(opt) => opt?.name}
-                isEqualValue={(val, opt) => val._id === opt._id}
-                label={t("product.list.manufacturerList")}
-                autoFetch
-                filterActive
-              />
+
               <div className="flex gap-4">
                 <Button type="submit" height="40px">
                   {t("common.search")}
@@ -186,28 +160,28 @@ const CategoryList = () => {
       </Formik>
       <Button
         className="my-5"
-        to={PATH.PRODUCT_CREATE}
+        to={PATH.CATEGORY_CREATE}
         bgColor="emerald"
         textColor="white"
         bgHoverColor="yellow"
         textHoverColor="dark"
       >
-        {t("product.btn.addProduct")}
+        {t("category.btn.addCategory")}
       </Button>
       <Table
         headers={headers}
         rows={rows}
-        isLoading={isGettingProductList || isValidatingProductList}
+        isLoading={isGettingCategoryList || isValidatingCategoryList}
       />
       <Pagination
-        pageCount={productData?.data.totalPage}
+        pageCount={categoryData?.data?.totalPage}
         currentPage={page}
         className="ml-auto mt-10"
       />
       <DeleteDialog
         isOpen={isOpenDeleteDialog}
-        product={selectedItem}
-        handleSubmitDeleteProduct={handleSubmitDeleteProduct}
+        category={selectedItem}
+        handleSubmitDeleteCategory={handleSubmitDeleteCategory}
         onCancel={handleCloseDeleteDialog}
       />
     </div>
