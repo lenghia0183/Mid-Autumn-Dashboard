@@ -22,6 +22,35 @@ export const useDeleteCategory = (config) => {
   return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
 };
 
+export const useGetCategoryDetail = (categoryId, config) => {
+  const url = `v1/category/${categoryId}`;
+  const fetcher = async (url) => {
+    const response = await api.get(url);
+    return response.data;
+  };
+
+  return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
+};
+
+export const useUpdateCategory = (config) => {
+  const url = `v1/category`;
+
+  const fetcher = (url, { arg }) => {
+    const formData = new FormData();
+
+    Object.entries(arg.body).forEach(([key, value]) =>
+      formData.append(
+        key,
+        value instanceof File ? value : JSON.stringify(value)
+      )
+    );
+
+    return api.putMultiplePart(`${url}/${arg?._id}`, formData);
+  };
+
+  return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
+};
+
 export const getCategoryList = () => {
   return api.get("v1/category");
 };

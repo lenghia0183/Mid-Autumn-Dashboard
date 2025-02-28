@@ -13,7 +13,6 @@ import Icon from "../../../components/Icon";
 import { PATH } from "../../../constants/path";
 import FormikTextField from "../../../components/Formik/FormikTextField";
 import FormikAutoComplete from "../../../components/Formik/FormikAutoComplete";
-import { api } from "../../../service/api";
 import FormikTextArea from "./../../../components/Formik/FormikTextArea";
 import { validateSchema } from "./schema";
 import { useTranslation } from "react-i18next";
@@ -25,14 +24,21 @@ import { useState } from "react";
 import { validateStatus } from "../../../utils/api";
 import { toast } from "react-toastify";
 import DeleteDialog from "../Dialog/delete";
-import { getCategoryList } from "../../../service/https/category";
+import {
+  getCategoryList,
+  useDeleteCategory,
+  useGetCategoryDetail,
+  useUpdateCategory,
+} from "../../../service/https/category";
 
 const CategoryEdit = () => {
   const params = useParams();
 
   const { t } = useTranslation();
 
-  const { data: productDetail } = useGetProductDetail(params.productId);
+  const { data: categoryDetail } = useGetCategoryDetail(params.categoryId);
+
+  console.log("categoryDetail", categoryDetail);
 
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 
@@ -42,16 +48,16 @@ const CategoryEdit = () => {
     setIsOpenDeleteDialog(false);
   };
 
-  const { trigger: handleDeleteProduct } = useDeleteProduct();
+  const { trigger: handleDeleteCategory } = useDeleteCategory();
 
   const handleSubmitDeleteProduct = () => {
-    handleDeleteProduct(
-      { _id: params.productId },
+    handleDeleteCategory(
+      { _id: params.categoryId },
       {
         onSuccess: (response) => {
           if (validateStatus(response.code)) {
-            toast.success(t("product.delete.success"));
-            navigate(PATH.PRODUCT_LIST, { replace: true });
+            toast.success(t("category.delete.success"));
+            navigate(PATH.CATEGORY_LIST, { replace: true });
             handleCloseDeleteDialog();
           } else {
             toast.error(response.message);
@@ -65,12 +71,12 @@ const CategoryEdit = () => {
     );
   };
 
-  const { trigger: handleUpdateProduct } = useUpdateProduct();
+  const { trigger: handleUpdateCategory } = useUpdateCategory();
 
   return (
     <div>
       <h2 className="text-[28px] font-medium mb-4">
-        {t("product.edit.title")}
+        {t("category.edit.title")}
       </h2>
       <div className="flex gap-3 justify-between w-[90%] my-5">
         <Button
@@ -80,7 +86,7 @@ const CategoryEdit = () => {
           bgHoverColor="blue-200"
           textHoverColor="blue"
           borderHoverColor="blue"
-          to={PATH.PRODUCT_LIST}
+          to={PATH.CATEGORY_LIST}
         >
           {t("common.backToList")}
         </Button>
@@ -99,7 +105,7 @@ const CategoryEdit = () => {
           <Button
             variant="outlined"
             startIcon={<Icon name="eye" size={1.5} />}
-            to={PATH.PRODUCT_DETAIL.replace(":productId", params.productId)}
+            to={PATH.CATEGORY_DETAIL.replace(":categoryId", params.categoryId)}
           >
             {t("common.showDetail")}
           </Button>
@@ -107,35 +113,29 @@ const CategoryEdit = () => {
       </div>
       <Formik
         initialValues={{
-          _id: productDetail?._id,
-          name: productDetail?.name,
-          code: productDetail?.code,
-          price: productDetail?.price,
-          manufacturerId: productDetail?.manufacturerId,
-          categoryId: productDetail?.categoryId,
-          description: productDetail?.description,
+          _id: categoryDetail?._id,
+          name: categoryDetail?.name,
         }}
         validationSchema={validateSchema(t)}
         onSubmit={(values) => {
           console.log("values", values);
-          handleUpdateProduct(
+          handleUpdateCategory(
             {
               _id: values?._id,
               body: {
                 name: values?.name,
-                code: values?.code,
-                price: values?.price,
-                manufacturerId: values?.manufacturerId,
-                categoryId: values?.categoryId,
-                description: values?.description,
+                image: values?.image,
               },
             },
             {
               onSuccess: (response) => {
                 if (validateStatus(response.code)) {
-                  toast.success(t("product.edit.success"));
+                  toast.success(t("category.edit.success"));
                   navigate(
-                    PATH.PRODUCT_DETAIL.replace(":productId", params.productId)
+                    PATH.CATEGORY_DETAIL.replace(
+                      ":categoryId",
+                      params.categoryId
+                    )
                   );
                 } else {
                   toast.error(response.message);
@@ -155,7 +155,7 @@ const CategoryEdit = () => {
               <div className="grid grid-cols-2 gap-5">
                 <FormikTextField
                   name="_id"
-                  label={t("product.edit.ID")}
+                  label={t("category.edit.ID")}
                   vertical={false}
                   required
                   labelWidth="150px"
@@ -165,7 +165,7 @@ const CategoryEdit = () => {
 
                 <FormikTextField
                   name="name"
-                  label={t("product.edit.name")}
+                  label={t("category.edit.name")}
                   vertical={false}
                   required
                   labelWidth="150px"
@@ -173,76 +173,6 @@ const CategoryEdit = () => {
                   inputProps={{
                     maxLength: TEXTFIELD_REQUIRED_LENGTH.MAX_50,
                   }}
-                />
-
-                <FormikTextField
-                  name="code"
-                  label={t("product.edit.code")}
-                  vertical={false}
-                  required
-                  labelWidth="150px"
-                  width="80%"
-                  inputProps={{
-                    maxLength: TEXTFIELD_REQUIRED_LENGTH.MAX_50,
-                  }}
-                />
-                <FormikTextField
-                  name="price"
-                  label={t("product.edit.price")}
-                  vertical={false}
-                  required
-                  labelWidth="150px"
-                  width="80%"
-                  allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
-                  inputProps={{
-                    maxLength: TEXTFIELD_REQUIRED_LENGTH.MAX_50,
-                  }}
-                />
-                <FormikAutoComplete
-                  name="categoryId"
-                  asyncRequest={getCategoryList}
-                  asyncRequestHelper={(res) => {
-                    return res.data.categories;
-                  }}
-                  getOptionsLabel={(opt) => opt?.name}
-                  isEqualValue={(val, opt) => val._id === opt._id}
-                  label={t("product.edit.category")}
-                  autoFetch={true}
-                  filterActive={true}
-                  labelWidth="150px"
-                  width="80%"
-                  vertical={false}
-                  required
-                />
-
-                <FormikAutoComplete
-                  name="manufacturerId"
-                  asyncRequest={getManufacturerList}
-                  asyncRequestHelper={(res) => {
-                    return res.data.manufacturers;
-                  }}
-                  getOptionsLabel={(opt) => opt?.name}
-                  isEqualValue={(val, opt) => val._id === opt._id}
-                  label={t("product.edit.manufacturer")}
-                  autoFetch={true}
-                  filterActive={true}
-                  labelWidth="150px"
-                  width="80%"
-                  vertical={false}
-                  required
-                />
-
-                <FormikTextArea
-                  name="description"
-                  label={t("product.edit.description")}
-                  className="col-span-2"
-                  labelWidth="150px"
-                  vertical={false}
-                  width="90.5%"
-                  inputProps={{
-                    maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON,
-                  }}
-                  required
                 />
 
                 <div className="col-span-2 mt-4 flex gap-3 justify-end w-[90%]">
@@ -263,21 +193,17 @@ const CategoryEdit = () => {
                 </div>
 
                 <h2 className="col-span-2 text-xl mt-3 font-medium">
-                  {t("product.edit.images")}
+                  {t("category.edit.images")}
                 </h2>
 
-                {productDetail?.images?.length > 0 && (
-                  <div className="grid grid-cols-3 gap-4 mt-4">
-                    {productDetail?.images?.map((image, index) => (
-                      <Image
-                        key={index}
-                        src={image}
-                        alt={`Hình ${index + 1}`}
-                        className="w-full rounded-md shadow-md transition-transform transform hover:scale-105"
-                      />
-                    ))}
-                  </div>
-                )}
+                <div className="grid grid-cols-3 gap-4 mt-4">
+                  <Image
+                    key={categoryDetail._id}
+                    src={categoryDetail.image}
+                    alt={categoryDetail.name}
+                    className="w-full rounded-md shadow-md transition-transform transform hover:scale-105"
+                  />
+                </div>
               </div>
             </Form>
           );
@@ -285,7 +211,7 @@ const CategoryEdit = () => {
       </Formik>
       <DeleteDialog
         isOpen={isOpenDeleteDialog}
-        product={productDetail}
+        category={categoryDetail}
         handleSubmitDeleteProduct={handleSubmitDeleteProduct}
         onCancel={handleCloseDeleteDialog}
       />
