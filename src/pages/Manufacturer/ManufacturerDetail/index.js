@@ -1,7 +1,12 @@
 import { Form, Formik } from "formik";
 import LabelValue from "./../../../components/LabelValue/index";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDeleteProduct, useGetProductDetail } from "../../../service/https";
+import {
+  useDeleteManufacturer,
+  useDeleteProduct,
+  useGetManufacturerDetail,
+  useGetProductDetail,
+} from "../../../service/https";
 import formatCurrency from "./../../../utils/formatCurrency";
 import Image from "../../../components/Image";
 import Button from "../../../components/Button";
@@ -12,19 +17,17 @@ import { validateStatus } from "../../../utils/api";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import DeleteDialog from "../Dialog/delete";
-import {
-  useDeleteCategory,
-  useGetCategoryDetail,
-} from "../../../service/https/category";
 
 const ManufacturerDetail = () => {
   const params = useParams();
 
-  const { data: categoryDetail } = useGetCategoryDetail(params.categoryId);
+  const { data: manufacturerDetail } = useGetManufacturerDetail(
+    params.manufacturerId
+  );
 
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 
-  console.log("categoryDetail", categoryDetail);
+  console.log("manufacturerDetail", manufacturerDetail);
 
   const { t } = useTranslation();
 
@@ -34,16 +37,16 @@ const ManufacturerDetail = () => {
     setIsOpenDeleteDialog(false);
   };
 
-  const { trigger: handleDeleteCategory } = useDeleteCategory();
+  const { trigger: handleDeleteManufacturer } = useDeleteManufacturer();
 
-  const handleSubmitDeleteCategory = () => {
-    handleDeleteCategory(
-      { _id: params.categoryId },
+  const handleSubmitDeleteManufacturer = () => {
+    handleDeleteManufacturer(
+      { _id: params.manufacturerId },
       {
         onSuccess: (response) => {
           if (validateStatus(response.code)) {
-            toast.success(t("product.delete.success"));
-            navigate(PATH.CATEGORY_LIST, { replace: true });
+            toast.success(t("manufacturer.delete.success"));
+            navigate(PATH.MANUFACTURER_LIST, { replace: true });
             handleCloseDeleteDialog();
           } else {
             toast.error(response.message);
@@ -60,7 +63,7 @@ const ManufacturerDetail = () => {
   return (
     <div>
       <h2 className="text-[28px] font-medium mb-4">
-        {t("product.detail.title")}
+        {t("manufacturer.detail.title")}
       </h2>
       <div className="flex gap-3 justify-between w-[90%] my-5">
         <Button
@@ -70,7 +73,7 @@ const ManufacturerDetail = () => {
           bgHoverColor="blue-200"
           textHoverColor="blue"
           borderHoverColor="blue"
-          to={PATH.CATEGORY_LIST}
+          to={PATH.MANUFACTURER_LIST}
         >
           {t("common.backToList")}
         </Button>
@@ -89,7 +92,10 @@ const ManufacturerDetail = () => {
           <Button
             variant="outlined"
             startIcon={<Icon name="edit" size={1.5} />}
-            to={PATH.CATEGORY_EDIT.replace(":categoryId", params.categoryId)}
+            to={PATH.MANUFACTURER_EDIT.replace(
+              ":categoryId",
+              params.manufacturerId
+            )}
           >
             {t("common.edit")}
           </Button>
@@ -100,34 +106,21 @@ const ManufacturerDetail = () => {
           <div className="grid grid-cols-2 gap-3">
             <LabelValue
               labelWidth="150px"
-              label={t("product.detail.ID")}
-              value={categoryDetail?._id}
+              label={t("manufacturer.detail.ID")}
+              value={manufacturerDetail?._id}
             />
             <LabelValue
               labelWidth="150px"
-              label={t("product.detail.name")}
-              value={categoryDetail?.name}
+              label={t("manufacturer.detail.name")}
+              value={manufacturerDetail?.name}
             />
-
-            <h2 className="col-span-2 text-xl mt-3 font-medium">
-              {t("product.detail.images")}
-            </h2>
-
-            <div className="grid grid-cols-3 gap-4 mt-4">
-              <Image
-                key={categoryDetail?._id}
-                src={categoryDetail?.image}
-                alt={categoryDetail?.name}
-                className="w-full rounded-md shadow-md transition-transform transform hover:scale-105"
-              />
-            </div>
           </div>
         </Form>
       </Formik>
       <DeleteDialog
         isOpen={isOpenDeleteDialog}
-        category={categoryDetail}
-        handleSubmitDeleteCategory={handleSubmitDeleteCategory}
+        manufacturer={manufacturerDetail}
+        handleSubmitDeleteManufacturer={handleSubmitDeleteManufacturer}
         onCancel={handleCloseDeleteDialog}
       />
     </div>

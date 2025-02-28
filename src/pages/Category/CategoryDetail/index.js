@@ -42,7 +42,7 @@ const CategoryDetail = () => {
       {
         onSuccess: (response) => {
           if (validateStatus(response.code)) {
-            toast.success(t("product.delete.success"));
+            toast.success(t("category.delete.success"));
             navigate(PATH.CATEGORY_LIST, { replace: true });
             handleCloseDeleteDialog();
           } else {
@@ -60,7 +60,7 @@ const CategoryDetail = () => {
   return (
     <div>
       <h2 className="text-[28px] font-medium mb-4">
-        {t("product.detail.title")}
+        {t("category.detail.title")}
       </h2>
       <div className="flex gap-3 justify-between w-[90%] my-5">
         <Button
@@ -100,17 +100,17 @@ const CategoryDetail = () => {
           <div className="grid grid-cols-2 gap-3">
             <LabelValue
               labelWidth="150px"
-              label={t("product.detail.ID")}
+              label={t("category.detail.ID")}
               value={categoryDetail?._id}
             />
             <LabelValue
               labelWidth="150px"
-              label={t("product.detail.name")}
+              label={t("category.detail.name")}
               value={categoryDetail?.name}
             />
 
             <h2 className="col-span-2 text-xl mt-3 font-medium">
-              {t("product.detail.images")}
+              {t("category.detail.images")}
             </h2>
 
             <div className="grid grid-cols-3 gap-4 mt-4">

@@ -25,3 +25,13 @@ export const useDeleteManufacturer = (config) => {
 export const getManufacturerList = () => {
   return api.get("v1/manufacturer");
 };
+
+export const useGetManufacturerDetail = (categoryId, config) => {
+  const url = `v1/manufacturer/${categoryId}`;
+  const fetcher = async (url) => {
+    const response = await api.get(url);
+    return response.data;
+  };
+
+  return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
+};
