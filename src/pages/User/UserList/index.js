@@ -89,7 +89,7 @@ const UserList = () => {
   const rows = userList.map((user, index) => [
     index + 1,
     <Button
-      to={PATH.USER.replace(":userId", user?._id)}
+      to={PATH.USER_DETAIL.replace(":userId", user?._id)}
       size="zeroPadding"
       className="m-auto hover:underline"
     >
@@ -123,7 +123,7 @@ const UserList = () => {
       <IconButton
         iconName="eye"
         textColor="gray-500"
-        to={PATH.USER.replace(":userId", user?._id)}
+        to={PATH.USER_DETAIL.replace(":userId", user?._id)}
       />
     </div>,
   ]);

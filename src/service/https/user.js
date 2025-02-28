@@ -41,3 +41,22 @@ export const useGetUser = (filter, config) => {
 
   return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
 };
+
+export const useGetUserDetail = (userId, config) => {
+  const url = `v1/user/${userId}`;
+  const fetcher = async (url) => {
+    const response = await api.get(url);
+    return response.data;
+  };
+
+  return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
+};
+
+export const useDeleteUser = (config) => {
+  const fetcher = async (url, { arg }) => {
+    return api.delete(`${url}/${arg?._id}`);
+  };
+
+  const url = "v1/user";
+  return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
+};

@@ -12,11 +12,12 @@ import { validateStatus } from "../../../utils/api";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import DeleteDialog from "../Dialog/delete";
+import { useDeleteUser, useGetUserDetail } from "../../../service/https/user";
 
 const UserDetail = () => {
   const params = useParams();
 
-  const { data: productDetail } = useGetProductDetail(params.productId);
+  const { data: userDetail } = useGetUserDetail(params.userId);
 
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 
@@ -28,16 +29,16 @@ const UserDetail = () => {
     setIsOpenDeleteDialog(false);
   };
 
-  const { trigger: handleDeleteProduct } = useDeleteProduct();
+  const { trigger: handleDeleteUser } = useDeleteUser();
 
-  const handleSubmitDeleteProduct = () => {
-    handleDeleteProduct(
-      { _id: params.productId },
+  const handleSubmitDeleteUser = () => {
+    handleDeleteUser(
+      { _id: params.userId },
       {
         onSuccess: (response) => {
           if (validateStatus(response.code)) {
-            toast.success(t("product.delete.success"));
-            navigate(PATH.PRODUCT_LIST, { replace: true });
+            toast.success(t("user.delete.success"));
+            navigate(PATH.USER_LIST, { replace: true });
             handleCloseDeleteDialog();
           } else {
             toast.error(response.message);
@@ -53,9 +54,7 @@ const UserDetail = () => {
 
   return (
     <div>
-      <h2 className="text-[28px] font-medium mb-4">
-        {t("product.detail.title")}
-      </h2>
+      <h2 className="text-[28px] font-medium mb-4">{t("user.detail.title")}</h2>
       <div className="flex gap-3 justify-between w-[90%] my-5">
         <Button
           variant="outlined"
@@ -64,7 +63,7 @@ const UserDetail = () => {
           bgHoverColor="blue-200"
           textHoverColor="blue"
           borderHoverColor="blue"
-          to={PATH.PRODUCT_LIST}
+          to={PATH.USER_LIST}
         >
           {t("common.backToList")}
         </Button>
@@ -83,7 +82,7 @@ const UserDetail = () => {
           <Button
             variant="outlined"
             startIcon={<Icon name="edit" size={1.5} />}
-            to={PATH.PRODUCT_EDIT.replace(":productId", params.productId)}
+            to={PATH.USER_EDIT.replace(":userId", params.userId)}
           >
             {t("common.edit")}
           </Button>
@@ -94,65 +93,51 @@ const UserDetail = () => {
           <div className="grid grid-cols-2 gap-3">
             <LabelValue
               labelWidth="150px"
-              label={t("product.detail.ID")}
-              value={productDetail?._id}
+              label={t("user.detail.ID")}
+              value={userDetail?._id}
             />
             <LabelValue
               labelWidth="150px"
-              label={t("product.detail.name")}
-              value={productDetail?.name}
+              label={t("user.detail.name")}
+              value={userDetail?.fullname}
             />
             <LabelValue
               labelWidth="150px"
-              label={t("product.detail.code")}
-              value={productDetail?.code}
+              label={t("user.detail.email")}
+              value={userDetail?.email}
             />
             <LabelValue
               labelWidth="150px"
-              label={t("product.detail.price")}
-              value={formatCurrency(productDetail?.price)}
+              label={t("user.detail.phone")}
+              value={formatCurrency(userDetail?.phone)}
             />
             <LabelValue
               labelWidth="150px"
-              label={t("product.detail.manufacturer")}
-              value={productDetail?.manufacturerId?.name}
-            />
-            <LabelValue
-              labelWidth="150px"
-              label={t("product.detail.category")}
-              value={productDetail?.categoryId?.name}
-            />
-
-            <LabelValue
-              labelWidth="150px"
-              className="col-span-2"
-              label={t("product.detail.description")}
-              value={productDetail?.description}
+              label={t("user.detail.lockedStatus")}
+              value={
+                userDetail?.isLocked ? t("common.locked") : t("common.unLocked")
+              }
             />
 
             <h2 className="col-span-2 text-xl mt-3 font-medium">
-              {t("product.detail.images")}
+              {t("user.detail.images")}
             </h2>
 
-            {productDetail?.images?.length > 0 && (
-              <div className="grid grid-cols-3 gap-4 mt-4">
-                {productDetail?.images?.map((image, index) => (
-                  <Image
-                    key={index}
-                    src={image}
-                    alt={`Hình ${index + 1}`}
-                    className="w-full rounded-md shadow-md transition-transform transform hover:scale-105"
-                  />
-                ))}
-              </div>
-            )}
+            <div className="grid grid-cols-3 gap-4 mt-4">
+              <Image
+                key={userDetail?._id}
+                src={userDetail?.avatar}
+                alt={userDetail?.fullname}
+                className="w-full rounded-md shadow-md transition-transform transform hover:scale-105"
+              />
+            </div>
           </div>
         </Form>
       </Formik>
       <DeleteDialog
         isOpen={isOpenDeleteDialog}
-        product={productDetail}
-        handleSubmitDeleteProduct={handleSubmitDeleteProduct}
+        user={userDetail}
+        handleSubmitDeleteUser={handleSubmitDeleteUser}
         onCancel={handleCloseDeleteDialog}
       />
     </div>

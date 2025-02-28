@@ -11,6 +11,7 @@ const CheckBox = ({
   className,
   labelClassName,
   borderColor = "dark",
+  disabled = false,
 }) => {
   const [isChecked, setIsChecked] = useState(checked);
 
@@ -29,7 +30,13 @@ const CheckBox = ({
   const { borderColor: newBorderColor } = useColorClasses({ borderColor });
 
   return (
-    <div className={clsx("flex items-center text-lg", className)}>
+    <div
+      className={clsx(
+        "flex items-center text-lg",
+        { "opacity-20 pointer-events-none": disabled },
+        className
+      )}
+    >
       <label className="flex items-center cursor-pointer">
         <input
           type="checkbox"
