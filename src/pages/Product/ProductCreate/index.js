@@ -97,7 +97,7 @@ const ProductCreate = () => {
                 <FormikTextField
                   name="name"
                   label={t("product.create.name")}
-                  orientation="horizontal"
+                  vertical={false}
                   required
                   labelWidth="150px"
                   width="80%"
@@ -109,7 +109,7 @@ const ProductCreate = () => {
                 <FormikTextField
                   name="code"
                   label={t("product.create.code")}
-                  orientation="horizontal"
+                  vertical={false}
                   required
                   labelWidth="150px"
                   width="80%"
@@ -120,7 +120,7 @@ const ProductCreate = () => {
                 <FormikTextField
                   name="price"
                   label={t("product.create.price")}
-                  orientation="horizontal"
+                  vertical={false}
                   required
                   labelWidth="150px"
                   width="80%"
@@ -168,7 +168,7 @@ const ProductCreate = () => {
                   label={t("product.create.description")}
                   className="col-span-2"
                   labelWidth="150px"
-                  orientation="horizontal"
+                  vertical={false}
                   width="90.5%"
                   inputProps={{
                     maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON,

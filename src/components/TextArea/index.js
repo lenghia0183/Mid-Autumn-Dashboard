@@ -2,7 +2,7 @@ import React, { forwardRef, useId, useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import useResponsiveStyle from "../../hooks/useResponsiveStyle";
-import Icon from "../Icon"; // Giả sử bạn có một component Icon để render biểu tượng
+import Icon from "../Icon";
 
 const TextField = forwardRef(
   (
@@ -29,7 +29,7 @@ const TextField = forwardRef(
       onBlur = () => {},
       required = false,
       rows = 4,
-      orientation = "vertical",
+      vertical = true,
     },
     inputRef
   ) => {
@@ -237,7 +237,7 @@ const TextField = forwardRef(
       </div>
     );
 
-    return orientation === "vertical" ? verticalInput : horizontalInput;
+    return vertical ? verticalInput : horizontalInput;
   }
 );
 

@@ -155,7 +155,7 @@ const ProductEdit = () => {
                 <FormikTextField
                   name="_id"
                   label={t("product.edit.ID")}
-                  orientation="horizontal"
+                  vertical={false}
                   required
                   labelWidth="150px"
                   width="80%"
@@ -165,7 +165,7 @@ const ProductEdit = () => {
                 <FormikTextField
                   name="name"
                   label={t("product.edit.name")}
-                  orientation="horizontal"
+                  vertical={false}
                   required
                   labelWidth="150px"
                   width="80%"
@@ -177,7 +177,7 @@ const ProductEdit = () => {
                 <FormikTextField
                   name="code"
                   label={t("product.edit.code")}
-                  orientation="horizontal"
+                  vertical={false}
                   required
                   labelWidth="150px"
                   width="80%"
@@ -188,7 +188,7 @@ const ProductEdit = () => {
                 <FormikTextField
                   name="price"
                   label={t("product.edit.price")}
-                  orientation="horizontal"
+                  vertical={false}
                   required
                   labelWidth="150px"
                   width="80%"
@@ -236,7 +236,7 @@ const ProductEdit = () => {
                   label={t("product.edit.description")}
                   className="col-span-2"
                   labelWidth="150px"
-                  orientation="horizontal"
+                  vertical={false}
                   width="90.5%"
                   inputProps={{
                     maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON,

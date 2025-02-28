@@ -30,7 +30,7 @@ const TextField = forwardRef(
       onFocus = () => {},
       onBlur = () => {},
       required = false,
-      orientation = "vertical", // or "horizontal"
+      vertical = true,
     },
     inputRef
   ) => {
@@ -237,7 +237,7 @@ const TextField = forwardRef(
       </div>
     );
 
-    return orientation === "vertical" ? verticalInput : horizontalInput;
+    return vertical ? verticalInput : horizontalInput;
   }
 );
 
