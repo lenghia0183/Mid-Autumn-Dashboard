@@ -26,6 +26,7 @@ import UserList from "./../pages/User/UserList/index";
 import UserDetail from "./../pages/User/UserDetail/index";
 import UserEdit from "./../pages/User/UserEdit/index";
 import UserCreate from "./../pages/User/UserCreate/index";
+import Dashboard from "../pages/Dashboard";
 
 const router = createBrowserRouter([
   // main layout
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: PATH.TEST,
         element: <Test />,
+      },
+      {
+        path: PATH.DASHBOARD,
+        element: <Dashboard />,
       },
       {
         path: PATH.PRODUCT,

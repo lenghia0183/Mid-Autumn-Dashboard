@@ -4,6 +4,8 @@ export const PATH = {
   LOGIN: "/auth/login",
   TEST: "/test",
 
+  DASHBOARD: "/dashboard",
+
   PRODUCT: "/product",
   PRODUCT_LIST: "/product/list",
   PRODUCT_DETAIL: "/product/detail/:productId",
