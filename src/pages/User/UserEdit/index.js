@@ -26,15 +26,27 @@ import { validateStatus } from "../../../utils/api";
 import { toast } from "react-toastify";
 import DeleteDialog from "../Dialog/delete";
 import { getCategoryList } from "../../../service/https/category";
+import {
+  useDeleteUser,
+  useGetUserDetail,
+  useUpdateUser,
+} from "../../../service/https/user";
+import CheckBoxGroup from "../../../components/CheckBoxGroup";
+import CheckBox from "../../../components/CheckBox";
+import FormikCheckBox from "../../../components/Formik/FormikCheckBox";
+import RadioGroup from "./../../../components/RadioGroup/index";
+import FormikRadio from "./../../../components/Formik/FormikRadio";
+import FormikFileInput from "../../../components/FileInput";
 
 const UserEdit = () => {
   const params = useParams();
 
   const { t } = useTranslation();
 
-  const { data: productDetail } = useGetProductDetail(params.productId);
+  const { data: userDetail } = useGetUserDetail(params.userId);
 
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+  const [preview, setPreview] = useState(null);
 
   const navigate = useNavigate();
 
@@ -42,16 +54,16 @@ const UserEdit = () => {
     setIsOpenDeleteDialog(false);
   };
 
-  const { trigger: handleDeleteProduct } = useDeleteProduct();
+  const { trigger: handleDeleteUser } = useDeleteUser();
 
   const handleSubmitDeleteProduct = () => {
-    handleDeleteProduct(
-      { _id: params.productId },
+    handleDeleteUser(
+      { _id: params.userId },
       {
         onSuccess: (response) => {
           if (validateStatus(response.code)) {
-            toast.success(t("product.delete.success"));
-            navigate(PATH.PRODUCT_LIST, { replace: true });
+            toast.success(t("user.delete.success"));
+            navigate(PATH.USER_LIST, { replace: true });
             handleCloseDeleteDialog();
           } else {
             toast.error(response.message);
@@ -65,13 +77,13 @@ const UserEdit = () => {
     );
   };
 
-  const { trigger: handleUpdateProduct } = useUpdateProduct();
+  const { trigger: handleUpdateUser } = useUpdateUser();
+
+  console.log("userDetail", userDetail);
 
   return (
     <div>
-      <h2 className="text-[28px] font-medium mb-4">
-        {t("product.edit.title")}
-      </h2>
+      <h2 className="text-[28px] font-medium mb-4">{t("user.edit.title")}</h2>
       <div className="flex gap-3 justify-between w-[90%] my-5">
         <Button
           variant="outlined"
@@ -80,7 +92,7 @@ const UserEdit = () => {
           bgHoverColor="blue-200"
           textHoverColor="blue"
           borderHoverColor="blue"
-          to={PATH.PRODUCT_LIST}
+          to={PATH.USER_LIST}
         >
           {t("common.backToList")}
         </Button>
@@ -99,7 +111,7 @@ const UserEdit = () => {
           <Button
             variant="outlined"
             startIcon={<Icon name="eye" size={1.5} />}
-            to={PATH.PRODUCT_DETAIL.replace(":productId", params.productId)}
+            to={PATH.USER_DETAIL.replace(":userId", params.userId)}
           >
             {t("common.showDetail")}
           </Button>
@@ -107,36 +119,34 @@ const UserEdit = () => {
       </div>
       <Formik
         initialValues={{
-          _id: productDetail?._id,
-          name: productDetail?.name,
-          code: productDetail?.code,
-          price: productDetail?.price,
-          manufacturerId: productDetail?.manufacturerId,
-          categoryId: productDetail?.categoryId,
-          description: productDetail?.description,
+          _id: userDetail?._id,
+          name: userDetail?.fullname,
+          email: userDetail?.email,
+          phone: userDetail?.phone,
+          isLocked: userDetail?.isLocked,
+          role: userDetail?.role,
+          avatar: null,
         }}
         validationSchema={validateSchema(t)}
         onSubmit={(values) => {
           console.log("values", values);
-          handleUpdateProduct(
+          handleUpdateUser(
             {
               _id: values?._id,
               body: {
-                name: values?.name,
-                code: values?.code,
-                price: values?.price,
-                manufacturerId: values?.manufacturerId,
-                categoryId: values?.categoryId,
-                description: values?.description,
+                fullname: values?.name,
+                email: values?.email,
+                phone: values?.phone,
+                isLocked: values?.isLocked,
+                role: values?.role,
+                ...(values?.avatar?.[0] && { image: values.avatar[0] }),
               },
             },
             {
               onSuccess: (response) => {
                 if (validateStatus(response.code)) {
-                  toast.success(t("product.edit.success"));
-                  navigate(
-                    PATH.PRODUCT_DETAIL.replace(":productId", params.productId)
-                  );
+                  toast.success(t("user.edit.success"));
+                  navigate(PATH.USER_DETAIL.replace(":userId", params.userId));
                 } else {
                   toast.error(response.message);
                 }
@@ -155,7 +165,7 @@ const UserEdit = () => {
               <div className="grid grid-cols-2 gap-5">
                 <FormikTextField
                   name="_id"
-                  label={t("product.edit.ID")}
+                  label={t("user.edit.ID")}
                   vertical={false}
                   required
                   labelWidth="150px"
@@ -165,7 +175,7 @@ const UserEdit = () => {
 
                 <FormikTextField
                   name="name"
-                  label={t("product.edit.name")}
+                  label={t("user.edit.name")}
                   vertical={false}
                   required
                   labelWidth="150px"
@@ -176,8 +186,8 @@ const UserEdit = () => {
                 />
 
                 <FormikTextField
-                  name="code"
-                  label={t("product.edit.code")}
+                  name="email"
+                  label={t("user.edit.email")}
                   vertical={false}
                   required
                   labelWidth="150px"
@@ -186,64 +196,56 @@ const UserEdit = () => {
                     maxLength: TEXTFIELD_REQUIRED_LENGTH.MAX_50,
                   }}
                 />
+
                 <FormikTextField
-                  name="price"
-                  label={t("product.edit.price")}
+                  name="phone"
+                  label={t("user.edit.phone")}
                   vertical={false}
                   required
                   labelWidth="150px"
                   width="80%"
-                  allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
                   inputProps={{
                     maxLength: TEXTFIELD_REQUIRED_LENGTH.MAX_50,
                   }}
                 />
-                <FormikAutoComplete
-                  name="categoryId"
-                  asyncRequest={getCategoryList}
-                  asyncRequestHelper={(res) => {
-                    return res.data.categories;
-                  }}
-                  getOptionsLabel={(opt) => opt?.name}
-                  isEqualValue={(val, opt) => val._id === opt._id}
-                  label={t("product.edit.category")}
-                  autoFetch={true}
-                  filterActive={true}
-                  labelWidth="150px"
-                  width="80%"
-                  vertical={false}
-                  required
-                />
 
-                <FormikAutoComplete
-                  name="manufacturerId"
-                  asyncRequest={getManufacturerList}
-                  asyncRequestHelper={(res) => {
-                    return res.data.manufacturers;
-                  }}
-                  getOptionsLabel={(opt) => opt?.name}
-                  isEqualValue={(val, opt) => val._id === opt._id}
-                  label={t("product.edit.manufacturer")}
-                  autoFetch={true}
-                  filterActive={true}
-                  labelWidth="150px"
-                  width="80%"
+                <RadioGroup
+                  name="isLocked"
                   vertical={false}
+                  labelWidth="150px"
                   required
-                />
+                  label={t("user.edit.lockedStatus")}
+                >
+                  <FormikRadio
+                    value={true}
+                    label={t("common.locked")}
+                    vertical={false}
+                  />
+                  <FormikRadio
+                    value={false}
+                    label={t("common.unLocked")}
+                    labelWidth="150px"
+                  />
+                </RadioGroup>
 
-                <FormikTextArea
-                  name="description"
-                  label={t("product.edit.description")}
-                  className="col-span-2"
-                  labelWidth="150px"
+                <RadioGroup
+                  name="role"
                   vertical={false}
-                  width="90.5%"
-                  inputProps={{
-                    maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON,
-                  }}
+                  labelWidth="150px"
                   required
-                />
+                  label={t("user.edit.role")}
+                >
+                  <FormikRadio
+                    value={"admin"}
+                    label={t("common.admin")}
+                    vertical={false}
+                  />
+                  <FormikRadio
+                    value={"user"}
+                    label={t("common.user")}
+                    labelWidth="150px"
+                  />
+                </RadioGroup>
 
                 <div className="col-span-2 mt-4 flex gap-3 justify-end w-[90%]">
                   <Button variant="outlined" type="submit">
@@ -263,21 +265,25 @@ const UserEdit = () => {
                 </div>
 
                 <h2 className="col-span-2 text-xl mt-3 font-medium">
-                  {t("product.edit.images")}
+                  {t("user.edit.images")}
                 </h2>
 
-                {productDetail?.images?.length > 0 && (
-                  <div className="grid grid-cols-3 gap-4 mt-4">
-                    {productDetail?.images?.map((image, index) => (
-                      <Image
-                        key={index}
-                        src={image}
-                        alt={`Hình ${index + 1}`}
-                        className="w-full rounded-md shadow-md transition-transform transform hover:scale-105"
-                      />
-                    ))}
-                  </div>
-                )}
+                <FormikFileInput
+                  name="avatar"
+                  multiple={false}
+                  onPreviewsChange={(val) => {
+                    setPreview(val);
+                  }}
+                />
+
+                <div className="grid grid-cols-3 gap-4 mt-4">
+                  <Image
+                    key={userDetail?._id}
+                    src={preview?.[0]?.previewUrl || userDetail?.avatar}
+                    alt={userDetail?.fullname}
+                    className="w-full rounded-md shadow-md transition-transform transform hover:scale-105"
+                  />
+                </div>
               </div>
             </Form>
           );
@@ -285,7 +291,7 @@ const UserEdit = () => {
       </Formik>
       <DeleteDialog
         isOpen={isOpenDeleteDialog}
-        product={productDetail}
+        product={userDetail}
         handleSubmitDeleteProduct={handleSubmitDeleteProduct}
         onCancel={handleCloseDeleteDialog}
       />

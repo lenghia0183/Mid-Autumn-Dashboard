@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import clsx from "clsx";
 import { useField, useFormikContext } from "formik";
 import FormikCheckBox from "../Formik/FormikCheckBox";
+import useResponsiveStyle from "../../hooks/useResponsiveStyle";
 
 const CheckBoxGroup = ({
   name,
@@ -9,8 +10,14 @@ const CheckBoxGroup = ({
   vertical = true,
   className = "",
   disabled = false,
+  label = "",
+  labelWidth = "",
+  labelClassName = "",
+  required = false,
+  errorClassName = "",
 }) => {
   const [field, meta, helpers] = useField(name);
+  const labelWidthStyle = useResponsiveStyle(labelWidth, "w");
 
   useEffect(() => {
     if (!Array.isArray(field.value)) {
@@ -54,19 +61,56 @@ const CheckBoxGroup = ({
     });
   };
 
-  return (
-    <div>
-      <div
-        className={clsx(className, {
-          "flex flex-col space-y-2": vertical,
-          "flex space-x-4": !vertical,
-        })}
-      >
-        {renderChildren(children)}
+  const verticalCheckbox = () => {
+    return (
+      <div className={clsx("text-lg", className)}>
+        <label
+          style={{ ...labelWidthStyle }}
+          className={clsx("flex items-center", labelClassName)}
+        >
+          {required && <p className="text-red-500 mr-1">*</p>}
+          <p> {label}</p>
+        </label>
+        <div
+          className={clsx({
+            "flex flex-col space-y-2 mt-2": vertical,
+            "flex space-x-4": !vertical,
+          })}
+        >
+          {renderChildren(children)}
+        </div>
+        {error && (
+          <span className={clsx("text-red-400 text-xs", errorClassName)}>
+            {error}
+          </span>
+        )}
       </div>
-      {error && <span className="text-red-400 text-xs">{error}</span>}
-    </div>
-  );
+    );
+  };
+
+  const horizontalCheckbox = () => {
+    return (
+      <div className={clsx("flex text-lg", className)}>
+        <label
+          style={{ ...labelWidthStyle }}
+          className={clsx("flex items-center", labelClassName)}
+        >
+          {required && <p className="text-red-500 mr-1">*</p>}
+          <p> {label}</p>
+        </label>
+        <div className={clsx(className, "flex space-x-4 flex-shrink-0 ml-4")}>
+          {renderChildren(children)}
+        </div>
+        {error && (
+          <span className={clsx("text-red-400 text-xs", errorClassName)}>
+            {error}
+          </span>
+        )}
+      </div>
+    );
+  };
+
+  return vertical ? verticalCheckbox() : horizontalCheckbox();
 };
 
 CheckBoxGroup.displayName = "CheckBoxGroup";

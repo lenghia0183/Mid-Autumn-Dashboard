@@ -33,6 +33,8 @@
     "hello": "Xin chào:",
     "locked": "Khóa",
     "unLocked": "Không khóa",
+    "admin": "Admin",
+    "user": "Người dùng",
     "toast": {
       "hasErrorTryAgainLater": "Đã có lỗi xảy ra vui lòng thử lại sau"
     },
@@ -124,7 +126,8 @@
       "lockedStatus": "Trạng thái khóa",
       "verifyStatus": "Trạng thái xác thực",
       "action": "Thao tác",
-      "searchProduct": "Tìm kiếm người dùng"
+      "searchProduct": "Tìm kiếm người dùng",
+      "role": "Vai trò"
     },
 
     "create": {
@@ -147,7 +150,8 @@
       "phone": "Số điện thoại:",
       "lockedStatus": "Trạng thái khóa:",
       "verifyStatus": "Trạng thái xác thực:",
-      "images": "Danh sách hình ảnh"
+      "images": "Danh sách hình ảnh",
+      "role": "Vai trò:"
     },
 
     "delete": {
@@ -158,19 +162,19 @@
       "title": "Xóa người dùng",
       "content": "Bạn có chắc muốn xóa người dùng này?",
       "ID": "ID người dùng:",
-      "name": "Tên người dùng:"
+      "name": "Tên người dùng:",
+      "role": "Vai trò"
     },
     "edit": {
       "title": "Chỉnh sửa người dùng",
       "success": "Chỉnh sửa người dùng thành công",
       "ID": "ID người dùng:",
       "name": "Tên người dùng:",
-      "code": "Mã người dùng:",
-      "manufacturer": "Thương hiệu:",
-      "category": "Loại người dùng:",
-      "price": "Giá người dùng:",
+      "email": "Email:",
+      "phone": "Số điện thoại:",
+      "lockedStatus": "Trạng thái khóa:",
       "images": "Danh sách hình ảnh",
-      "description": "Mô tả người dùng:"
+      "role": "Vai trò:"
     }
   },
 

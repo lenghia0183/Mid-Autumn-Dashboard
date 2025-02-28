@@ -109,13 +109,23 @@ const UserDetail = () => {
             <LabelValue
               labelWidth="150px"
               label={t("user.detail.phone")}
-              value={formatCurrency(userDetail?.phone)}
+              value={userDetail?.phone}
             />
             <LabelValue
               labelWidth="150px"
               label={t("user.detail.lockedStatus")}
               value={
                 userDetail?.isLocked ? t("common.locked") : t("common.unLocked")
+              }
+            />
+
+            <LabelValue
+              labelWidth="150px"
+              label={t("user.detail.role")}
+              value={
+                userDetail?.role === "admin"
+                  ? t("common.admin")
+                  : t("common.user")
               }
             />
 

@@ -60,3 +60,22 @@ export const useDeleteUser = (config) => {
   const url = "v1/user";
   return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
 };
+
+export const useUpdateUser = (config) => {
+  const url = `v1/user`;
+
+  const fetcher = (url, { arg }) => {
+    const formData = new FormData();
+
+    Object.entries(arg.body).forEach(([key, value]) =>
+      formData.append(
+        key,
+        value instanceof File ? value : JSON.stringify(value)
+      )
+    );
+
+    return api.putMultiplePart(`${url}/${arg?._id}`, formData);
+  };
+
+  return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
+};

@@ -83,6 +83,7 @@ const UserList = () => {
     t("user.list.email"),
     t("user.list.phone"),
     t("user.list.lockedStatus"),
+    t("user.list.role"),
     t("user.list.action"),
   ];
 
@@ -104,6 +105,7 @@ const UserList = () => {
       className="justify-center"
       disabled
     />,
+    user?.role === "admin" ? t("common.admin") : t("common.user"),
 
     <div className="flex items-center gap-2 justify-center">
       <IconButton
