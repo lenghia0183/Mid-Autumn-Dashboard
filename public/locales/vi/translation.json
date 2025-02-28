@@ -53,7 +53,7 @@
     "invalidEmail": "Email không hợp lệ.",
     "invalidPhoneNumber": "Số điện thoại không hợp lệ",
     "invalidOption": "Lựa chọn không phù hợp",
-    "invalidPassword": "Mật khẩu phải có ít nhất 6 ký tự",
+    "invalidPassword": "Mật khẩu phải có ít nhất 6 ký tự tối đa 50 ký tự",
     "invalidOTP": "Mã OTP phải có đúng 6 ký tự",
     "invalidConfirmPassword": "Mật khẩu xác nhận không khớp."
   },
@@ -176,7 +176,9 @@
       "phone": "Số điện thoại:",
       "lockedStatus": "Trạng thái khóa:",
       "images": "Danh sách hình ảnh",
-      "role": "Vai trò:"
+      "role": "Vai trò:",
+      "password": "Mật khẩu",
+      "confirmPassword": "Xác nhận mật khẩu"
     }
   },
 

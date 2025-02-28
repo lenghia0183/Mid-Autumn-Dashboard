@@ -56,6 +56,7 @@ const UserCreate = () => {
           phone: "",
           role: "user",
           password: "",
+          confirmPassword: "",
           isLocked: false,
           avatar: null,
         }}

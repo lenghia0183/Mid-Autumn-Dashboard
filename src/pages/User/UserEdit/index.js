@@ -124,6 +124,8 @@ const UserEdit = () => {
           email: userDetail?.email,
           phone: userDetail?.phone,
           isLocked: userDetail?.isLocked,
+          password: "",
+          confirmPassword: "",
           role: userDetail?.role,
           avatar: null,
         }}
@@ -138,6 +140,7 @@ const UserEdit = () => {
                 email: values?.email || "",
                 phone: values?.phone || "",
                 isLocked: values?.isLocked,
+                ...(values?.password !== "" && { password: values?.password }),
                 role: values?.role,
                 ...(values?.avatar?.[0] && { image: values.avatar[0] }),
               },
@@ -202,6 +205,30 @@ const UserEdit = () => {
                   label={t("user.edit.phone")}
                   vertical={false}
                   required
+                  labelWidth="150px"
+                  width="80%"
+                  inputProps={{
+                    maxLength: TEXTFIELD_REQUIRED_LENGTH.MAX_50,
+                  }}
+                />
+
+                <FormikTextField
+                  name="password"
+                  label={t("user.edit.password")}
+                  type="password"
+                  vertical={false}
+                  labelWidth="150px"
+                  width="80%"
+                  inputProps={{
+                    maxLength: TEXTFIELD_REQUIRED_LENGTH.MAX_50,
+                  }}
+                />
+
+                <FormikTextField
+                  name="confirmPassword"
+                  label={t("user.edit.confirmPassword")}
+                  type="password"
+                  vertical={false}
                   labelWidth="150px"
                   width="80%"
                   inputProps={{
