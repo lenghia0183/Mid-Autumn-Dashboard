@@ -3,6 +3,7 @@ export const PATH = {
   AUTH: "/auth",
   LOGIN: "/auth/login",
   TEST: "/test",
+
   PRODUCT: "/product",
   PRODUCT_LIST: "/product/list",
   PRODUCT_DETAIL: "/product/detail/:productId",
@@ -14,6 +15,12 @@ export const PATH = {
   CATEGORY_DETAIL: "/category/detail/:categoryId",
   CATEGORY_EDIT: "/category/edit/:categoryId",
   CATEGORY_CREATE: "/category/create",
+
+  MANUFACTURER: "/manufacturer",
+  MANUFACTURER_LIST: "/manufacturer/list",
+  MANUFACTURER_DETAIL: "/manufacturer/detail/:manufacturerId",
+  MANUFACTURER_EDIT: "/manufacturer/edit/:manufacturerId",
+  MANUFACTURER_CREATE: "/manufacturer/create",
 };
 
 export const PAGE_TITLE = {

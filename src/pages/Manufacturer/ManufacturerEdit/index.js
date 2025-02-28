@@ -21,7 +21,7 @@ import {
   useUpdateCategory,
 } from "../../../service/https/category";
 
-const CategoryEdit = () => {
+const ManufacturerEdit = () => {
   const params = useParams();
 
   const { t } = useTranslation();
@@ -216,4 +216,4 @@ const CategoryEdit = () => {
   );
 };
 
-export default CategoryEdit;
+export default ManufacturerEdit;

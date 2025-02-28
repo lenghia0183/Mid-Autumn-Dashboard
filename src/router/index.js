@@ -18,6 +18,10 @@ import CategoryList from "../pages/Category/CategoryList";
 import CategoryDetail from "../pages/Category/CategoryDetail";
 import CategoryEdit from "../pages/Category/CategoryEdit";
 import CategoryCreate from "../pages/Category/CategoryCreate";
+import ManufacturerList from "./../pages/Manufacturer/ManufacturerList/index";
+import ManufacturerDetail from "./../pages/Manufacturer/ManufacturerDetail/index";
+import ManufacturerEdit from "./../pages/Manufacturer/ManufacturerEdit/index";
+import ManufacturerCreate from "./../pages/Manufacturer/ManufacturerCreate/index";
 
 const router = createBrowserRouter([
   // main layout
@@ -78,6 +82,32 @@ const router = createBrowserRouter([
           {
             path: PATH.CATEGORY_CREATE,
             element: <CategoryCreate />,
+            loader: checkNotLoggedIn,
+          },
+        ],
+      },
+      {
+        path: PATH.MANUFACTURER,
+        children: [
+          // manufacturer
+          {
+            path: PATH.MANUFACTURER_LIST,
+            element: <ManufacturerList />,
+            loader: checkNotLoggedIn,
+          },
+          {
+            path: PATH.MANUFACTURER_DETAIL,
+            element: <ManufacturerDetail />,
+            loader: checkNotLoggedIn,
+          },
+          {
+            path: PATH.MANUFACTURER_EDIT,
+            element: <ManufacturerEdit />,
+            loader: checkNotLoggedIn,
+          },
+          {
+            path: PATH.MANUFACTURER_CREATE,
+            element: <ManufacturerCreate />,
             loader: checkNotLoggedIn,
           },
         ],

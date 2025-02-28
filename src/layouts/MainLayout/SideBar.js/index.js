@@ -11,9 +11,11 @@ const navItems = [
   { path: PATH.DASHBOARD, icon: "key", label: "Dashboard Home" },
   { path: PATH.PRODUCT_LIST, icon: "order", label: "Danh sách sản phẩm" },
   { path: PATH.CATEGORY_LIST, icon: "eye", label: "Danh sách danh mục" },
-  { path: PATH.ANALYTICS, icon: "cart", label: "Analytics" },
-  { path: PATH.SETTINGS, icon: "edit", label: "Settings" },
-  { path: PATH.SUPPORT, icon: "heart", label: "Support" },
+  {
+    path: PATH.MANUFACTURER_LIST,
+    icon: "cart",
+    label: "Danh sách thương hiệu",
+  },
 ];
 
 const DashboardSidebar = ({ className = "" }) => {
