@@ -51,27 +51,26 @@ const FormikFileInput = ({
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files || []);
 
-    console.log("files", files);
-
     if (!files.length) return;
 
-    // Đảm bảo selectedFiles luôn là một mảng
     const existingFiles = Array.isArray(selectedFiles) ? selectedFiles : [];
 
-    let newFiles = files.filter(
-      (file) =>
-        !existingFiles.some((existingFile) => existingFile.name === file.name)
-    );
+    let newFiles;
+    if (multiple) {
+      newFiles = files.filter(
+        (file) =>
+          !existingFiles.some((existingFile) => existingFile.name === file.name)
+      );
+      newFiles = [...existingFiles, ...newFiles].slice(0, maxFiles);
+    } else {
+      newFiles = files.slice(-1);
+    }
 
-    const totalFiles = [...existingFiles, ...newFiles].slice(
-      0,
-      multiple ? maxFiles : 1
-    );
-    const validFiles = totalFiles.filter(
+    const validFiles = newFiles.filter(
       (file) => file.size <= maxSize && allowedTypes.includes(file.type)
     );
 
-    if (validFiles.length !== totalFiles.length) {
+    if (validFiles.length !== newFiles.length) {
       helpers.setError(
         "Một số file không hợp lệ (sai định dạng hoặc quá dung lượng)"
       );
