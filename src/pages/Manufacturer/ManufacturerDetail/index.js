@@ -93,7 +93,7 @@ const ManufacturerDetail = () => {
             variant="outlined"
             startIcon={<Icon name="edit" size={1.5} />}
             to={PATH.MANUFACTURER_EDIT.replace(
-              ":categoryId",
+              ":manufacturerId",
               params.manufacturerId
             )}
           >

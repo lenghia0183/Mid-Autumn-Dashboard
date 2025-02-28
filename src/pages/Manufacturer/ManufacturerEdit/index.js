@@ -20,16 +20,22 @@ import {
   useGetCategoryDetail,
   useUpdateCategory,
 } from "../../../service/https/category";
+import {
+  useDeleteManufacturer,
+  useGetManufacturerDetail,
+  useUpdateManufacturer,
+} from "../../../service/https";
 
 const ManufacturerEdit = () => {
   const params = useParams();
 
   const { t } = useTranslation();
 
-  const { data: categoryDetail } = useGetCategoryDetail(params.categoryId);
+  const { data: manufacturerDetail } = useGetManufacturerDetail(
+    params.manufacturerId
+  );
 
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
-  const [preview, setPreview] = useState(null);
 
   const navigate = useNavigate();
 
@@ -37,16 +43,16 @@ const ManufacturerEdit = () => {
     setIsOpenDeleteDialog(false);
   };
 
-  const { trigger: handleDeleteCategory } = useDeleteCategory();
+  const { trigger: handleDeleteManufacturer } = useDeleteManufacturer();
 
-  const handleSubmitDeleteCategory = () => {
-    handleDeleteCategory(
-      { _id: params.categoryId },
+  const handleSubmitDeleteManufacturer = () => {
+    handleDeleteManufacturer(
+      { _id: params.manufacturerId },
       {
         onSuccess: (response) => {
           if (validateStatus(response.code)) {
-            toast.success(t("category.delete.success"));
-            navigate(PATH.CATEGORY_LIST, { replace: true });
+            toast.success(t("manufacturer.delete.success"));
+            navigate(PATH.MANUFACTURER_LIST, { replace: true });
             handleCloseDeleteDialog();
           } else {
             toast.error(response.message);
@@ -60,12 +66,12 @@ const ManufacturerEdit = () => {
     );
   };
 
-  const { trigger: handleUpdateCategory } = useUpdateCategory();
+  const { trigger: handleUpdateManufacturer } = useUpdateManufacturer();
 
   return (
     <div>
       <h2 className="text-[28px] font-medium mb-4">
-        {t("category.edit.title")}
+        {t("manufacturer.edit.title")}
       </h2>
       <div className="flex gap-3 justify-between w-[90%] my-5">
         <Button
@@ -75,7 +81,7 @@ const ManufacturerEdit = () => {
           bgHoverColor="blue-200"
           textHoverColor="blue"
           borderHoverColor="blue"
-          to={PATH.CATEGORY_LIST}
+          to={PATH.MANUFACTURER_LIST}
         >
           {t("common.backToList")}
         </Button>
@@ -94,7 +100,10 @@ const ManufacturerEdit = () => {
           <Button
             variant="outlined"
             startIcon={<Icon name="eye" size={1.5} />}
-            to={PATH.CATEGORY_DETAIL.replace(":categoryId", params.categoryId)}
+            to={PATH.MANUFACTURER_DETAIL.replace(
+              ":manufacturerId",
+              params.manufacturerId
+            )}
           >
             {t("common.showDetail")}
           </Button>
@@ -102,13 +111,13 @@ const ManufacturerEdit = () => {
       </div>
       <Formik
         initialValues={{
-          _id: categoryDetail?._id,
-          name: categoryDetail?.name,
+          _id: manufacturerDetail?._id,
+          name: manufacturerDetail?.name,
           image: null,
         }}
         validationSchema={validateSchema(t)}
         onSubmit={(values) => {
-          handleUpdateCategory(
+          handleUpdateManufacturer(
             {
               _id: values?._id,
               body: {
@@ -119,11 +128,11 @@ const ManufacturerEdit = () => {
             {
               onSuccess: (response) => {
                 if (validateStatus(response.code)) {
-                  toast.success(t("category.edit.success"));
+                  toast.success(t("manufacturer.edit.success"));
                   navigate(
-                    PATH.CATEGORY_DETAIL.replace(
-                      ":categoryId",
-                      params.categoryId
+                    PATH.MANUFACTURER_DETAIL.replace(
+                      ":manufacturerId",
+                      params.manufacturerId
                     )
                   );
                 } else {
@@ -144,7 +153,7 @@ const ManufacturerEdit = () => {
               <div className="grid grid-cols-2 gap-5">
                 <FormikTextField
                   name="_id"
-                  label={t("category.edit.ID")}
+                  label={t("manufacturer.edit.ID")}
                   vertical={false}
                   required
                   labelWidth="150px"
@@ -154,7 +163,7 @@ const ManufacturerEdit = () => {
 
                 <FormikTextField
                   name="name"
-                  label={t("category.edit.name")}
+                  label={t("manufacturer.edit.name")}
                   vertical={false}
                   required
                   labelWidth="150px"
@@ -180,27 +189,6 @@ const ManufacturerEdit = () => {
                     {t("common.cancel")}
                   </Button>
                 </div>
-
-                <h2 className="col-span-2 text-xl mt-3 font-medium">
-                  {t("category.edit.images")}
-                </h2>
-
-                <FormikFileInput
-                  name="image"
-                  multiple={false}
-                  onPreviewsChange={(val) => {
-                    setPreview(val);
-                  }}
-                />
-
-                <div className="grid grid-cols-3 gap-4 mt-4">
-                  <Image
-                    key={categoryDetail?._id}
-                    src={preview?.[0]?.previewUrl || categoryDetail?.image}
-                    alt={categoryDetail?.name}
-                    className="w-full rounded-md shadow-md transition-transform transform hover:scale-105"
-                  />
-                </div>
               </div>
             </Form>
           );
@@ -208,8 +196,8 @@ const ManufacturerEdit = () => {
       </Formik>
       <DeleteDialog
         isOpen={isOpenDeleteDialog}
-        category={categoryDetail}
-        handleSubmitDeleteCategory={handleSubmitDeleteCategory}
+        manufacturer={manufacturerDetail}
+        handleSubmitDeleteManufacturer={handleSubmitDeleteManufacturer}
         onCancel={handleCloseDeleteDialog}
       />
     </div>

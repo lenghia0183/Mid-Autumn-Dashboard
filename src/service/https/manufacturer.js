@@ -35,3 +35,13 @@ export const useGetManufacturerDetail = (categoryId, config) => {
 
   return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
 };
+
+export const useUpdateManufacturer = (config) => {
+  const url = `v1/manufacturer`;
+
+  const fetcher = (url, { arg }) => {
+    return api.putMultiplePart(`${url}/${arg?._id}`, arg.body);
+  };
+
+  return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
+};
