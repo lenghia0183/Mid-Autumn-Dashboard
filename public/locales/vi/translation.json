@@ -199,7 +199,7 @@
       "ID": "Mã thể loại",
       "name": "Tên thể loại",
       "action": "Hành động",
-      "searchCategory": "Tìm kiếm sản phẩm"
+      "searchCategory": "Tìm kiếm thể loại"
     },
 
     "create": {
@@ -234,6 +234,57 @@
       "success": "Chỉnh sửa thể loại thành công",
       "ID": "ID thể loại:",
       "name": "Tên thể loại:",
+
+      "images": "Danh sách hình ảnh"
+    }
+  },
+
+  "manufacturer": {
+    "btn": {
+      "addManufacturer": "Thêm thương hiệu"
+    },
+
+    "list": {
+      "title": "Danh sách thương hiệu",
+      "NO": "STT",
+      "ID": "Mã thương hiệu",
+      "name": "Tên thương hiệu",
+      "action": "Hành động",
+      "searchManufacturer": "Tìm kiếm thương hiệu"
+    },
+
+    "create": {
+      "title": "Thêm thương hiệu",
+      "name": "Tên thương hiệu:",
+      "code": "Mã thương hiệu:",
+      "images": "Danh sách hình ảnh",
+      "success": "Tạo thương hiệu thành công"
+    },
+
+    "detail": {
+      "title": "Chi tiết thương hiệu",
+
+      "ID": "ID thương hiệu:",
+      "name": "Tên thương hiệu:",
+
+      "images": "Danh sách hình ảnh"
+    },
+
+    "delete": {
+      "success": "Xóa thương hiệu thành công"
+    },
+
+    "deleteDialog": {
+      "title": "Xóa thương hiệu",
+      "content": "Bạn có chắc muốn xóa thương hiệu này?",
+      "ID": "ID thương hiệu:",
+      "name": "Tên thương hiệu:"
+    },
+    "edit": {
+      "title": "Chỉnh sửa thương hiệu",
+      "success": "Chỉnh sửa thương hiệu thành công",
+      "ID": "ID thương hiệu:",
+      "name": "Tên thương hiệu:",
 
       "images": "Danh sách hình ảnh"
     }

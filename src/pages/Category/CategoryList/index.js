@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useQueryState } from "../../../hooks/useQueryState";
 import {
   getManufacturerList,
+  useDeleteManufacturer,
   useDeleteProduct,
   useGetProduct,
 } from "../../../service/https";
@@ -39,7 +40,7 @@ const CategoryList = () => {
     keyword,
   });
 
-  const { trigger: handleDeleteCategory } = useDeleteProduct();
+  const { trigger: handleDeleteCategory } = useDeleteManufacturer();
 
   useEffect(() => {
     refreshCategoryList();

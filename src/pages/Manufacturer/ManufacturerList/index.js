@@ -5,13 +5,12 @@ import { toast } from "react-toastify";
 
 import { useQueryState } from "../../../hooks/useQueryState";
 import {
-  getManufacturerList,
-  useDeleteProduct,
-  useGetProduct,
+  useDeleteManufacturer,
+  useGetManufacturer,
 } from "../../../service/https";
-import { getCategoryList } from "../../../service/https/category";
+
 import { validateStatus } from "../../../utils/api";
-import formatCurrency from "../../../utils/formatCurrency";
+
 import { PATH } from "../../../constants/path";
 
 import Button from "../../../components/Button";
@@ -20,7 +19,6 @@ import Table from "../../../components/Table";
 import Pagination from "../../../components/Pagination";
 import FormikTextField from "../../../components/Formik/FormikTextField";
 import DeleteDialog from "../Dialog/delete";
-import { useGetCategory } from "./../../../service/https/category";
 
 const ManufacturerList = () => {
   const { page, pageSize, keyword, filters, setMultiple } = useQueryState();
@@ -29,20 +27,20 @@ const ManufacturerList = () => {
   const [selectedItem, setSelectedItem] = useState();
 
   const {
-    data: categoryData,
-    mutate: refreshCategoryList,
-    isLoading: isGettingCategoryList,
-    isValidating: isValidatingCategoryList,
-  } = useGetCategory({
+    data: manufacturerData,
+    mutate: refreshManufacturerList,
+    isLoading: isGettingManufacturerList,
+    isValidating: isValidatingManufacturerList,
+  } = useGetManufacturer({
     page,
     limit: pageSize,
     keyword,
   });
 
-  const { trigger: handleDeleteCategory } = useDeleteProduct();
+  const { trigger: handleDeleteManufacturer } = useDeleteManufacturer();
 
   useEffect(() => {
-    refreshCategoryList();
+    refreshManufacturerList();
   }, [page, pageSize, keyword, filters]);
 
   const handleCloseDeleteDialog = () => {
@@ -50,14 +48,14 @@ const ManufacturerList = () => {
     setSelectedItem(null);
   };
 
-  const handleSubmitDeleteCategory = () => {
-    handleDeleteCategory(
+  const handleSubmitDeleteManufacturer = () => {
+    handleDeleteManufacturer(
       { _id: selectedItem?._id },
       {
         onSuccess: (response) => {
           if (validateStatus(response.code)) {
-            toast.success(t("category.delete.success"));
-            refreshCategoryList();
+            toast.success(t("manufacturer.delete.success"));
+            refreshManufacturerList();
             handleCloseDeleteDialog();
           } else {
             toast.error(response.message);
@@ -71,24 +69,24 @@ const ManufacturerList = () => {
     );
   };
 
-  const categoryList = categoryData?.data?.categories || [];
+  const categoryList = manufacturerData?.data?.manufacturers || [];
   const headers = [
-    t("category.list.NO"),
-    t("category.list.ID"),
-    t("category.list.name"),
-    t("category.list.action"),
+    t("manufacturer.list.NO"),
+    t("manufacturer.list.ID"),
+    t("manufacturer.list.name"),
+    t("manufacturer.list.action"),
   ];
 
-  const rows = categoryList.map((category, index) => [
+  const rows = categoryList.map((manufacturer, index) => [
     index + 1,
     <Button
-      to={PATH.CATEGORY_DETAIL.replace(":categoryId", category._id)}
+      to={PATH.MANUFACTURER_DETAIL.replace(":manufacturerId", manufacturer._id)}
       size="zeroPadding"
       className="m-auto hover:underline"
     >
-      {category._id}
+      {manufacturer._id}
     </Button>,
-    category.name,
+    manufacturer.name,
 
     <div className="flex items-center gap-2 justify-center">
       <IconButton
@@ -97,18 +95,21 @@ const ManufacturerList = () => {
         textHoverColor="blue"
         onClick={() => {
           setIsOpenDeleteDialog(true);
-          setSelectedItem(category);
+          setSelectedItem(manufacturer);
         }}
       />
       <IconButton
         iconName="edit"
         textColor="gray-500"
-        to={PATH.CATEGORY_EDIT.replace(":categoryId", category._id)}
+        to={PATH.MANUFACTURER_EDIT.replace(":manufacturerId", manufacturer._id)}
       />
       <IconButton
         iconName="eye"
         textColor="gray-500"
-        to={PATH.CATEGORY_DETAIL.replace(":categoryId", category._id)}
+        to={PATH.MANUFACTURER_DETAIL.replace(
+          ":manufacturerId",
+          manufacturer._id
+        )}
       />
     </div>,
   ]);
@@ -116,7 +117,7 @@ const ManufacturerList = () => {
   return (
     <div>
       <h2 className="text-[28px] font-medium mb-4">
-        {t("category.list.title")}
+        {t("manufacturer.list.title")}
       </h2>
       <Formik
         initialValues={{ keyword }}
@@ -137,7 +138,7 @@ const ManufacturerList = () => {
             <div className="grid grid-cols-4 gap-10 items-center mt-10">
               <FormikTextField
                 name="keyword"
-                label={t("category.list.searchCategory")}
+                label={t("manufacturer.list.searchManufacturer")}
               />
 
               <div className="flex gap-4">
@@ -160,28 +161,28 @@ const ManufacturerList = () => {
       </Formik>
       <Button
         className="my-5"
-        to={PATH.CATEGORY_CREATE}
+        to={PATH.MANUFACTURER_CREATE}
         bgColor="emerald"
         textColor="white"
         bgHoverColor="yellow"
         textHoverColor="dark"
       >
-        {t("category.btn.addCategory")}
+        {t("manufacturer.btn.addManufacturer")}
       </Button>
       <Table
         headers={headers}
         rows={rows}
-        isLoading={isGettingCategoryList || isValidatingCategoryList}
+        isLoading={isGettingManufacturerList || isValidatingManufacturerList}
       />
       <Pagination
-        pageCount={categoryData?.data?.totalPage}
+        pageCount={manufacturerData?.data?.totalPage}
         currentPage={page}
         className="ml-auto mt-10"
       />
       <DeleteDialog
         isOpen={isOpenDeleteDialog}
-        category={selectedItem}
-        handleSubmitDeleteCategory={handleSubmitDeleteCategory}
+        manufacturer={selectedItem}
+        handleSubmitDeleteManufacturer={handleSubmitDeleteManufacturer}
         onCancel={handleCloseDeleteDialog}
       />
     </div>
