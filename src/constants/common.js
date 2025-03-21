@@ -19,7 +19,7 @@ export const TEXTFIELD_ALLOW = {
 };
 
 export const TEXTFIELD_REQUIRED_LENGTH = {
-  COMMON: 255,
+  COMMON: 500,
   MAX_50: 50,
   MAX_10: 10,
 };

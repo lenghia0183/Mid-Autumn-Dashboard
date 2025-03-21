@@ -13,7 +13,7 @@ const FormikFileInput = ({
   multiple = false,
   maxFiles = 5,
   maxSize = 2 * 1024 * 1024,
-  allowedTypes = ["image/jpeg", "image/png", "image/jpg"],
+  allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"],
   onPreviewsChange,
 }) => {
   const { t } = useTranslation();
