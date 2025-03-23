@@ -23,3 +23,23 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
   MAX_50: 50,
   MAX_10: 10,
 };
+
+export const ORDER_STATUS = {
+  PENDING: "pending",
+  CANCElED: " canceled",
+  CONFIRMED: "confirmed",
+  REJECT: "reject",
+  SHIPPING: "shipping",
+  SUCCESS: "success",
+};
+
+export const PAYMENT_METHOD = {
+  COD: "COD",
+  BANK: "Bank",
+};
+
+export const PAYMENT_GATEWAY = {
+  MOMO: "MoMO",
+  ZALO_PAY: "ZaloPay",
+  VN_PAY: "VnPay",
+};

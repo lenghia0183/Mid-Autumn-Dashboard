@@ -35,9 +35,31 @@
     "unLocked": "Không khóa",
     "admin": "Admin",
     "user": "Người dùng",
+
     "toast": {
       "hasErrorTryAgainLater": "Đã có lỗi xảy ra vui lòng thử lại sau"
     },
+
+    "paymentMethod": {
+      "cod": "Thanh toán khi nhận hàng",
+      "bank": "Thanh toán trực tuyền"
+    },
+
+    "paymentGateway": {
+      "momo": "MoMo",
+      "vnPay": "VnPay",
+      "zaloPay": "ZaloPay"
+    },
+
+    "orderStatus": {
+      "pending": "Chờ xác nhận",
+      "confirmed": "Đã xác nhận",
+      "reject": "Bị từ chối",
+      "shipping": "Đang giao hàng",
+      "success": "Thành công",
+      "canceled": "Đã hủy"
+    },
+
     "review": "Đánh giá",
     "rating": {
       "1": "1 sao",
@@ -212,6 +234,77 @@
       "categoryList": "Danh sách danh mục",
       "manufacturerList": "Danh sách thương hiệu",
       "searchProduct": "Tìm kiếm sản phẩm"
+    },
+
+    "create": {
+      "title": "Thêm sản phẩm",
+      "name": "Tên sản phẩm:",
+      "code": "Mã sản phẩm:",
+      "manufacturer": "Thương hiệu:",
+      "category": "Loại sản phẩm:",
+      "price": "Giá sản phẩm:",
+      "images": "Danh sách hình ảnh",
+      "description": "Mô tả sản phẩm:",
+      "success": "Tạo sản phẩm thành công"
+    },
+
+    "detail": {
+      "title": "Chi tiết sản phẩm",
+
+      "ID": "ID sản phẩm:",
+      "name": "Tên sản phẩm:",
+      "code": "Mã sản phẩm:",
+      "manufacturer": "Thương hiệu:",
+      "category": "Loại sản phẩm:",
+      "price": "Giá sản phẩm:",
+      "images": "Danh sách hình ảnh",
+      "description": "Mô tả sản phẩm:"
+    },
+
+    "delete": {
+      "success": "Xóa sản phẩm thành công"
+    },
+
+    "deleteDialog": {
+      "title": "Xóa sản phẩm",
+      "content": "Bạn có chắc muốn xóa sản phẩm này?",
+      "ID": "ID sản phẩm:",
+      "name": "Tên sản phẩm:",
+      "price": "Giá sản phẩm:"
+    },
+    "edit": {
+      "title": "Chỉnh sửa sản phẩm",
+      "success": "Chỉnh sửa sản phẩm thành công",
+      "ID": "ID sản phẩm:",
+      "name": "Tên sản phẩm:",
+      "code": "Mã sản phẩm:",
+      "manufacturer": "Thương hiệu:",
+      "category": "Loại sản phẩm:",
+      "price": "Giá sản phẩm:",
+      "images": "Danh sách hình ảnh",
+      "description": "Mô tả sản phẩm:"
+    }
+  },
+
+  "order": {
+    "btn": {
+      "addProduct": "Thêm sản phẩm"
+    },
+
+    "list": {
+      "title": "Danh sách đơn hàng",
+      "NO": "STT",
+      "ID": "Mã đơn hàng",
+      "buyerName": "Tên người mua",
+      "buyerEmail": "Email người mua",
+      "buyerPhone": "Số điện thoại người mua",
+      "recipientName": "Tên người nhận",
+      "recipientPhone": "Số điện thoại người nhận",
+      "category": "Loại sản phẩm",
+      "totalAmount": "Tổng tiền đơn hàng",
+      "paymentMethod": "Hình thức thanh toán",
+      "status": "Trạng thái",
+      "action": "Hành động"
     },
 
     "create": {

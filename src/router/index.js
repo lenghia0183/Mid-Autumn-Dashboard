@@ -27,6 +27,8 @@ import UserDetail from "./../pages/User/UserDetail/index";
 import UserEdit from "./../pages/User/UserEdit/index";
 import UserCreate from "./../pages/User/UserCreate/index";
 import Dashboard from "../pages/Dashboard";
+import OrderList from "./../pages/Order/OrderList/index";
+import OrderDetail from "../pages/Order/OrderDetail";
 
 const router = createBrowserRouter([
   // main layout
@@ -42,6 +44,23 @@ const router = createBrowserRouter([
       {
         path: PATH.DASHBOARD,
         element: <Dashboard />,
+      },
+
+      {
+        path: PATH.ORDER,
+        children: [
+          // product
+          {
+            path: PATH.ORDER_LIST,
+            element: <OrderList />,
+            loader: checkNotLoggedIn,
+          },
+          {
+            path: PATH.ORDER_DETAIL,
+            element: <OrderDetail />,
+            loader: checkNotLoggedIn,
+          },
+        ],
       },
       {
         path: PATH.PRODUCT,

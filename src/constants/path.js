@@ -6,6 +6,11 @@ export const PATH = {
 
   DASHBOARD: "/dashboard",
 
+  ORDER: "/order",
+  ORDER_LIST: "/order/list",
+  ORDER_DETAIL: "/order/detail/:orderId",
+  ORDER_EDIT: "/order/edit",
+
   PRODUCT: "/product",
   PRODUCT_LIST: "/product/list",
   PRODUCT_DETAIL: "/product/detail/:productId",

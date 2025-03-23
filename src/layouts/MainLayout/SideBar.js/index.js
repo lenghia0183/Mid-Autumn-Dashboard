@@ -9,6 +9,11 @@ import images from "../../../asset/images";
 
 const navItems = [
   { path: PATH.DASHBOARD, icon: "key", label: "Thống kê" },
+  {
+    path: PATH.ORDER_LIST,
+    icon: "cart",
+    label: "Danh sách đơn hàng",
+  },
   { path: PATH.USER_LIST, icon: "user", label: "Danh sách người dùng" },
   { path: PATH.PRODUCT_LIST, icon: "order", label: "Danh sách sản phẩm" },
   { path: PATH.CATEGORY_LIST, icon: "eye", label: "Danh sách danh mục" },
