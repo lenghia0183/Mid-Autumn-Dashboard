@@ -14,7 +14,13 @@ const SkeletonRow = ({ columns }) => (
   </tr>
 );
 
-const Table = ({ headers, rows, className = "", isLoading = false }) => {
+const Table = ({
+  headers,
+  rows,
+  className = "",
+  isLoading = false,
+  isShowPageSize = true,
+}) => {
   const options = [
     { value: 10, label: "10" },
     { value: 15, label: "15" },
@@ -58,24 +64,26 @@ const Table = ({ headers, rows, className = "", isLoading = false }) => {
 
   return (
     <div>
-      <Formik initialValues={{ row: { value: 10, label: "10" } }}>
-        {() => (
-          <Form className="mb-5 w-[180px] ml-auto">
-            <FormikAutoComplete
-              name="row"
-              options={options}
-              label={t("common.rowPerPage")}
-              labelWidth="140px"
-              labelClassName="font-normal text-base"
-              className="mt-10"
-              getOptionLabel={(opt) => opt.label}
-              isEqualValue={(val, otp) => val.value === otp.value}
-              onChange={(val) => setPageSize(val.value)}
-              isCloseAfterSelect={true}
-            />
-          </Form>
-        )}
-      </Formik>
+      {isShowPageSize && (
+        <Formik initialValues={{ row: { value: 10, label: "10" } }}>
+          {() => (
+            <Form className="mb-5 w-[180px] ml-auto">
+              <FormikAutoComplete
+                name="row"
+                options={options}
+                label={t("common.rowPerPage")}
+                labelWidth="140px"
+                labelClassName="font-normal text-base"
+                className="mt-10"
+                getOptionLabel={(opt) => opt.label}
+                isEqualValue={(val, otp) => val.value === otp.value}
+                onChange={(val) => setPageSize(val.value)}
+                isCloseAfterSelect={true}
+              />
+            </Form>
+          )}
+        </Formik>
+      )}
       <table className={`w-full border-collapse ${className}`}>
         <thead>
           <tr className="bg-emerald text-white">

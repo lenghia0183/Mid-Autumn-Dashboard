@@ -35,7 +35,7 @@ const getOrderStatusColor = (status) => {
 };
 
 const OrderList = () => {
-  const { page, pageSize, keyword, filters, setMultiple } = useQueryState();
+  const { page, pageSize } = useQueryState();
   const { t } = useTranslation();
 
   const {
@@ -46,15 +46,11 @@ const OrderList = () => {
   } = useGetOrder({
     page,
     limit: pageSize,
-    categoryId: filters.categoryId,
-    manufacturerId: filters.manufacturerId,
   });
-
-  console.log("orderData", orderData);
 
   useEffect(() => {
     refreshProductList();
-  }, [page, pageSize, keyword, filters]);
+  }, [page, pageSize]);
 
   const orderList = orderData?.data?.orders || [];
   const headers = [
@@ -73,7 +69,7 @@ const OrderList = () => {
   const rows = orderList.map((order, index) => [
     index + 1,
     <Button
-      to={PATH.PRODUCT_DETAIL.replace(":orderId", order?._id)}
+      to={PATH.ORDER_DETAIL.replace(":orderId", order?._id)}
       size="zeroPadding"
       className="m-auto hover:underline"
     >
@@ -94,7 +90,7 @@ const OrderList = () => {
       <IconButton
         iconName="eye"
         textColor="gray-500"
-        to={PATH.PRODUCT_DETAIL.replace(":orderId", order?._id)}
+        to={PATH.ORDER_DETAIL.replace(":orderId", order?._id)}
       />
     </div>,
   ]);

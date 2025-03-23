@@ -9,3 +9,13 @@ export const useGetOrder = (filters, config) => {
 
   return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
 };
+
+export const useGetOrderDetail = (productId, config) => {
+  const url = `v1/order/${productId}`;
+  const fetcher = async (url) => {
+    const response = await api.get(url);
+    return response.data;
+  };
+
+  return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
+};

@@ -40,6 +40,10 @@
       "hasErrorTryAgainLater": "Đã có lỗi xảy ra vui lòng thử lại sau"
     },
 
+    "paymentStatus": {
+      "paid": "Đã thanh toán",
+      "unPaid": "Chưa thanh toán"
+    },
     "paymentMethod": {
       "cod": "Thanh toán khi nhận hàng",
       "bank": "Thanh toán trực tuyền"
@@ -307,53 +311,34 @@
       "action": "Hành động"
     },
 
-    "create": {
-      "title": "Thêm sản phẩm",
-      "name": "Tên sản phẩm:",
-      "code": "Mã sản phẩm:",
-      "manufacturer": "Thương hiệu:",
-      "category": "Loại sản phẩm:",
-      "price": "Giá sản phẩm:",
-      "images": "Danh sách hình ảnh",
-      "description": "Mô tả sản phẩm:",
-      "success": "Tạo sản phẩm thành công"
-    },
-
     "detail": {
-      "title": "Chi tiết sản phẩm",
+      "title": "Chi tiết đơn hàng",
+      "ID": "Mã đơn hàng:",
+      "buyerName": "Tên người mua:",
+      "buyerEmail": "Email người mua:",
+      "buyerPhone": "Số điện thoại người mua:",
+      "recipientName": "Tên người nhận:",
+      "recipientPhone": "Số điện thoại người nhận:",
+      "note": "Chú thích:",
+      "province": "Tỉnh/Thành Phố:",
+      "district": "Quận/Huyện:",
+      "ward": "Xã/Phường:",
+      "street": "Địa chỉ:",
+      "quantity": "Số lượng:",
+      "paymentStatus": "Trạng thái thanh toán:",
+      "totalAmount": "Tổng tiền đơn hàng:",
+      "paymentMethod": "Hình thức thanh toán:",
+      "status": "Trạng thái:",
 
-      "ID": "ID sản phẩm:",
-      "name": "Tên sản phẩm:",
-      "code": "Mã sản phẩm:",
-      "manufacturer": "Thương hiệu:",
-      "category": "Loại sản phẩm:",
-      "price": "Giá sản phẩm:",
-      "images": "Danh sách hình ảnh",
-      "description": "Mô tả sản phẩm:"
-    },
-
-    "delete": {
-      "success": "Xóa sản phẩm thành công"
-    },
-
-    "deleteDialog": {
-      "title": "Xóa sản phẩm",
-      "content": "Bạn có chắc muốn xóa sản phẩm này?",
-      "ID": "ID sản phẩm:",
-      "name": "Tên sản phẩm:",
-      "price": "Giá sản phẩm:"
-    },
-    "edit": {
-      "title": "Chỉnh sửa sản phẩm",
-      "success": "Chỉnh sửa sản phẩm thành công",
-      "ID": "ID sản phẩm:",
-      "name": "Tên sản phẩm:",
-      "code": "Mã sản phẩm:",
-      "manufacturer": "Thương hiệu:",
-      "category": "Loại sản phẩm:",
-      "price": "Giá sản phẩm:",
-      "images": "Danh sách hình ảnh",
-      "description": "Mô tả sản phẩm:"
+      "cartDetail": {
+        "NO": "STT",
+        "title": "Chi tiết giỏ hàng",
+        "productId": "Mã sản phẩm",
+        "productName": "Tên sản phẩm",
+        "productPrice": "Giá sản phẩm",
+        "quantity": "Số lượng",
+        "totalMoney": "Thành tiền"
+      }
     }
   },
 
