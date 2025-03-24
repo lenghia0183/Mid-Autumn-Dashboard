@@ -11,7 +11,10 @@ import { useState } from "react";
 import { validateStatus } from "../../../utils/api";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import { useGetOrderDetail } from "../../../service/https/order";
+import {
+  useChangeOrderStatus,
+  useGetOrderDetail,
+} from "../../../service/https/order";
 import { ORDER_STATUS, PAYMENT_METHOD } from "../../../constants";
 import Table from "../../../components/Table";
 const getOrderStatusColor = (status) => {
@@ -36,6 +39,8 @@ const OrderDetail = () => {
   const params = useParams();
 
   const { data: orderDetail } = useGetOrderDetail(params.orderId);
+
+  const { trigger: updateOrderStatus } = useChangeOrderStatus(params.orderId);
 
   console.log("orderDetail", orderDetail);
 
@@ -94,6 +99,9 @@ const OrderDetail = () => {
             textColor="crimson"
             bgHoverColor="crimson-300"
             startIcon={<Icon name="bin" size={1.5} />}
+            onClick={() => {
+              updateOrderStatus({ status: ORDER_STATUS.SHIPPING });
+            }}
           >
             {t("common.delete")}
           </Button>
