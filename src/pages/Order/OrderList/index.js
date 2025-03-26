@@ -26,14 +26,13 @@ const getOrderStatusColor = (status) => {
     case ORDER_STATUS.REJECT:
       return "text-dark-600 bg-dark-200";
     case ORDER_STATUS.SHIPPING:
-      return "text-emerald-600 bg-emerald-200";
+      return "text-yellow-600 bg-yellow-200";
     case ORDER_STATUS.SUCCESS:
       return "text-green-600 bg-green-200";
     default:
       return "text-gray-600 bg-gray-200";
   }
 };
-
 const OrderList = () => {
   const { page, pageSize } = useQueryState();
   const { t } = useTranslation();

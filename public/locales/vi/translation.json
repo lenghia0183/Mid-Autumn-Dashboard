@@ -64,6 +64,13 @@
       "canceled": "Đã hủy"
     },
 
+    "orderAction": {
+      "cancel": "CHuyển sang hủy bỏ",
+      "ship": "Chuyển sang đang giao",
+      "success": "Chuyển sang thành công",
+      "confirm": "Chuyển sang đã xác nhận"
+    },
+
     "review": "Đánh giá",
     "rating": {
       "1": "1 sao",
@@ -329,6 +336,7 @@
       "totalAmount": "Tổng tiền đơn hàng:",
       "paymentMethod": "Hình thức thanh toán:",
       "status": "Trạng thái:",
+      "updateSuccess": "Cập nhật trạng thái thành công",
 
       "cartDetail": {
         "NO": "STT",

@@ -26,7 +26,7 @@ export const TEXTFIELD_REQUIRED_LENGTH = {
 
 export const ORDER_STATUS = {
   PENDING: "pending",
-  CANCElED: " canceled",
+  CANCElED: "canceled",
   CONFIRMED: "confirmed",
   REJECT: "reject",
   SHIPPING: "shipping",

@@ -1,15 +1,10 @@
 import { Form, Formik } from "formik";
 import LabelValue from "./../../../components/LabelValue/index";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDeleteProduct, useGetProductDetail } from "../../../service/https";
 import formatCurrency from "./../../../utils/formatCurrency";
-import Image from "../../../components/Image";
 import Button from "../../../components/Button";
 import Icon from "../../../components/Icon";
 import { PATH } from "../../../constants/path";
-import { useState } from "react";
-import { validateStatus } from "../../../utils/api";
-import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import {
   useChangeOrderStatus,
@@ -17,6 +12,9 @@ import {
 } from "../../../service/https/order";
 import { ORDER_STATUS, PAYMENT_METHOD } from "../../../constants";
 import Table from "../../../components/Table";
+import { validateStatus } from "../../../utils/api";
+import { toast } from "react-toastify";
+
 const getOrderStatusColor = (status) => {
   switch (status) {
     case ORDER_STATUS.PENDING:
@@ -28,24 +26,23 @@ const getOrderStatusColor = (status) => {
     case ORDER_STATUS.REJECT:
       return "text-dark-600 bg-dark-200";
     case ORDER_STATUS.SHIPPING:
-      return "text-emerald-600 bg-emerald-200";
+      return "text-yellow-600 bg-yellow-200";
     case ORDER_STATUS.SUCCESS:
       return "text-green-600 bg-green-200";
     default:
       return "text-gray-600 bg-gray-200";
   }
 };
+
 const OrderDetail = () => {
   const params = useParams();
-
-  const { data: orderDetail } = useGetOrderDetail(params.orderId);
-
+  const { data: orderDetail, mutate: refreshOrderDetail } = useGetOrderDetail(
+    params.orderId
+  );
   const { trigger: updateOrderStatus } = useChangeOrderStatus(params.orderId);
-
-  console.log("orderDetail", orderDetail);
-
   const { t } = useTranslation();
 
+  // Headers cho bảng chi tiết giỏ hàng
   const headers = [
     t("order.detail.cartDetail.NO"),
     t("order.detail.cartDetail.productId"),
@@ -56,15 +53,13 @@ const OrderDetail = () => {
   ];
 
   const orderList = orderDetail?.cartDetails || [];
-
-  console.log("orderList", orderList);
-
   const rows = orderList.map((order, index) => [
     index + 1,
     <Button
       to={PATH.PRODUCT_DETAIL.replace(":productId", order?.productId._id)}
       size="zeroPadding"
       className="m-auto hover:underline"
+      key={order._id}
     >
       {order._id}
     </Button>,
@@ -73,6 +68,25 @@ const OrderDetail = () => {
     order?.quantity,
     formatCurrency(order?.totalMoney),
   ]);
+
+  const handleUpdateStatus = (status) => {
+    updateOrderStatus(
+      { status },
+      {
+        onSuccess: (res) => {
+          if (validateStatus(res.code)) {
+            toast.success(t("order.detail.updateSuccess"));
+            refreshOrderDetail();
+          } else {
+            toast.error(res.message);
+          }
+        },
+        onError: (error) => {
+          toast.error(t("common.toast.hasErrorTryAgainLater"));
+        },
+      }
+    );
+  };
 
   return (
     <div>
@@ -93,25 +107,60 @@ const OrderDetail = () => {
         </Button>
 
         <div className="flex gap-3">
-          <Button
-            variant="outlined"
-            borderColor="crimson"
-            textColor="crimson"
-            bgHoverColor="crimson-300"
-            startIcon={<Icon name="bin" size={1.5} />}
-            onClick={() => {
-              updateOrderStatus({ status: ORDER_STATUS.SHIPPING });
-            }}
-          >
-            {t("common.delete")}
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<Icon name="edit" size={1.5} />}
-            to={PATH.PRODUCT_EDIT.replace(":orderId", params.orderId)}
-          >
-            {t("common.edit")}
-          </Button>
+          {/* Các nút hành động theo trạng thái */}
+          {orderDetail?.status === ORDER_STATUS.PENDING && (
+            <>
+              <Button
+                variant="outlined"
+                borderColor="crimson"
+                textColor="crimson"
+                bgHoverColor="crimson-300"
+                startIcon={<Icon name="bin" size={1.5} />}
+                onClick={() => handleUpdateStatus(ORDER_STATUS.CANCELED)}
+              >
+                {t("common.orderAction.cancel")}
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<Icon name="check" size={1.5} />}
+                onClick={() => handleUpdateStatus(ORDER_STATUS.CONFIRMED)}
+              >
+                {t("common.orderAction.confirm")}
+              </Button>
+            </>
+          )}
+
+          {orderDetail?.status === ORDER_STATUS.CONFIRMED && (
+            <>
+              <Button
+                variant="outlined"
+                borderColor="crimson"
+                textColor="crimson"
+                bgHoverColor="crimson-300"
+                startIcon={<Icon name="bin" size={1.5} />}
+                onClick={() => handleUpdateStatus(ORDER_STATUS.CANCELED)}
+              >
+                {t("common.orderAction.cancel")}
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<Icon name="truck" size={1.5} />}
+                onClick={() => handleUpdateStatus(ORDER_STATUS.SHIPPING)}
+              >
+                {t("common.orderAction.ship")}
+              </Button>
+            </>
+          )}
+
+          {orderDetail?.status === ORDER_STATUS.SHIPPING && (
+            <Button
+              variant="outlined"
+              startIcon={<Icon name="check-circle" size={1.5} />}
+              onClick={() => handleUpdateStatus(ORDER_STATUS.SUCCESS)}
+            >
+              {t("common.orderAction.success")}
+            </Button>
+          )}
         </div>
       </div>
       <Formik>
@@ -185,24 +234,24 @@ const OrderDetail = () => {
             <LabelValue
               labelWidth="210px"
               label={t("order.detail.province")}
-              value={orderDetail?.address.province.provinceName}
+              value={orderDetail?.address?.province?.provinceName}
             />
             <LabelValue
               labelWidth="210px"
               label={t("order.detail.district")}
-              value={orderDetail?.address.district.districtName}
+              value={orderDetail?.address?.district?.districtName}
             />
 
             <LabelValue
               labelWidth="210px"
               label={t("order.detail.ward")}
-              value={orderDetail?.address.ward.wardName}
+              value={orderDetail?.address?.ward?.wardName}
             />
 
             <LabelValue
               labelWidth="210px"
               label={t("order.detail.street")}
-              value={orderDetail?.address.street}
+              value={orderDetail?.address?.street}
             />
 
             <LabelValue

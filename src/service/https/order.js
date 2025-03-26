@@ -24,6 +24,7 @@ export const useGetOrderDetail = (productId, config) => {
 export const useChangeOrderStatus = (orderId, config) => {
   const url = "v1/order/change-status/:orderId";
   const fetcher = (url, { arg }) => {
+    console.log("arg", arg);
     return api.put(url.replace(":orderId", orderId), arg);
   };
 
