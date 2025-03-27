@@ -15,7 +15,7 @@ import Pagination from "../../../components/Pagination";
 import { useGetOrder } from "./../../../service/https/order";
 import { ORDER_STATUS, PAYMENT_METHOD } from "../../../constants";
 
-const getOrderStatusColor = (status) => {
+export const getOrderStatusColor = (status) => {
   switch (status) {
     case ORDER_STATUS.PENDING:
       return "text-yellow-600 bg-yellow-200";

@@ -14,25 +14,7 @@ import { ORDER_STATUS, PAYMENT_METHOD } from "../../../constants";
 import Table from "../../../components/Table";
 import { validateStatus } from "../../../utils/api";
 import { toast } from "react-toastify";
-
-const getOrderStatusColor = (status) => {
-  switch (status) {
-    case ORDER_STATUS.PENDING:
-      return "text-yellow-600 bg-yellow-200";
-    case ORDER_STATUS.CANCELED:
-      return "text-crimson-600 bg-crimson-200";
-    case ORDER_STATUS.CONFIRMED:
-      return "text-blue-600 bg-blue-200";
-    case ORDER_STATUS.REJECT:
-      return "text-dark-600 bg-dark-200";
-    case ORDER_STATUS.SHIPPING:
-      return "text-yellow-600 bg-yellow-200";
-    case ORDER_STATUS.SUCCESS:
-      return "text-green-600 bg-green-200";
-    default:
-      return "text-gray-600 bg-gray-200";
-  }
-};
+import { getOrderStatusColor } from "../OrderList";
 
 const OrderDetail = () => {
   const params = useParams();
