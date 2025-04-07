@@ -39,7 +39,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
-    // loader: checkNotLoggedIn,
+    loader: checkNotLoggedIn,
     children: [
       {
         path: PATH.TEST,
