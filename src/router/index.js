@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import NotFound from "../pages/NotFound";
 
@@ -32,6 +32,10 @@ import OrderDetail from "../pages/Order/OrderDetail";
 
 const router = createBrowserRouter([
   // main layout
+  {
+    path: "/",
+    element: <Navigate to={PATH.DASHBOARD} />,
+  },
   {
     path: "/",
     element: <MainLayout />,
