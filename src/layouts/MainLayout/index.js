@@ -1,33 +1,42 @@
-import React from "react";
+// MainLayout.jsx
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
+
 import Header from "./../../components/Header/index";
-import Footer from "./../../components/Footer/index";
-import GoToTop from "../../components/GoToTop";
-import { useLoading } from "../../context/loadingContext";
-import Backdrop from "../../components/BackDrop";
-import DashboardSidebar from "./SideBar.js";
+import GoToTop from "./../../components/GoToTop/index";
+import Backdrop from "./../../components/BackDrop/index";
+import DashboardSidebar from "./SideBar";
 
 const MainLayout = () => {
-  const { isLoading } = useLoading();
+  const [isExpanded, setIsExpanded] = useState(true);
+
+  const sidebarWidth = isExpanded ? 320 : 150;
 
   return (
-    <div>
-      <Backdrop open={isLoading} />
-      <main>
-        <div className="flex">
-          <DashboardSidebar />
-          <div className="flex-1">
-            <Header />
+    <div className="min-h-screen">
+      <Backdrop open={false} />
 
-            <div className="p-2">
-              <div className="p-5 shadow-lg">
-                <Outlet />
-              </div>
-            </div>
+      {/* Sidebar cố định */}
+      <div className="fixed top-0 left-0 h-screen z-40">
+        <DashboardSidebar
+          isExpanded={isExpanded}
+          setIsExpanded={setIsExpanded}
+        />
+      </div>
+
+      {/* Nội dung chính */}
+      <main
+        className="transition-all duration-500"
+        style={{ marginLeft: `${sidebarWidth}px` }}
+      >
+        <Header />
+        <div className="p-4">
+          <div className="shadow-lg bg-white rounded-xl p-4">
+            <Outlet />
           </div>
         </div>
       </main>
-      {/* <Footer /> */}
+
       <GoToTop />
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import clsx from "clsx";
 import { Link, NavLink } from "react-router-dom";
 import Image from "../../../components/Image";
@@ -9,11 +9,7 @@ import images from "../../../asset/images";
 
 const navItems = [
   { path: PATH.DASHBOARD, icon: "key", label: "Thống kê" },
-  {
-    path: PATH.ORDER_LIST,
-    icon: "cart",
-    label: "Danh sách đơn hàng",
-  },
+  { path: PATH.ORDER_LIST, icon: "cart", label: "Danh sách đơn hàng" },
   { path: PATH.USER_LIST, icon: "user", label: "Danh sách người dùng" },
   { path: PATH.PRODUCT_LIST, icon: "order", label: "Danh sách sản phẩm" },
   { path: PATH.CATEGORY_LIST, icon: "eye", label: "Danh sách danh mục" },
@@ -24,17 +20,14 @@ const navItems = [
   },
 ];
 
-const DashboardSidebar = ({ className = "" }) => {
-  const [isExpanded, setIsExpanded] = useState(true);
-
+const DashboardSidebar = ({ className = "", isExpanded, setIsExpanded }) => {
   const toggleSidebar = () => setIsExpanded((prev) => !prev);
-
   const sidebarWidth = isExpanded ? "w-[320px]" : "w-[150px]";
 
   return (
     <aside
       className={clsx(
-        "h-screen p-4 flex flex-col text-white-200 transition-all duration-700 overflow-hidden ",
+        "h-screen p-4 flex flex-col text-white-200 transition-all duration-500 overflow-hidden",
         sidebarWidth,
         className
       )}
