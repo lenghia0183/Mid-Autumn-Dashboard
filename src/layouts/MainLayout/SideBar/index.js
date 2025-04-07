@@ -8,14 +8,14 @@ import { PATH } from "../../../constants/path";
 import images from "../../../asset/images";
 
 const navItems = [
-  { path: PATH.DASHBOARD, icon: "key", label: "Thống kê" },
-  { path: PATH.ORDER_LIST, icon: "cart", label: "Danh sách đơn hàng" },
+  { path: PATH.DASHBOARD, icon: "char", label: "Thống kê" },
+  { path: PATH.ORDER_LIST, icon: "order", label: "Danh sách đơn hàng" },
   { path: PATH.USER_LIST, icon: "user", label: "Danh sách người dùng" },
-  { path: PATH.PRODUCT_LIST, icon: "order", label: "Danh sách sản phẩm" },
-  { path: PATH.CATEGORY_LIST, icon: "eye", label: "Danh sách danh mục" },
+  { path: PATH.PRODUCT_LIST, icon: "product", label: "Danh sách sản phẩm" },
+  { path: PATH.CATEGORY_LIST, icon: "category", label: "Danh sách danh mục" },
   {
     path: PATH.MANUFACTURER_LIST,
-    icon: "cart",
+    icon: "vendor",
     label: "Danh sách thương hiệu",
   },
 ];
