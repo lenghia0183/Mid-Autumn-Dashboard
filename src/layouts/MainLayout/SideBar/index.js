@@ -72,7 +72,14 @@ const DashboardSidebar = ({ className = "", isExpanded, setIsExpanded }) => {
             <li key={index}>
               <NavLink
                 to={item.path}
-                className="flex items-center justify-center p-2 rounded hover:bg-gray-700"
+                className={({ isActive }) =>
+                  clsx(
+                    "flex items-center justify-center p-2 rounded hover:bg-gray-700 ",
+                    {
+                      "bg-gray-700 text-white": isActive,
+                    }
+                  )
+                }
               >
                 <Icon name={item.icon} size="1.5em" className="mr-2" />
                 <span

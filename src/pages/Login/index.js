@@ -34,15 +34,15 @@ function Login() {
     handleLogin(convertValue, {
       onSuccess: (response) => {
         if (response?.code === 200) {
-          toast.success(t("login.success"));
-          navigate(PATH.HOME);
+          toast.success(t("login.toast.success"));
+          navigate(PATH.DASHBOARD);
           login(response?.data);
         } else {
           toast.error(response?.message);
         }
       },
       onError: () => {
-        toast.error(t("login.failed"));
+        toast.error(t("login.toast.failed"));
       },
     });
   };

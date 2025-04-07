@@ -56,10 +56,10 @@ export const UserProvider = ({ children }) => {
       logout();
     };
 
-    eventEmitter.addListener("logout", handleLogout);
+    eventEmitter.once("logout", handleLogout);
 
     return () => {
-      eventEmitter.removeListener("logout", handleLogout);
+      eventEmitter.once("logout", handleLogout);
     };
   }, []);
 

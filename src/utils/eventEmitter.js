@@ -7,5 +7,5 @@ export const triggerLogout = () => {
 };
 
 export const onLogout = (listener) => {
-  eventEmitter.on("logout", listener);
+  eventEmitter.once("logout", listener);
 };
