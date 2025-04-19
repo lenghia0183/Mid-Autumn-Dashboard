@@ -75,7 +75,7 @@ const ContactList = () => {
     t("contact.list.name"),
     t("contact.list.email"),
     t("contact.list.phone"),
-    t("contact.list.content"),
+    // t("contact.list.content"),
     t("contact.list.action"),
   ];
 
@@ -84,7 +84,7 @@ const ContactList = () => {
     contact.fullname,
     contact.email,
     contact.phone,
-    contact.content,
+    // contact.content,
     <div className="flex items-center gap-2 justify-center">
       <IconButton
         iconName="bin"
