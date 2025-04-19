@@ -30,7 +30,7 @@ const MainLayout = () => {
         style={{ marginLeft: `${sidebarWidth}px` }}
       >
         <Header />
-        <div className="p-4">
+        <div className="p-0">
           <div className="shadow-lg bg-white rounded-xl p-4">
             <Outlet />
           </div>
