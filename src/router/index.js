@@ -29,6 +29,8 @@ import UserCreate from "./../pages/User/UserCreate/index";
 import Dashboard from "../pages/Dashboard";
 import OrderList from "./../pages/Order/OrderList/index";
 import OrderDetail from "../pages/Order/OrderDetail";
+import ContactList from "../pages/Contact/ContactList";
+import ContactDetail from "../pages/Contact/ContactDetail";
 
 const router = createBrowserRouter([
   // main layout
@@ -167,6 +169,21 @@ const router = createBrowserRouter([
           {
             path: PATH.USER_CREATE,
             element: <UserCreate />,
+            loader: checkNotLoggedIn,
+          },
+        ],
+      },
+      {
+        path: PATH.CONTACT,
+        children: [
+          {
+            path: PATH.CONTACT_LIST,
+            element: <ContactList />,
+            loader: checkNotLoggedIn,
+          },
+          {
+            path: PATH.CONTACT_DETAIL,
+            element: <ContactDetail />,
             loader: checkNotLoggedIn,
           },
         ],

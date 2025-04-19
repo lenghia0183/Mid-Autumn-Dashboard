@@ -18,6 +18,12 @@ const navItems = [
     icon: "vendor",
     label: "Danh sách thương hiệu",
   },
+  {
+    path: PATH.CONTACT_LIST,
+    icon: "contact",
+    label: "Danh sách liên hệ",
+    icon: "phone",
+  },
 ];
 
 const DashboardSidebar = ({ className = "", isExpanded, setIsExpanded }) => {

@@ -34,6 +34,10 @@ export const PATH = {
   USER_DETAIL: "/user/detail/:userId",
   USER_EDIT: "/user/edit/:userId",
   USER_CREATE: "/user/create",
+
+  CONTACT: "/contact",
+  CONTACT_LIST: "/contact/list",
+  CONTACT_DETAIL: "/contact/detail/:contactId",
 };
 
 export const PAGE_TITLE = {

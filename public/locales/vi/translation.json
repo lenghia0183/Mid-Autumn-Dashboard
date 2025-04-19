@@ -446,5 +446,30 @@
       "ID": "ID thương hiệu:",
       "name": "Tên thương hiệu:"
     }
+  },
+
+  "contact": {
+    "btn": {
+      "addContact": "Thêm liên hệ"
+    },
+
+    "list": {
+      "title": "Danh sách liên hệ",
+      "NO": "STT",
+      "name": "Tên liên hệ",
+      "email": "Email",
+      "phone": "Số điện thoại",
+      "content": "Nội dung",
+      "action": "Hành động",
+      "searchContact": "Tìm kiếm liên hệ"
+    },
+    "detail": {
+      "title": "Chi tiết liên hệ",
+      "ID": "ID liên hệ:",
+      "name": "Tên liên hệ:",
+      "email": "Email:",
+      "phone": "Số điện thoại:",
+      "content": "Nội dung:"
+    }
   }
 }
