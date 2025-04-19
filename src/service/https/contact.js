@@ -3,7 +3,7 @@ import { api } from "../api";
 import useSWRMutation from "swr/mutation";
 
 export const useGetContactList = (filter, config) => {
-  const url = "v1/category";
+  const url = "v1/contact";
   const fetcher = async (url) => {
     const response = await api.get(url, filter);
 
@@ -14,7 +14,7 @@ export const useGetContactList = (filter, config) => {
 };
 
 export const useGetContactDetail = (categoryId, config) => {
-  const url = `v1/category/${categoryId}`;
+  const url = `v1/contact/${categoryId}`;
   const fetcher = async (url) => {
     const response = await api.get(url);
     return response.data;
@@ -28,6 +28,6 @@ export const useDeleteContact = (config) => {
     return api.delete(`${url}/${arg?._id}`);
   };
 
-  const url = "v1/category";
+  const url = "v1/contact";
   return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
 };

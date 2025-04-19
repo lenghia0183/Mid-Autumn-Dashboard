@@ -9,11 +9,12 @@ import { useState } from "react";
 import { validateStatus } from "../../../utils/api";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import DeleteDialog from "../Dialog/delete";
+
 import {
   useDeleteContact,
   useGetContactDetail,
 } from "../../../service/https/contact";
+import DeleteDialog from "../Dialog/delete";
 
 const ContactDetail = () => {
   const params = useParams();
@@ -22,6 +23,8 @@ const ContactDetail = () => {
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 
   const { data: contactDetail } = useGetContactDetail(params.contactId);
+
+  console.log("isOpenDeleteDialog", isOpenDeleteDialog);
 
   const handleCloseDeleteDialog = () => {
     setIsOpenDeleteDialog(false);
@@ -35,7 +38,7 @@ const ContactDetail = () => {
       {
         onSuccess: (response) => {
           if (validateStatus(response.code)) {
-            toast.success(t("contact.delete.success"));
+            toast.success(t("contact.deleteDialog.success"));
             navigate(PATH.CONTACT_LIST, { replace: true });
             handleCloseDeleteDialog();
           } else {
@@ -75,7 +78,10 @@ const ContactDetail = () => {
             textColor="crimson"
             bgHoverColor="crimson-300"
             startIcon={<Icon name="bin" size={1.5} />}
-            onClick={() => setIsOpenDeleteDialog(true)}
+            onClick={() => {
+              console.log("click");
+              setIsOpenDeleteDialog(true);
+            }}
           >
             {t("common.delete")}
           </Button>
@@ -87,7 +93,7 @@ const ContactDetail = () => {
             <LabelValue
               labelWidth="150px"
               label={t("contact.detail.name")}
-              value={contactDetail?.name}
+              value={contactDetail?.fullname}
             />
             <LabelValue
               labelWidth="150px"
@@ -99,11 +105,14 @@ const ContactDetail = () => {
               label={t("contact.detail.phone")}
               value={contactDetail?.phone}
             />
-            <LabelValue
-              labelWidth="150px"
-              label={t("contact.detail.content")}
-              value={contactDetail?.content}
-            />
+            <div></div>
+            <div className="col-span-2">
+              <LabelValue
+                labelWidth="150px"
+                label={t("contact.detail.content")}
+                value={contactDetail?.content}
+              />
+            </div>
           </div>
         </Form>
       </Formik>

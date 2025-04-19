@@ -470,6 +470,13 @@
       "email": "Email:",
       "phone": "Số điện thoại:",
       "content": "Nội dung:"
+    },
+    "deleteDialog": {
+      "title": "Xóa liên hệ ",
+      "content": "Bạn có chắc muốn xóa liên hệ này?",
+      "ID": "ID liên hệ:",
+      "name": "Tên liên hệ:",
+      "success": "Xóa liên hệ thành công"
     }
   }
 }

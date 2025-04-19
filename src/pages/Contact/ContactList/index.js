@@ -13,11 +13,12 @@ import IconButton from "../../../components/IconButton";
 import Table from "../../../components/Table";
 import Pagination from "../../../components/Pagination";
 import FormikTextField from "../../../components/Formik/FormikTextField";
-import DeleteDialog from "../Dialog/delete";
+
 import {
   useDeleteContact,
   useGetContactList,
 } from "../../../service/https/contact";
+import DeleteDialog from "../Dialog/delete";
 
 const ContactList = () => {
   const { page, pageSize, keyword, setMultiple } = useQueryState();
@@ -53,7 +54,7 @@ const ContactList = () => {
       {
         onSuccess: (response) => {
           if (validateStatus(response.code)) {
-            toast.success(t("contact.delete.success"));
+            toast.success(t("contact.deleteDialog.success"));
             refreshContactList();
             handleCloseDeleteDialog();
           } else {
@@ -80,7 +81,7 @@ const ContactList = () => {
 
   const rows = contactList.map((contact, index) => [
     index + 1,
-    contact.name,
+    contact.fullname,
     contact.email,
     contact.phone,
     contact.content,
