@@ -244,7 +244,8 @@
       "action": "Hành động",
       "categoryList": "Danh sách danh mục",
       "manufacturerList": "Danh sách thương hiệu",
-      "searchProduct": "Tìm kiếm sản phẩm"
+      "searchProduct": "Tìm kiếm sản phẩm",
+      "costPrice": "Giá vốn"
     },
 
     "create": {
@@ -256,12 +257,13 @@
       "price": "Giá sản phẩm:",
       "images": "Danh sách hình ảnh",
       "description": "Mô tả sản phẩm:",
-      "success": "Tạo sản phẩm thành công"
+      "success": "Tạo sản phẩm thành công",
+      "costPrice": "Giá nhập vào:"
     },
 
     "detail": {
       "title": "Chi tiết sản phẩm",
-
+      "costPrice": "Giá nhập vào:",
       "ID": "ID sản phẩm:",
       "name": "Tên sản phẩm:",
       "code": "Mã sản phẩm:",
@@ -288,6 +290,7 @@
       "success": "Chỉnh sửa sản phẩm thành công",
       "ID": "ID sản phẩm:",
       "name": "Tên sản phẩm:",
+      "costPrice": "Giá nhập vào:",
       "code": "Mã sản phẩm:",
       "manufacturer": "Thương hiệu:",
       "category": "Loại sản phẩm:",

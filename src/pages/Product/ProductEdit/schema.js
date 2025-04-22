@@ -5,6 +5,7 @@ export const validateSchema = (t) => {
     name: Yup.string().trim().required(t("validation.required")),
     code: Yup.string().trim().required(t("validation.required")),
     price: Yup.number().required(t("validation.required")),
+    costPrice: Yup.number().required(t("validation.required")),
     categoryId: Yup.object()
       .nullable()
       .required(t("validation.required"))

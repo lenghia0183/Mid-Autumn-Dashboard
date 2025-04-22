@@ -114,6 +114,7 @@ const ProductEdit = () => {
           manufacturerId: productDetail?.manufacturerId,
           categoryId: productDetail?.categoryId,
           description: productDetail?.description,
+          costPrice: productDetail?.costPrice,
         }}
         validationSchema={validateSchema(t)}
         onSubmit={(values) => {
@@ -128,6 +129,7 @@ const ProductEdit = () => {
                 manufacturerId: values?.manufacturerId,
                 categoryId: values?.categoryId,
                 description: values?.description,
+                costPrice: values?.costPrice,
               },
             },
             {
@@ -189,6 +191,18 @@ const ProductEdit = () => {
                 <FormikTextField
                   name="price"
                   label={t("product.edit.price")}
+                  vertical={false}
+                  required
+                  labelWidth="150px"
+                  width="80%"
+                  allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
+                  inputProps={{
+                    maxLength: TEXTFIELD_REQUIRED_LENGTH.MAX_50,
+                  }}
+                />
+                <FormikTextField
+                  name="costPrice"
+                  label={t("product.edit.costPrice")}
                   vertical={false}
                   required
                   labelWidth="150px"
