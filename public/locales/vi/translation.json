@@ -478,5 +478,23 @@
       "name": "Tên liên hệ:",
       "success": "Xóa liên hệ thành công"
     }
+  },
+
+  "chat": {
+    "adminChat": "Quản lý trò chuyện",
+    "adminChatDescription": "Quản lý trò chuyện với người dùng",
+    "conversations": "Cuộc trò chuyện",
+    "searchUsers": "Tìm kiếm người dùng",
+    "noConversations": "Không có cuộc trò chuyện nào",
+    "anonymousUser": "Người dùng ẩn danh",
+    "selectConversation": "Chọn một cuộc trò chuyện",
+    "selectConversationDescription": "Chọn một cuộc trò chuyện từ danh sách bên trái để bắt đầu trò chuyện",
+    "online": "Đang trực tuyến",
+    "offline": "Ngoại tuyến",
+    "today": "Hôm nay",
+    "yesterday": "Hôm qua",
+    "startConversation": "Bắt đầu cuộc trò chuyện với người dùng",
+    "typingMessage": "Nhập tin nhắn của bạn...",
+    "responseTime": "Chúng tôi thường phản hồi trong vòng vài phút"
   }
 }

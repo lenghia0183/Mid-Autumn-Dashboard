@@ -20,9 +20,13 @@ const navItems = [
   },
   {
     path: PATH.CONTACT_LIST,
-    icon: "contact",
-    label: "Danh sách liên hệ",
     icon: "phone",
+    label: "Danh sách liên hệ",
+  },
+  {
+    path: PATH.ADMIN_CHAT,
+    icon: "message-circle",
+    label: "Chat với người dùng",
   },
 ];
 

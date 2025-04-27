@@ -38,6 +38,8 @@ export const PATH = {
   CONTACT: "/contact",
   CONTACT_LIST: "/contact/list",
   CONTACT_DETAIL: "/contact/detail/:contactId",
+
+  ADMIN_CHAT: "/admin-chat",
 };
 
 export const PAGE_TITLE = {

@@ -31,6 +31,7 @@ import OrderList from "./../pages/Order/OrderList/index";
 import OrderDetail from "../pages/Order/OrderDetail";
 import ContactList from "../pages/Contact/ContactList";
 import ContactDetail from "../pages/Contact/ContactDetail";
+import AdminChat from "../pages/AdminChat";
 
 const router = createBrowserRouter([
   // main layout
@@ -187,6 +188,11 @@ const router = createBrowserRouter([
             loader: checkNotLoggedIn,
           },
         ],
+      },
+      {
+        path: PATH.ADMIN_CHAT,
+        element: <AdminChat />,
+        loader: checkNotLoggedIn,
       },
     ],
   },
