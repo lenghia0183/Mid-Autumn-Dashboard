@@ -114,6 +114,11 @@ const ProductDetail = () => {
             />
             <LabelValue
               labelWidth="150px"
+              label={t("product.detail.costPrice")}
+              value={formatCurrency(productDetail?.costPrice)}
+            />
+            <LabelValue
+              labelWidth="150px"
               label={t("product.detail.manufacturer")}
               value={productDetail?.manufacturerId?.name}
             />

@@ -56,6 +56,7 @@ const ProductCreate = () => {
           manufacturerId: null,
           categoryId: null,
           description: "",
+          costPrice: 0,
         }}
         validationSchema={validateSchema(t)}
         onSubmit={(values) => {
@@ -69,6 +70,7 @@ const ProductCreate = () => {
             categoryId: values.categoryId._id,
             description: values.description,
             images: values.images,
+            costPrice: values.costPrice,
           };
 
           handleAddProduct(convertValue, {
@@ -120,6 +122,18 @@ const ProductCreate = () => {
                 <FormikTextField
                   name="price"
                   label={t("product.create.price")}
+                  vertical={false}
+                  required
+                  labelWidth="150px"
+                  width="80%"
+                  allow={TEXTFIELD_ALLOW.POSITIVE_DECIMAL}
+                  inputProps={{
+                    maxLength: TEXTFIELD_REQUIRED_LENGTH.MAX_50,
+                  }}
+                />
+                <FormikTextField
+                  name="costPrice"
+                  label={t("product.create.costPrice")}
                   vertical={false}
                   required
                   labelWidth="150px"
