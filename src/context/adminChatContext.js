@@ -12,7 +12,7 @@ import { useGetAdminChat, useGetChatById } from "../service/https/chat";
 const AdminChatContext = createContext();
 
 export const AdminChatProvider = ({ children }) => {
-  const [selectedChatId, setSelectedChatId] = useState(null);
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const [messages, setMessages] = useState([]);
   const [isUserTyping, setIsUserTyping] = useState(false);
   const { socket, emit, on, off } = useSocket(getLocalStorageItem("token"));
@@ -20,7 +20,7 @@ export const AdminChatProvider = ({ children }) => {
   const { data: chatsData, mutate: refreshChats } = useGetAdminChat();
 
   const { data: chatData, mutate: refreshChat } =
-    useGetChatById(selectedChatId);
+    useGetChatById(selectedUserId);
 
   useEffect(() => {
     if (chatData) {
@@ -29,42 +29,42 @@ export const AdminChatProvider = ({ children }) => {
   }, [chatData]);
 
   useEffect(() => {
-    if (!socket || !selectedChatId) return;
+    if (!socket || !selectedUserId) return;
 
-    socket.emit("chat:join", { chatId: selectedChatId });
+    socket.emit("chat:join", { userId: selectedUserId });
 
     return () => {
-      socket.emit("chat:leave", { chatId: selectedChatId });
+      socket.emit("chat:leave", { userId: selectedUserId });
     };
-  }, [socket, selectedChatId]);
+  }, [socket, selectedUserId]);
 
   const sendMessage = useCallback(
     (content) => {
-      if (!content.trim() || !selectedChatId) return;
+      if (!content.trim() || !selectedUserId) return;
 
       emit("message:send", {
         content: content,
-        chatId: selectedChatId,
+        userId: selectedUserId,
       });
     },
-    [emit, selectedChatId]
+    [emit, selectedUserId]
   );
 
   const sendAdminTyping = useCallback(() => {
-    if (!selectedChatId) return;
+    if (!selectedUserId) return;
 
     emit("admin:typing", {
-      chatId: selectedChatId,
+      userId: selectedUserId,
     });
-  }, [emit, selectedChatId]);
+  }, [emit, selectedUserId]);
 
   const sendAdminStopTyping = useCallback(() => {
-    if (!selectedChatId) return;
+    if (!selectedUserId) return;
 
     emit("admin:stop-typing", {
-      chatId: selectedChatId,
+      userId: selectedUserId,
     });
-  }, [emit, selectedChatId]);
+  }, [emit, selectedUserId]);
 
   useEffect(() => {
     if (!socket) return;
@@ -110,8 +110,8 @@ export const AdminChatProvider = ({ children }) => {
   return (
     <AdminChatContext.Provider
       value={{
-        selectedChatId,
-        setSelectedChatId,
+        selectedUserId,
+        setSelectedUserId,
         messages,
         sendMessage,
         sendAdminTyping,

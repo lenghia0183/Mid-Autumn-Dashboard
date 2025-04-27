@@ -9,13 +9,13 @@ import ChatInput from "./ChatInput";
 
 const AdminChatArea = () => {
   const { t } = useTranslation();
-  const { messages, isUserTyping, selectedChatId, chats } = useAdminChat();
+  const { messages, isUserTyping, selectedUserId, chats } = useAdminChat();
   const messageAreaRef = useRef(null);
   const messagesEndRef = useRef(null);
 
-  const selectedChat = chats.find((chat) => chat._id === selectedChatId);
+  const selectedChat = chats.find((chat) => chat.userId._id === selectedUserId);
+
   const chatUser = selectedChat?.userId || {};
-  console.log("chatUser", chatUser);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -151,7 +151,7 @@ const AdminChatArea = () => {
   );
 
   // If no chat is selected, show a placeholder
-  if (!selectedChatId) {
+  if (!selectedUserId) {
     return (
       <div className="flex flex-col items-center justify-center h-full bg-gray-50 p-4">
         <div className="w-20 h-20 rounded-full bg-emerald/20 flex items-center justify-center mb-4 shadow-lg p-5">

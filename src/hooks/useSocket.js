@@ -21,11 +21,11 @@ export const useSocket = (token) => {
     socketRef.current = socket;
 
     socket.on("connect", () => {
-      socket.emit("chat:join", { chatId: "6808fa760a2ac7a5cacd546d" });
+      socket.emit("chat:join", { userId: user?._id });
     });
 
     socket.on("disconnect", () => {
-      console.log("Disconnected");
+      socket.emit("chat:leave", { userId: user?._id });
     });
 
     return () => {

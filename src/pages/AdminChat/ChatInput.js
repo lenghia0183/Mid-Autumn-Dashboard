@@ -7,10 +7,11 @@ import { useAdminChat } from "../../context/adminChatContext";
 const ChatInput = () => {
   const { t } = useTranslation();
   const [inputValue, setInputValue] = useState("");
-  const { sendMessage, sendAdminTyping, sendAdminStopTyping, selectedChatId } = useAdminChat();
+  const { sendMessage, sendAdminTyping, sendAdminStopTyping, selectedUserId } =
+    useAdminChat();
 
   const handleSendMessage = () => {
-    if (inputValue.trim() && selectedChatId) {
+    if (inputValue.trim() && selectedUserId) {
       sendMessage(inputValue);
       setInputValue("");
     }
@@ -28,6 +29,7 @@ const ChatInput = () => {
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
+      sendAdminStopTyping();
       handleSendMessage();
     }
   };
@@ -46,14 +48,16 @@ const ChatInput = () => {
           onBlur={handleInputBlur}
           placeholder={t("chat.typingMessage") || "Nhập tin nhắn của bạn..."}
           className="flex-1 bg-transparent py-3 px-4 focus:outline-none text-gray-700"
-          disabled={!selectedChatId}
+          disabled={!selectedUserId}
         />
         <Button
           onClick={handleSendMessage}
           className="rounded-full w-10 h-10 flex items-center justify-center shadow-sm hover:shadow transition-all"
           bgColor="gray-100"
-          textColor={inputValue.trim() && selectedChatId ? "gray-500" : "gray-400"}
-          disabled={!inputValue.trim() || !selectedChatId}
+          textColor={
+            inputValue.trim() && selectedUserId ? "gray-500" : "gray-400"
+          }
+          disabled={!inputValue.trim() || !selectedUserId}
         >
           <Icon name="send" size="1.2" className="" />
         </Button>

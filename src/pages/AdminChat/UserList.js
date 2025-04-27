@@ -8,7 +8,7 @@ import { useAdminChat } from "../../context/adminChatContext";
 
 const UserList = () => {
   const { t } = useTranslation();
-  const { chats, selectedChatId, setSelectedChatId } = useAdminChat();
+  const { chats, selectedUserId, setSelectedUserId } = useAdminChat();
   const [searchTerm, setSearchTerm] = useState("");
 
   console.log("chats", chats);
@@ -88,10 +88,10 @@ const UserList = () => {
               className={clsx(
                 "flex items-center p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors",
                 {
-                  "bg-emerald/10": selectedChatId === chat._id,
+                  "bg-emerald/10": selectedUserId === chat.userId?._id,
                 }
               )}
-              onClick={() => setSelectedChatId(chat._id)}
+              onClick={() => setSelectedUserId(chat.userId?._id)}
             >
               <div className="relative">
                 <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-md">
