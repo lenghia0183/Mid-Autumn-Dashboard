@@ -14,6 +14,13 @@ import {
   LineElement,
   RadialLinearScale,
 } from "chart.js";
+import {
+  useGetProductDistribution,
+  useGetRevenueProfit,
+} from "../../service/https/statistic";
+import { Form, Formik } from "formik";
+import FormikAutoComplete from "../../components/Formik/FormikAutoComplete";
+import { useEffect, useRef, useState } from "react";
 
 ChartJS.register(
   CategoryScale,
@@ -34,32 +41,7 @@ const COLORS = {
   orange: "#FFB74D", // Cam nhạt
   red: "#E57373", // Đỏ nhạt
   gray: "#BDBDBD", // Xám nhạt
-};
-
-const dataBar = {
-  labels: ["Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10"],
-  datasets: [
-    {
-      label: "Doanh thu (triệu VND)",
-      data: [120, 250, 400, 180],
-      backgroundColor: COLORS.primary,
-    },
-  ],
-};
-
-const dataPie = {
-  labels: ["Bánh Thập Cẩm", "Bánh Đậu Xanh", "Bánh Sữa Dừa", "Bánh Hạt Sen"],
-  datasets: [
-    {
-      data: [35, 40, 25, 30],
-      backgroundColor: [
-        COLORS.primary,
-        COLORS.yellow,
-        COLORS.orange,
-        COLORS.red,
-      ],
-    },
-  ],
+  green: "#00C853", // Xanh lá nhạt
 };
 
 const dataLine = {
@@ -119,44 +101,181 @@ const dataDoughnut = {
 };
 
 export default function Dashboard() {
+  const innerForm = useRef();
+  const [values, setValues] = useState();
+
+  const { data: revenueData, mutate: refreshRevenueData } = useGetRevenueProfit(
+    {
+      filterBy: innerForm.current?.values?.revenueFilterBy?.value,
+    }
+  );
+
+  const { data: productDistributionData, mutate: refreshProductDistribution } =
+    useGetProductDistribution({
+      filterBy: values?.productDistributionFilterBy?.value,
+    });
+
+  console.log("data", productDistributionData);
+
+  useEffect(() => {
+    refreshRevenueData();
+  }, [values?.revenueFilterBy]);
+
+  useEffect(() => {
+    refreshProductDistribution();
+  }, [values?.productDistributionFilterBy]);
+
+  const dataBar = {
+    labels:
+      revenueData?.data?.map((item) => {
+        if (values?.revenueFilterBy?.value === "month") {
+          return item.month;
+        } else if (values?.revenueFilterBy?.value === "year") {
+          return item.year;
+        } else if (values?.revenueFilterBy?.value === "week") {
+          // return item.week;
+          return `Tử ${item.startDate} đến ${item.endDate}`;
+        } else if (values?.revenueFilterBy?.value === "day") {
+          // return item.day;
+          return item.formattedDate;
+        }
+      }) || [],
+    datasets: [
+      {
+        label: "Doanh thu (triệu VND)",
+        data: revenueData?.data.map((item) => item.revenue) || [],
+        backgroundColor: COLORS.primary,
+      },
+    ],
+  };
+
+  const dataPie = {
+    labels: productDistributionData?.data?.othersPercentage
+      ? productDistributionData?.data?.topProducts
+          ?.map((item) => item.name)
+          .concat("Các sản phẩm khác")
+      : productDistributionData?.data?.topProducts?.map((item) => item.name) ||
+        [],
+    datasets: [
+      {
+        data:
+          productDistributionData?.data?.topProducts
+            ?.map((item) => item.percentage)
+            .concat(productDistributionData?.data?.othersPercentage) || [],
+        backgroundColor: [
+          COLORS.primary,
+          COLORS.yellow,
+          COLORS.orange,
+          COLORS.red,
+          COLORS.gray,
+          COLORS.green,
+        ],
+      },
+    ],
+  };
+
+  console.log(
+    "test",
+    productDistributionData?.data?.topProducts
+      ?.map((item) => item.percentage)
+      .concat(productDistributionData?.data?.othersPercentage)
+  );
+
+  const filterBy = [
+    {
+      label: "Tháng",
+      value: "month",
+    },
+    {
+      label: "Năm",
+      value: "year",
+    },
+    {
+      label: "Tuần",
+      value: "week",
+    },
+    {
+      label: "Ngày",
+      value: "day",
+    },
+  ];
+
   return (
-    <div className="grid grid-cols-3 gap-6 p-6 bg-gray-100">
-      <div className="bg-white p-4 rounded shadow border-l-4 border-[#00796B]">
-        <h2 className="text-lg font-bold text-[#00796B] mb-3">
-          📊 Doanh thu theo tháng
-        </h2>
-        <Bar data={dataBar} />
-      </div>
-      <div className="bg-white p-4 rounded shadow border-l-4 border-[#FFD54F]">
-        <h2 className="text-lg font-bold text-[#FFD54F] mb-3">
-          🍪 Tỉ lệ bánh bán chạy
-        </h2>
-        <Pie data={dataPie} />
-      </div>
-      <div className="bg-white p-4 rounded shadow border-l-4 border-[#FFB74D]">
-        <h2 className="text-lg font-bold text-[#FFB74D] mb-3">
-          📈 Lượt truy cập website
-        </h2>
-        <Line data={dataLine} />
-      </div>
-      <div className="bg-white p-4 rounded shadow border-l-4 border-[#E57373]">
-        <h2 className="text-lg font-bold text-[#E57373] mb-3">
-          🌟 Phản hồi khách hàng
-        </h2>
-        <Radar data={dataRadar} />
-      </div>
-      <div className="bg-white p-4 rounded shadow border-l-4 border-[#BDBDBD]">
-        <h2 className="text-lg font-bold text-[#BDBDBD] mb-3">
-          🗺️ Đơn hàng theo khu vực
-        </h2>
-        <PolarArea data={dataPolar} />
-      </div>
-      <div className="bg-white p-4 rounded shadow border-l-4 border-[#00796B]">
-        <h2 className="text-lg font-bold text-[#00796B] mb-3">
-          🏪 Thị phần thương hiệu bánh
-        </h2>
-        <Doughnut data={dataDoughnut} />
-      </div>
-    </div>
+    <Formik
+      initialValues={{
+        revenueFilterBy: filterBy[0],
+        productDistributionFilterBy: filterBy[0],
+      }}
+      enableReinitialize
+      innerRef={(ref) => {
+        innerForm.current = ref;
+        setValues(ref?.values);
+      }}
+    >
+      {({ values }) => {
+        return (
+          <Form>
+            <div className="grid grid-cols-3 gap-6 p-6 bg-gray-100">
+              <div className="bg-white p-4 rounded shadow border-l-4 border-[#00796B]">
+                <div className="flex justify-between items-center gap-10 mb-5">
+                  <h2 className=" flex-shrink-0 text-lg font-bold text-[#00796B]">
+                    📊 {`Doanh thu theo ${values.revenueFilterBy.label}`}
+                  </h2>
+                  <FormikAutoComplete
+                    name="revenueFilterBy"
+                    options={filterBy}
+                    getOptionLabel={(opt) => opt.label}
+                    isEqualValue={(val, opt) => val.value === opt.value}
+                    label="Lọc theo"
+                  />
+                </div>
+                <Bar data={dataBar} />
+              </div>
+              <div className="bg-white p-4 rounded shadow border-l-4 border-[#FFD54F]">
+                <div className="flex justify-between items-center gap-10 mb-5">
+                  <h2 className=" text-lg font-bold text-[#00796B]">
+                    📊{" "}
+                    {`Tỉ lệ bánh bán chạy theo ${values.productDistributionFilterBy.label}`}
+                  </h2>
+                  <FormikAutoComplete
+                    name="productDistributionFilterBy"
+                    options={filterBy}
+                    getOptionLabel={(opt) => opt?.label}
+                    isEqualValue={(val, opt) => val?.value === opt?.value}
+                    label="Lọc theo"
+                  />
+                </div>
+
+                <Pie data={dataPie} />
+              </div>
+              <div className="bg-white p-4 rounded shadow border-l-4 border-[#FFB74D]">
+                <h2 className="text-lg font-bold text-[#FFB74D] mb-3">
+                  📈 Lượt truy cập website
+                </h2>
+                <Line data={dataLine} />
+              </div>
+              <div className="bg-white p-4 rounded shadow border-l-4 border-[#E57373]">
+                <h2 className="text-lg font-bold text-[#E57373] mb-3">
+                  🌟 Phản hồi khách hàng
+                </h2>
+                <Radar data={dataRadar} />
+              </div>
+              <div className="bg-white p-4 rounded shadow border-l-4 border-[#BDBDBD]">
+                <h2 className="text-lg font-bold text-[#BDBDBD] mb-3">
+                  🗺️ Đơn hàng theo khu vực
+                </h2>
+                <PolarArea data={dataPolar} />
+              </div>
+              <div className="bg-white p-4 rounded shadow border-l-4 border-[#00796B]">
+                <h2 className="text-lg font-bold text-[#00796B] mb-3">
+                  🏪 Thị phần thương hiệu bánh
+                </h2>
+                <Doughnut data={dataDoughnut} />
+              </div>
+            </div>
+          </Form>
+        );
+      }}
+    </Formik>
   );
 }

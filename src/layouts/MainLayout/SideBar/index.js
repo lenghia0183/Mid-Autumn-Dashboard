@@ -9,7 +9,7 @@ import images from "../../../asset/images";
 
 const navItems = [
   { path: PATH.DASHBOARD, icon: "char", label: "Thống kê" },
-  // { path: PATH.ORDER_LIST, icon: "order", label: "Danh sách đơn hàng" },
+  { path: PATH.ORDER_LIST, icon: "order", label: "Danh sách đơn hàng" },
   { path: PATH.USER_LIST, icon: "user", label: "Danh sách người dùng" },
   { path: PATH.PRODUCT_LIST, icon: "product", label: "Danh sách sản phẩm" },
   { path: PATH.CATEGORY_LIST, icon: "category", label: "Danh sách danh mục" },
@@ -25,15 +25,9 @@ const navItems = [
   },
   {
     path: PATH.ADMIN_CHAT,
-    icon: "message-circle",
+    icon: "message",
     label: "Chat với người dùng",
   },
-  // {
-  //   path: PATH.CONTACT_LIST,
-  //   icon: "contact",
-  //   label: "Danh sách liên hệ",
-  //   icon: "phone",
-  // },
 ];
 
 const DashboardSidebar = ({ className = "", isExpanded, setIsExpanded }) => {

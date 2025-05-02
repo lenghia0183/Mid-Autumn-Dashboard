@@ -48,6 +48,7 @@ import { ReactComponent as SignUp } from "../../asset/icons/SignUp.svg";
 import { ReactComponent as Upload } from "../../asset/icons/Upload.svg";
 import { ReactComponent as Product } from "../../asset/icons/Product.svg";
 import { ReactComponent as Char } from "../../asset/icons/Char.svg";
+import { ReactComponent as Message } from "../../asset/icons/Message.svg";
 
 import { ReactComponent as ArrowSlider } from "../../asset/icons/ArrowSlider.svg";
 import useParseDimension from "../../hooks/useParseDimension";
@@ -107,6 +108,7 @@ export const icons = {
   upload: Upload,
   product: Product,
   char: Char,
+  message: Message,
 };
 
 const Icon = ({
