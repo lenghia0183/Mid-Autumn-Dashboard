@@ -36,3 +36,12 @@ export const useGetOrderByRegion = (filters, config) => {
 
   return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
 };
+
+export const useGetVisitor = (filters, config) => {
+  const url = "v1/visit/statistics";
+  const fetcher = async (url) => {
+    return api.get(url, filters);
+  };
+
+  return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
+};

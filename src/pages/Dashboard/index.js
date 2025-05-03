@@ -19,6 +19,7 @@ import {
   useGetOrderByRegion,
   useGetProductDistribution,
   useGetRevenueProfit,
+  useGetVisitor,
 } from "../../service/https/statistic";
 import { Form, Formik } from "formik";
 import FormikAutoComplete from "../../components/Formik/FormikAutoComplete";
@@ -46,17 +47,58 @@ const COLORS = {
   green: "#00C853", // Xanh lá nhạt
 };
 
-const dataLine = {
-  labels: ["01/08", "08/08", "15/08", "22/08", "29/08"],
-  datasets: [
-    {
-      label: "Lượt truy cập",
-      data: [500, 800, 1200, 1100, 900],
-      borderColor: COLORS.yellow,
-      backgroundColor: "rgba(255, 213, 79, 0.2)",
-      fill: true,
-    },
-  ],
+// Create dynamic visitor data chart based on API response
+const getVisitorChartData = (visitorData) => {
+  if (!visitorData?.data?.visitsByTime) {
+    return {
+      labels: [],
+      datasets: [
+        {
+          label: "Lượt truy cập",
+          data: [],
+          borderColor: COLORS.yellow,
+          backgroundColor: "rgba(255, 213, 79, 0.2)",
+          fill: true,
+        },
+      ],
+    };
+  }
+
+  // Xử lý nhãn dựa trên loại lọc
+  const labels = visitorData.data.visitsByTime.map((item) => {
+    // Nếu có trường date
+    if (item.date) {
+      return item.date;
+    }
+    // Nếu có trường week (định dạng "2025-W17")
+    else if (item.week) {
+      return `Tuần ${item.week.split("-W")[1]}/${item.week.split("-")[0]}`;
+    }
+    // Nếu có trường month (định dạng "2025-05")
+    else if (item.month) {
+      const [year, month] = item.month.split("-");
+      return `Tháng ${month}/${year}`;
+    }
+    // Nếu có trường year
+    else if (item.year) {
+      return `Năm ${item.year}`;
+    }
+    // Trường hợp khác
+    return "N/A";
+  });
+
+  return {
+    labels: labels,
+    datasets: [
+      {
+        label: "Lượt truy cập",
+        data: visitorData.data.visitsByTime.map((item) => item.count),
+        borderColor: COLORS.yellow,
+        backgroundColor: "rgba(255, 213, 79, 0.2)",
+        fill: true,
+      },
+    ],
+  };
 };
 
 const dataRadar = {
@@ -96,10 +138,15 @@ export default function Dashboard() {
       filterBy: values?.orderByRegionFilterBy?.value,
     });
 
+  const { data: visitorData, mutate: refreshVisitorData } = useGetVisitor({
+    filterBy: values?.visitorFilterBy?.value,
+  });
+
   // console.log("brandMarketShareData", brandMarketShareData);
   // console.log("productDistributionData", productDistributionData);
   // console.log("revenueData", revenueData);
-  console.log("orderByRegionData", orderByRegionData);
+  // console.log("orderByRegionData", orderByRegionData);
+  console.log("visitorData", visitorData);
 
   useEffect(() => {
     refreshRevenueData();
@@ -116,6 +163,10 @@ export default function Dashboard() {
   useEffect(() => {
     refreshOrderByRegion();
   }, [values?.orderByRegionFilterBy]);
+
+  useEffect(() => {
+    refreshVisitorData();
+  }, [values?.visitorFilterBy]);
 
   const dataBar = {
     labels:
@@ -234,6 +285,7 @@ export default function Dashboard() {
         productDistributionFilterBy: filterBy[0],
         brandMarketShareFilterBy: filterBy[0],
         orderByRegionFilterBy: filterBy[0],
+        visitorFilterBy: filterBy[0],
       }}
       enableReinitialize
       innerRef={(ref) => {
@@ -278,10 +330,38 @@ export default function Dashboard() {
                 <Pie data={dataPie} />
               </div>
               <div className="bg-white p-4 rounded shadow border-l-4 border-[#FFB74D]">
-                <h2 className="text-lg font-bold text-[#FFB74D] mb-3">
-                  📈 Lượt truy cập website
-                </h2>
-                <Line data={dataLine} />
+                <div className="flex justify-between items-center gap-10 mb-5">
+                  <h2 className="text-lg font-bold text-[#FFB74D]">
+                    {`📈 Lượt truy cập website theo ${values.visitorFilterBy.label}`}
+                  </h2>
+                  <FormikAutoComplete
+                    name="visitorFilterBy"
+                    options={filterBy}
+                    getOptionLabel={(opt) => opt.label}
+                    isEqualValue={(val, opt) => val.value === opt.value}
+                    label="Lọc theo"
+                  />
+                </div>
+                {visitorData?.data?.period && (
+                  <h3 className="text-sm text-gray-600 mb-2">
+                    {`Từ ${new Date(
+                      visitorData.data.period.startDate
+                    ).toLocaleDateString("vi-VN")} đến ${new Date(
+                      visitorData.data.period.endDate
+                    ).toLocaleDateString("vi-VN")}`}
+                  </h3>
+                )}
+                <div className="flex items-center justify-between mb-2">
+                  <div className="bg-gray-100 p-2 rounded">
+                    <span className="font-bold">Tổng lượt truy cập:</span>{" "}
+                    {visitorData?.data?.totalVisits || 0}
+                  </div>
+                  <div className="bg-gray-100 p-2 rounded">
+                    <span className="font-bold">Số người dùng:</span>{" "}
+                    {visitorData?.data?.uniqueVisitors || 0}
+                  </div>
+                </div>
+                <Line data={getVisitorChartData(visitorData)} />
               </div>
               <div className="bg-white p-4 rounded shadow border-l-4 border-[#E57373]">
                 <h2 className="text-lg font-bold text-[#E57373] mb-3">
@@ -292,7 +372,7 @@ export default function Dashboard() {
               <div className="bg-white p-4 rounded shadow border-l-4 border-[#BDBDBD]">
                 <div className="flex justify-between items-center gap-10 mb-5">
                   <h2 className="text-lg font-bold text-[#00796B]">
-                    {`Đơn hàng theo khu vực theo ${values.revenueFilterBy.label}`}
+                    {`Đơn hàng theo khu vực theo ${values.orderByRegionFilterBy.label}`}
                   </h2>
                   <FormikAutoComplete
                     name="orderByRegionFilterBy"
