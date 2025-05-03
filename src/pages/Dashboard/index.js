@@ -48,6 +48,37 @@ const COLORS = {
   green: "#00C853", // Xanh lá nhạt
 };
 
+// Hàm tạo màu sắc động không bị lặp lại
+const generateColors = (count) => {
+  // Mảng màu cơ bản từ COLORS
+  const baseColors = Object.values(COLORS);
+
+  // Nếu số lượng cần ít hơn hoặc bằng số màu có sẵn, trả về số lượng màu cần thiết
+  if (count <= baseColors.length) {
+    return baseColors.slice(0, count);
+  }
+
+  // Nếu cần nhiều màu hơn, tạo thêm màu mới bằng cách điều chỉnh độ sáng và độ bão hòa
+  const colors = [...baseColors];
+
+  // Tạo thêm màu cho đến khi đủ số lượng cần thiết
+  while (colors.length < count) {
+    // Tạo màu mới bằng cách thay đổi độ sáng của các màu cơ bản
+    const hue = Math.floor(Math.random() * 360); // Giá trị màu sắc (0-360)
+    const saturation = 70 + Math.floor(Math.random() * 30); // Độ bão hòa (70-100%)
+    const lightness = 40 + Math.floor(Math.random() * 40); // Độ sáng (40-80%)
+
+    const newColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+
+    // Kiểm tra xem màu mới có trùng với màu nào trong mảng không
+    if (!colors.includes(newColor)) {
+      colors.push(newColor);
+    }
+  }
+
+  return colors;
+};
+
 // Create dynamic visitor data chart based on API response
 const getVisitorChartData = (visitorData) => {
   if (!visitorData?.data?.visitsByTime) {
@@ -105,26 +136,15 @@ const getVisitorChartData = (visitorData) => {
 // Hàm tạo dữ liệu biểu đồ đánh giá từ API
 const getReviewsChartData = (reviewsData) => {
   if (!reviewsData?.data?.ratingDistribution) {
+    const defaultColors = generateColors(5);
     return {
       labels: ["1 sao", "2 sao", "3 sao", "4 sao", "5 sao"],
       datasets: [
         {
           label: "Số lượng đánh giá",
           data: [0, 0, 0, 0, 0],
-          backgroundColor: [
-            COLORS.red,
-            COLORS.orange,
-            COLORS.yellow,
-            COLORS.green,
-            COLORS.primary,
-          ],
-          borderColor: [
-            COLORS.red,
-            COLORS.orange,
-            COLORS.yellow,
-            COLORS.green,
-            COLORS.primary,
-          ],
+          backgroundColor: defaultColors,
+          borderColor: defaultColors,
           borderWidth: 1,
         },
       ],
@@ -136,26 +156,16 @@ const getReviewsChartData = (reviewsData) => {
     (a, b) => a.rating - b.rating
   );
 
+  const colors = generateColors(sortedDistribution.length);
+
   return {
     labels: sortedDistribution.map((item) => `${item.rating} sao`),
     datasets: [
       {
         label: "Số lượng đánh giá",
         data: sortedDistribution.map((item) => item.count),
-        backgroundColor: [
-          COLORS.red,
-          COLORS.orange,
-          COLORS.yellow,
-          COLORS.green,
-          COLORS.primary,
-        ],
-        borderColor: [
-          COLORS.red,
-          COLORS.orange,
-          COLORS.yellow,
-          COLORS.green,
-          COLORS.primary,
-        ],
+        backgroundColor: colors,
+        borderColor: colors,
         borderWidth: 1,
       },
     ],
@@ -243,7 +253,7 @@ export default function Dashboard() {
       {
         label: "Doanh thu (triệu VND)",
         data: revenueData?.data.map((item) => item.revenue) || [],
-        backgroundColor: COLORS.primary,
+        backgroundColor: generateColors(1)[0], // Sử dụng màu đầu tiên từ mảng màu được tạo
       },
     ],
   };
@@ -261,14 +271,10 @@ export default function Dashboard() {
           productDistributionData?.data?.topProducts
             ?.map((item) => item.percentage)
             .concat(productDistributionData?.data?.othersPercentage) || [],
-        backgroundColor: [
-          COLORS.primary,
-          COLORS.yellow,
-          COLORS.orange,
-          COLORS.red,
-          COLORS.gray,
-          COLORS.green,
-        ],
+        backgroundColor: generateColors(
+          (productDistributionData?.data?.topProducts?.length || 0) +
+            (productDistributionData?.data?.othersPercentage ? 1 : 0)
+        ),
       },
     ],
   };
@@ -281,12 +287,9 @@ export default function Dashboard() {
           brandMarketShareData?.data?.brands?.map(
             (item) => item.marketSharePercentage
           ) || [],
-        backgroundColor: [
-          COLORS.primary,
-          COLORS.yellow,
-          COLORS.orange,
-          COLORS.red,
-        ],
+        backgroundColor: generateColors(
+          brandMarketShareData?.data?.brands?.length || 0
+        ),
       },
     ],
   };
@@ -299,13 +302,9 @@ export default function Dashboard() {
       {
         data:
           orderByRegionData?.data?.topCities?.map((item) => item.count) || [],
-        backgroundColor: [
-          COLORS.primary,
-          COLORS.yellow,
-          COLORS.orange,
-          COLORS.red,
-          COLORS.gray,
-        ],
+        backgroundColor: generateColors(
+          orderByRegionData?.data?.topCities?.length || 0
+        ),
       },
     ],
   };
