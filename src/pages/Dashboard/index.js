@@ -15,6 +15,7 @@ import {
   RadialLinearScale,
 } from "chart.js";
 import {
+  useGetBrandMarketShare,
   useGetProductDistribution,
   useGetRevenueProfit,
 } from "../../service/https/statistic";
@@ -85,21 +86,6 @@ const dataPolar = {
   ],
 };
 
-const dataDoughnut = {
-  labels: ["Kinh Đô", "Như Lan", "Bibica", "Đồng Khánh"],
-  datasets: [
-    {
-      data: [40, 25, 20, 15],
-      backgroundColor: [
-        COLORS.primary,
-        COLORS.yellow,
-        COLORS.orange,
-        COLORS.red,
-      ],
-    },
-  ],
-};
-
 export default function Dashboard() {
   const innerForm = useRef();
   const [values, setValues] = useState();
@@ -115,7 +101,14 @@ export default function Dashboard() {
       filterBy: values?.productDistributionFilterBy?.value,
     });
 
-  console.log("data", productDistributionData);
+  const { data: brandMarketShareData, mutate: refreshBrandMarketShare } =
+    useGetBrandMarketShare({
+      filterBy: values?.brandMarketShareFilterBy?.value,
+    });
+
+  // console.log("brandMarketShareData", brandMarketShareData);
+  // console.log("productDistributionData", productDistributionData);
+  // console.log("revenueData", revenueData);
 
   useEffect(() => {
     refreshRevenueData();
@@ -124,6 +117,10 @@ export default function Dashboard() {
   useEffect(() => {
     refreshProductDistribution();
   }, [values?.productDistributionFilterBy]);
+
+  useEffect(() => {
+    refreshBrandMarketShare();
+  }, [values?.brandMarketShareFilterBy]);
 
   const dataBar = {
     labels:
@@ -174,12 +171,23 @@ export default function Dashboard() {
     ],
   };
 
-  console.log(
-    "test",
-    productDistributionData?.data?.topProducts
-      ?.map((item) => item.percentage)
-      .concat(productDistributionData?.data?.othersPercentage)
-  );
+  const dataDoughnut = {
+    labels: brandMarketShareData?.data?.brands?.map((item) => item.name) || [],
+    datasets: [
+      {
+        data:
+          brandMarketShareData?.data?.brands?.map(
+            (item) => item.marketSharePercentage
+          ) || [],
+        backgroundColor: [
+          COLORS.primary,
+          COLORS.yellow,
+          COLORS.orange,
+          COLORS.red,
+        ],
+      },
+    ],
+  };
 
   const filterBy = [
     {
@@ -205,6 +213,7 @@ export default function Dashboard() {
       initialValues={{
         revenueFilterBy: filterBy[0],
         productDistributionFilterBy: filterBy[0],
+        brandMarketShareFilterBy: filterBy[0],
       }}
       enableReinitialize
       innerRef={(ref) => {
@@ -219,7 +228,7 @@ export default function Dashboard() {
               <div className="bg-white p-4 rounded shadow border-l-4 border-[#00796B]">
                 <div className="flex justify-between items-center gap-10 mb-5">
                   <h2 className=" flex-shrink-0 text-lg font-bold text-[#00796B]">
-                    📊 {`Doanh thu theo ${values.revenueFilterBy.label}`}
+                    {`Doanh thu theo ${values.revenueFilterBy.label}`}
                   </h2>
                   <FormikAutoComplete
                     name="revenueFilterBy"
@@ -234,7 +243,6 @@ export default function Dashboard() {
               <div className="bg-white p-4 rounded shadow border-l-4 border-[#FFD54F]">
                 <div className="flex justify-between items-center gap-10 mb-5">
                   <h2 className=" text-lg font-bold text-[#00796B]">
-                    📊{" "}
                     {`Tỉ lệ bánh bán chạy theo ${values.productDistributionFilterBy.label}`}
                   </h2>
                   <FormikAutoComplete
@@ -245,6 +253,7 @@ export default function Dashboard() {
                     label="Lọc theo"
                   />
                 </div>
+                <h3>{`Từ ${productDistributionData?.data?.period?.startDate} đến ${productDistributionData?.data?.period?.endDate}`}</h3>
 
                 <Pie data={dataPie} />
               </div>
@@ -267,9 +276,19 @@ export default function Dashboard() {
                 <PolarArea data={dataPolar} />
               </div>
               <div className="bg-white p-4 rounded shadow border-l-4 border-[#00796B]">
-                <h2 className="text-lg font-bold text-[#00796B] mb-3">
-                  🏪 Thị phần thương hiệu bánh
-                </h2>
+                <div className="flex justify-between items-center gap-10 mb-5">
+                  <h2 className=" text-lg font-bold text-[#00796B]">
+                    {`Thị phần thương hiệu bán theo ${values.brandMarketShareFilterBy.label}`}
+                  </h2>
+                  <FormikAutoComplete
+                    name="brandMarketShareFilterBy"
+                    options={filterBy}
+                    getOptionLabel={(opt) => opt?.label}
+                    isEqualValue={(val, opt) => val?.value === opt?.value}
+                    label="Lọc theo"
+                  />
+                </div>
+                <h3>{`Từ ${brandMarketShareData?.data?.period?.startDate} đến ${brandMarketShareData?.data?.period?.endDate}`}</h3>
                 <Doughnut data={dataDoughnut} />
               </div>
             </div>
