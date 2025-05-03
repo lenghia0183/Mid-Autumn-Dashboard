@@ -200,7 +200,7 @@ export default function Dashboard() {
   // console.log("revenueData", revenueData);
   // console.log("orderByRegionData", orderByRegionData);
   // console.log("visitorData", visitorData);
-  console.log("reviewsData", reviewsData);
+  // console.log("reviewsData", reviewsData);
 
   useEffect(() => {
     refreshRevenueData();
@@ -234,10 +234,8 @@ export default function Dashboard() {
         } else if (values?.revenueFilterBy?.value === "year") {
           return item.year;
         } else if (values?.revenueFilterBy?.value === "week") {
-          // return item.week;
           return `Tử ${item.startDate} đến ${item.endDate}`;
         } else if (values?.revenueFilterBy?.value === "day") {
-          // return item.day;
           return item.formattedDate;
         }
       }) || [],
@@ -293,11 +291,6 @@ export default function Dashboard() {
     ],
   };
 
-  console.log(
-    "orderByRegionData?.data?.topCites?.map((item) => item.provinceName)",
-    orderByRegionData?.data?.topCities?.map((item) => item.provinceName)
-  );
-
   const dataPolar = {
     labels:
       orderByRegionData?.data?.topCities?.map((item) => item.provinceName) ||
@@ -319,6 +312,14 @@ export default function Dashboard() {
 
   const filterBy = [
     {
+      label: "Ngày",
+      value: "day",
+    },
+    {
+      label: "Tuần",
+      value: "week",
+    },
+    {
       label: "Tháng",
       value: "month",
     },
@@ -326,25 +327,17 @@ export default function Dashboard() {
       label: "Năm",
       value: "year",
     },
-    {
-      label: "Tuần",
-      value: "week",
-    },
-    {
-      label: "Ngày",
-      value: "day",
-    },
   ];
 
   return (
     <Formik
       initialValues={{
-        revenueFilterBy: filterBy[0],
-        productDistributionFilterBy: filterBy[0],
-        brandMarketShareFilterBy: filterBy[0],
-        orderByRegionFilterBy: filterBy[0],
-        visitorFilterBy: filterBy[0],
-        reviewsFilterBy: filterBy[0],
+        revenueFilterBy: filterBy[2],
+        productDistributionFilterBy: filterBy[2],
+        brandMarketShareFilterBy: filterBy[2],
+        orderByRegionFilterBy: filterBy[2],
+        visitorFilterBy: filterBy[2],
+        reviewsFilterBy: filterBy[3],
       }}
       enableReinitialize
       innerRef={(ref) => {
@@ -384,7 +377,7 @@ export default function Dashboard() {
                     label="Lọc theo"
                   />
                 </div>
-                <h3>{`Từ ${productDistributionData?.data?.period?.startDate} đến ${productDistributionData?.data?.period?.endDate}`}</h3>
+                <h3 className="text-sm text-gray-600 mb-2">{`Từ ${productDistributionData?.data?.period?.startDate} đến ${productDistributionData?.data?.period?.endDate}`}</h3>
 
                 <Pie data={dataPie} />
               </div>
@@ -474,7 +467,7 @@ export default function Dashboard() {
                     label="Lọc theo"
                   />
                 </div>
-                <h3>{`Từ ${orderByRegionData?.data?.period?.startDate} đến ${orderByRegionData?.data?.period?.endDate}`}</h3>
+                <h3 className="text-sm text-gray-600 mb-2">{`Từ ${orderByRegionData?.data?.period?.startDate} đến ${orderByRegionData?.data?.period?.endDate}`}</h3>
                 <PolarArea data={dataPolar} />
               </div>
               <div className="bg-white p-4 rounded shadow border-l-4 border-[#00796B]">
@@ -490,7 +483,7 @@ export default function Dashboard() {
                     label="Lọc theo"
                   />
                 </div>
-                <h3>{`Từ ${brandMarketShareData?.data?.period?.startDate} đến ${brandMarketShareData?.data?.period?.endDate}`}</h3>
+                <h3 className="text-sm text-gray-600 mb-2">{`Từ ${brandMarketShareData?.data?.period?.startDate} đến ${brandMarketShareData?.data?.period?.endDate}`}</h3>
                 <Doughnut data={dataDoughnut} />
               </div>
             </div>
