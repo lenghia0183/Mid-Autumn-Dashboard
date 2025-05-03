@@ -29,7 +29,7 @@ export const useGetBrandMarketShare = (filters, config) => {
 };
 
 export const useGetOrderByRegion = (filters, config) => {
-  const url = "v1/statistic/order-by-region";
+  const url = "v1/statistic/orders-by-region";
   const fetcher = async (url) => {
     return api.get(url, filters);
   };

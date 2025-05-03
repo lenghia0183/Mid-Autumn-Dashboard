@@ -16,6 +16,7 @@ import {
 } from "chart.js";
 import {
   useGetBrandMarketShare,
+  useGetOrderByRegion,
   useGetProductDistribution,
   useGetRevenueProfit,
 } from "../../service/https/statistic";
@@ -70,22 +71,6 @@ const dataRadar = {
   ],
 };
 
-const dataPolar = {
-  labels: ["Hà Nội", "TP.HCM", "Đà Nẵng", "Hải Phòng", "Cần Thơ"],
-  datasets: [
-    {
-      data: [50, 80, 30, 40, 25],
-      backgroundColor: [
-        COLORS.primary,
-        COLORS.yellow,
-        COLORS.orange,
-        COLORS.red,
-        COLORS.gray,
-      ],
-    },
-  ],
-};
-
 export default function Dashboard() {
   const innerForm = useRef();
   const [values, setValues] = useState();
@@ -106,9 +91,15 @@ export default function Dashboard() {
       filterBy: values?.brandMarketShareFilterBy?.value,
     });
 
+  const { data: orderByRegionData, mutate: refreshOrderByRegion } =
+    useGetOrderByRegion({
+      filterBy: values?.orderByRegionFilterBy?.value,
+    });
+
   // console.log("brandMarketShareData", brandMarketShareData);
   // console.log("productDistributionData", productDistributionData);
   // console.log("revenueData", revenueData);
+  console.log("orderByRegionData", orderByRegionData);
 
   useEffect(() => {
     refreshRevenueData();
@@ -121,6 +112,10 @@ export default function Dashboard() {
   useEffect(() => {
     refreshBrandMarketShare();
   }, [values?.brandMarketShareFilterBy]);
+
+  useEffect(() => {
+    refreshOrderByRegion();
+  }, [values?.orderByRegionFilterBy]);
 
   const dataBar = {
     labels:
@@ -189,6 +184,30 @@ export default function Dashboard() {
     ],
   };
 
+  console.log(
+    "orderByRegionData?.data?.topCites?.map((item) => item.provinceName)",
+    orderByRegionData?.data?.topCities?.map((item) => item.provinceName)
+  );
+
+  const dataPolar = {
+    labels:
+      orderByRegionData?.data?.topCities?.map((item) => item.provinceName) ||
+      [],
+    datasets: [
+      {
+        data:
+          orderByRegionData?.data?.topCities?.map((item) => item.count) || [],
+        backgroundColor: [
+          COLORS.primary,
+          COLORS.yellow,
+          COLORS.orange,
+          COLORS.red,
+          COLORS.gray,
+        ],
+      },
+    ],
+  };
+
   const filterBy = [
     {
       label: "Tháng",
@@ -214,6 +233,7 @@ export default function Dashboard() {
         revenueFilterBy: filterBy[0],
         productDistributionFilterBy: filterBy[0],
         brandMarketShareFilterBy: filterBy[0],
+        orderByRegionFilterBy: filterBy[0],
       }}
       enableReinitialize
       innerRef={(ref) => {
@@ -270,9 +290,19 @@ export default function Dashboard() {
                 <Radar data={dataRadar} />
               </div>
               <div className="bg-white p-4 rounded shadow border-l-4 border-[#BDBDBD]">
-                <h2 className="text-lg font-bold text-[#BDBDBD] mb-3">
-                  🗺️ Đơn hàng theo khu vực
-                </h2>
+                <div className="flex justify-between items-center gap-10 mb-5">
+                  <h2 className="text-lg font-bold text-[#00796B]">
+                    {`Đơn hàng theo khu vực theo ${values.revenueFilterBy.label}`}
+                  </h2>
+                  <FormikAutoComplete
+                    name="orderByRegionFilterBy"
+                    options={filterBy}
+                    getOptionLabel={(opt) => opt.label}
+                    isEqualValue={(val, opt) => val.value === opt.value}
+                    label="Lọc theo"
+                  />
+                </div>
+                <h3>{`Từ ${orderByRegionData?.data?.period?.startDate} đến ${orderByRegionData?.data?.period?.endDate}`}</h3>
                 <PolarArea data={dataPolar} />
               </div>
               <div className="bg-white p-4 rounded shadow border-l-4 border-[#00796B]">
