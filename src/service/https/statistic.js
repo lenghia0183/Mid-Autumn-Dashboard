@@ -45,3 +45,12 @@ export const useGetVisitor = (filters, config) => {
 
   return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
 };
+
+export const useGetReviews = (filters, config) => {
+  const url = "v1/statistic/reviews";
+  const fetcher = async (url) => {
+    return api.get(url, filters);
+  };
+
+  return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
+};

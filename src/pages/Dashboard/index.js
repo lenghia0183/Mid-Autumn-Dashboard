@@ -19,6 +19,7 @@ import {
   useGetOrderByRegion,
   useGetProductDistribution,
   useGetRevenueProfit,
+  useGetReviews,
   useGetVisitor,
 } from "../../service/https/statistic";
 import { Form, Formik } from "formik";
@@ -101,16 +102,64 @@ const getVisitorChartData = (visitorData) => {
   };
 };
 
-const dataRadar = {
-  labels: ["Chất lượng", "Hương vị", "Giá cả", "Dịch vụ", "Giao hàng"],
-  datasets: [
-    {
-      label: "Đánh giá (trên 10)",
-      data: [9, 8, 7, 9, 8],
-      borderColor: COLORS.primary,
-      backgroundColor: "rgba(0, 121, 107, 0.2)",
-    },
-  ],
+// Hàm tạo dữ liệu biểu đồ đánh giá từ API
+const getReviewsChartData = (reviewsData) => {
+  if (!reviewsData?.data?.ratingDistribution) {
+    return {
+      labels: ["1 sao", "2 sao", "3 sao", "4 sao", "5 sao"],
+      datasets: [
+        {
+          label: "Số lượng đánh giá",
+          data: [0, 0, 0, 0, 0],
+          backgroundColor: [
+            COLORS.red,
+            COLORS.orange,
+            COLORS.yellow,
+            COLORS.green,
+            COLORS.primary,
+          ],
+          borderColor: [
+            COLORS.red,
+            COLORS.orange,
+            COLORS.yellow,
+            COLORS.green,
+            COLORS.primary,
+          ],
+          borderWidth: 1,
+        },
+      ],
+    };
+  }
+
+  // Sắp xếp phân phối đánh giá theo số sao (1-5)
+  const sortedDistribution = [...reviewsData.data.ratingDistribution].sort(
+    (a, b) => a.rating - b.rating
+  );
+
+  return {
+    labels: sortedDistribution.map((item) => `${item.rating} sao`),
+    datasets: [
+      {
+        label: "Số lượng đánh giá",
+        data: sortedDistribution.map((item) => item.count),
+        backgroundColor: [
+          COLORS.red,
+          COLORS.orange,
+          COLORS.yellow,
+          COLORS.green,
+          COLORS.primary,
+        ],
+        borderColor: [
+          COLORS.red,
+          COLORS.orange,
+          COLORS.yellow,
+          COLORS.green,
+          COLORS.primary,
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
 };
 
 export default function Dashboard() {
@@ -142,11 +191,16 @@ export default function Dashboard() {
     filterBy: values?.visitorFilterBy?.value,
   });
 
+  const { data: reviewsData, mutate: refreshReviewsData } = useGetReviews({
+    filterBy: values?.reviewsFilterBy?.value,
+  });
+
   // console.log("brandMarketShareData", brandMarketShareData);
   // console.log("productDistributionData", productDistributionData);
   // console.log("revenueData", revenueData);
   // console.log("orderByRegionData", orderByRegionData);
-  console.log("visitorData", visitorData);
+  // console.log("visitorData", visitorData);
+  console.log("reviewsData", reviewsData);
 
   useEffect(() => {
     refreshRevenueData();
@@ -167,6 +221,10 @@ export default function Dashboard() {
   useEffect(() => {
     refreshVisitorData();
   }, [values?.visitorFilterBy]);
+
+  useEffect(() => {
+    refreshReviewsData();
+  }, [values?.reviewsFilterBy]);
 
   const dataBar = {
     labels:
@@ -286,6 +344,7 @@ export default function Dashboard() {
         brandMarketShareFilterBy: filterBy[0],
         orderByRegionFilterBy: filterBy[0],
         visitorFilterBy: filterBy[0],
+        reviewsFilterBy: filterBy[0],
       }}
       enableReinitialize
       innerRef={(ref) => {
@@ -364,10 +423,43 @@ export default function Dashboard() {
                 <Line data={getVisitorChartData(visitorData)} />
               </div>
               <div className="bg-white p-4 rounded shadow border-l-4 border-[#E57373]">
-                <h2 className="text-lg font-bold text-[#E57373] mb-3">
-                  🌟 Phản hồi khách hàng
-                </h2>
-                <Radar data={dataRadar} />
+                <div className="flex justify-between items-center gap-10 mb-5">
+                  <h2 className="text-lg font-bold text-[#E57373]">
+                    {`🌟 Đánh giá khách hàng theo ${
+                      values.reviewsFilterBy?.label || "Tháng"
+                    }`}
+                  </h2>
+                  <FormikAutoComplete
+                    name="reviewsFilterBy"
+                    options={filterBy}
+                    getOptionLabel={(opt) => opt.label}
+                    isEqualValue={(val, opt) => val.value === opt.value}
+                    label="Lọc theo"
+                  />
+                </div>
+                {reviewsData?.data?.period && (
+                  <h3 className="text-sm text-gray-600 mb-2">
+                    {`Từ ${new Date(
+                      reviewsData.data.period.startDate
+                    ).toLocaleDateString("vi-VN")} đến ${new Date(
+                      reviewsData.data.period.endDate
+                    ).toLocaleDateString("vi-VN")}`}
+                  </h3>
+                )}
+                <div className="flex items-center justify-between mb-2">
+                  <div className="bg-gray-100 p-2 rounded">
+                    <span className="font-bold">Tổng số đánh giá:</span>{" "}
+                    {reviewsData?.data?.totalReviews || 0}
+                  </div>
+                  <div className="bg-gray-100 p-2 rounded">
+                    <span className="font-bold">Đánh giá trung bình:</span>{" "}
+                    {reviewsData?.data?.averageRating
+                      ? reviewsData.data.averageRating.toFixed(1)
+                      : 0}{" "}
+                    / 5
+                  </div>
+                </div>
+                <Bar data={getReviewsChartData(reviewsData)} />
               </div>
               <div className="bg-white p-4 rounded shadow border-l-4 border-[#BDBDBD]">
                 <div className="flex justify-between items-center gap-10 mb-5">
