@@ -37,7 +37,7 @@ const DashboardSidebar = ({ className = "", isExpanded, setIsExpanded }) => {
   return (
     <aside
       className={clsx(
-        "h-screen p-4 flex flex-col text-white-200 transition-all duration-500 overflow-hidden",
+        "h-screen p-4 flex flex-col text-white-200 transition-all duration-500",
         sidebarWidth,
         className
       )}
@@ -47,7 +47,7 @@ const DashboardSidebar = ({ className = "", isExpanded, setIsExpanded }) => {
     >
       {/* Sidebar Header */}
       <header className="mb-8 border-b border-gray-200 pb-4 flex justify-between items-center">
-        <Link to={PATH.DASHBOARD} className="flex items-center gap-3">
+        <Link to={PATH.DASHBOARD} className=" flex items-center gap-3">
           <Image
             src={images.logo}
             alt="Dashboard Logo"
@@ -58,7 +58,7 @@ const DashboardSidebar = ({ className = "", isExpanded, setIsExpanded }) => {
           <span
             className={clsx(
               "text-2xl font-bold transition-all overflow-hidden whitespace-nowrap duration-700",
-              { "w-60": isExpanded, "w-0": !isExpanded }
+              { "w-36": isExpanded, "w-0": !isExpanded }
             )}
           >
             Nguyệt Việt
