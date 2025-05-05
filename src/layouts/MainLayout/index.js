@@ -6,15 +6,16 @@ import Header from "./../../components/Header/index";
 import GoToTop from "./../../components/GoToTop/index";
 import Backdrop from "./../../components/BackDrop/index";
 import DashboardSidebar from "./SideBar";
+import { useLoading } from "../../context/loadingContext";
 
 const MainLayout = () => {
   const [isExpanded, setIsExpanded] = useState(true);
-
+  const { isLoading } = useLoading();
   const sidebarWidth = isExpanded ? 320 : 150;
 
   return (
     <div className="min-h-screen">
-      <Backdrop open={false} />
+      <Backdrop open={isLoading} />
 
       {/* Sidebar cố định */}
       <div className="fixed top-0 left-0 h-screen z-40">

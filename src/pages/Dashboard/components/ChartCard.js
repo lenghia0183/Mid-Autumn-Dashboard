@@ -17,7 +17,7 @@ const ChartCard = ({
     >
       <div className="flex justify-between items-center gap-5 mb-5">
         <h2
-          className={`w-1/2 flex-shrink-0 text-md font-semibold text-[${
+          className={`w-1/2 flex-shrink-0 text-xl font-semibold text-[${
             titleColor || borderColor
           }]`}
         >
@@ -29,7 +29,6 @@ const ChartCard = ({
           getOptionLabel={(opt) => opt?.label}
           isEqualValue={(val, opt) => val?.value === opt?.value}
           label="Lọc theo"
-          className="!text-base"
         />
       </div>
 
