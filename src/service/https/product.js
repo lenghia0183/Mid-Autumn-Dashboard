@@ -72,3 +72,12 @@ export const useGetProductDetail = (productId, config) => {
 
   return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
 };
+
+export const useGenerateProductDescription = (config) => {
+  const url = "v1/ai/product-description";
+  const fetcher = (url, { arg }) => {
+    return api.post(url, arg);
+  };
+
+  return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
+};

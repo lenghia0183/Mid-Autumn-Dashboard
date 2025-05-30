@@ -258,7 +258,8 @@
       "images": "Danh sách hình ảnh",
       "description": "Mô tả sản phẩm:",
       "success": "Tạo sản phẩm thành công",
-      "costPrice": "Giá nhập vào:"
+      "costPrice": "Giá nhập vào:",
+      "generateDescriptionSuccess": "Tạo mô tả sản phẩm thành công"
     },
 
     "detail": {
