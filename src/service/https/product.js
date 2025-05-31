@@ -81,3 +81,7 @@ export const useGenerateProductDescription = (config) => {
 
   return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
 };
+
+export const getProductList = () => {
+  return api.get("v1/product", { limit: 100 });
+};

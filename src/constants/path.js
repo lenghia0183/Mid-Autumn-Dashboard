@@ -40,6 +40,10 @@ export const PATH = {
   CONTACT_DETAIL: "/contact/detail/:contactId",
 
   ADMIN_CHAT: "/admin-chat",
+
+  INVENTORY: "/inventory",
+  INVENTORY_HISTORY: "/inventory/history",
+  INVENTORY_ADD_PRODUCT: "/inventory/add-product",
 };
 
 export const PAGE_TITLE = {

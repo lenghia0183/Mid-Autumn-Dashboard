@@ -32,6 +32,8 @@ import OrderDetail from "../pages/Order/OrderDetail";
 import ContactList from "../pages/Contact/ContactList";
 import ContactDetail from "../pages/Contact/ContactDetail";
 import AdminChat from "../pages/AdminChat";
+import InventoryHistory from "../pages/Inventory/InventoryHistory";
+import AddProduct from "../pages/Inventory/AddProduct";
 
 const router = createBrowserRouter([
   // main layout
@@ -193,6 +195,21 @@ const router = createBrowserRouter([
         path: PATH.ADMIN_CHAT,
         element: <AdminChat />,
         loader: checkNotLoggedIn,
+      },
+      {
+        path: PATH.INVENTORY,
+        children: [
+          {
+            path: PATH.INVENTORY_HISTORY,
+            element: <InventoryHistory />,
+            loader: checkNotLoggedIn,
+          },
+          {
+            path: PATH.INVENTORY_ADD_PRODUCT,
+            element: <AddProduct />,
+            loader: checkNotLoggedIn,
+          },
+        ],
       },
     ],
   },

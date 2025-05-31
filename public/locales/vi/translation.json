@@ -500,5 +500,58 @@
     "startConversation": "Bắt đầu cuộc trò chuyện với người dùng",
     "typingMessage": "Nhập tin nhắn của bạn...",
     "responseTime": "Chúng tôi thường phản hồi trong vòng vài phút"
+  },
+
+  "inventory": {
+    "btn": {
+      "addProduct": "Thêm sản phẩm vào kho"
+    },
+
+    "history": {
+      "title": "Danh sách kho hàng",
+      "NO": "STT",
+      "productCode": "Mã sản phẩm",
+      "productName": "Tên sản phẩm",
+      "type": "Loại",
+      "quantity": "Số lượng thay đổi",
+      "previousQuantity": "Số lượng trước đó",
+      "newQuantity": "Số lượng sau khi thay đổi",
+      "reason": "Lý do",
+      "note": "Ghi chú",
+      "user": "Người thêm",
+      "date": "Ngày thực hiện",
+      "action": "Hành động",
+      "searchInventory": "Tìm kiếm kho hàng"
+    },
+
+    "addProduct": {
+      "title": "Thêm sản phẩm vào kho hàng",
+      "product": "Sản phẩm",
+      "quantity": "Số lượng",
+      "reason": "Lý do",
+      "note": "Ghi chú",
+      "success": "Thêm sản phẩm vào kho thành công"
+    },
+
+    "type": {
+      "import": "Nhập",
+      "export": "Xuất"
+    },
+
+    "detail": {
+      "title": "Chi tiết kho hàng",
+      "ID": "ID kho hàng:",
+      "name": "Tên kho hàng:",
+      "email": "Email:",
+      "phone": "Số điện thoại:",
+      "content": "Nội dung:"
+    },
+    "deleteDialog": {
+      "title": "Xóa kho hàng",
+      "content": "Bạn có chắc muốn xóa kho hàng này?",
+      "ID": "ID kho hàng:",
+      "name": "Tên kho hàng:",
+      "success": "Xóa kho hàng thành công"
+    }
   }
 }

@@ -19,6 +19,11 @@ const navItems = [
     label: "Danh sách thương hiệu",
   },
   {
+    path: PATH.INVENTORY_HISTORY,
+    icon: "inventory",
+    label: "Quản lý kho hàng",
+  },
+  {
     path: PATH.CONTACT_LIST,
     icon: "phone",
     label: "Danh sách liên hệ",
