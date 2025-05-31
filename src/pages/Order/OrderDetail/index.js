@@ -104,7 +104,7 @@ const OrderDetail = () => {
               </Button>
               <Button
                 variant="outlined"
-                startIcon={<Icon name="check" size={1.5} />}
+                startIcon={<Icon name="edit" size={1.5} />}
                 onClick={() => handleUpdateStatus(ORDER_STATUS.CONFIRMED)}
               >
                 {t("common.orderAction.confirm")}
@@ -126,7 +126,7 @@ const OrderDetail = () => {
               </Button>
               <Button
                 variant="outlined"
-                startIcon={<Icon name="truck" size={1.5} />}
+                startIcon={<Icon name="edit" size={1.5} />}
                 onClick={() => handleUpdateStatus(ORDER_STATUS.SHIPPING)}
               >
                 {t("common.orderAction.ship")}
@@ -137,7 +137,7 @@ const OrderDetail = () => {
           {orderDetail?.status === ORDER_STATUS.SHIPPING && (
             <Button
               variant="outlined"
-              startIcon={<Icon name="check-circle" size={1.5} />}
+              startIcon={<Icon name="edit" size={1.5} />}
               onClick={() => handleUpdateStatus(ORDER_STATUS.SUCCESS)}
             >
               {t("common.orderAction.success")}
