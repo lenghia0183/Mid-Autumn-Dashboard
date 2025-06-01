@@ -40,7 +40,7 @@ const AddProduct = () => {
           bgHoverColor="blue-200"
           textHoverColor="blue"
           borderHoverColor="blue"
-          to={PATH.CATEGORY_LIST}
+          to={PATH.INVENTORY_HISTORY}
         >
           {t("common.backToList")}
         </Button>

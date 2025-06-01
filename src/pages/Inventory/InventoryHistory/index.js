@@ -166,10 +166,10 @@ const InventoryHistory = () => {
         </Button>
         <Button
           to={PATH.INVENTORY_STOCK}
-          bgColor="blue"
+          bgColor="emerald"
           textColor="white"
-          bgHoverColor="blue-600"
-          textHoverColor="white"
+          bgHoverColor="yellow"
+          textHoverColor="dark"
         >
           Xem danh sách tồn kho
         </Button>
