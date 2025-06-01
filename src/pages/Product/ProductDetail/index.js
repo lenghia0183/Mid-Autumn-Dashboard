@@ -17,6 +17,7 @@ const ProductDetail = () => {
   const params = useParams();
 
   const { data: productDetail } = useGetProductDetail(params.productId);
+  console.log("productDetail", productDetail);
 
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 
@@ -126,6 +127,12 @@ const ProductDetail = () => {
               labelWidth="150px"
               label={t("product.detail.category")}
               value={productDetail?.categoryId?.name}
+            />
+
+            <LabelValue
+              labelWidth="150px"
+              label={t("product.detail.quantity")}
+              value={productDetail?.quantity}
             />
 
             <LabelValue
