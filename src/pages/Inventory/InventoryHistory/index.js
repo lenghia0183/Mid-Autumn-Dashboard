@@ -10,6 +10,7 @@ import Table from "../../../components/Table";
 import Pagination from "../../../components/Pagination";
 import { useGetInventoryHistory } from "../../../service/https/inventory";
 import FormikAutoComplete from "../../../components/Formik/FormikAutoComplete";
+import IconButton from "../../../components/IconButton";
 
 const InventoryHistory = () => {
   const { page, pageSize, keyword, filters, setMultiple } = useQueryState();
@@ -81,14 +82,17 @@ const InventoryHistory = () => {
     record.note,
     record.userId.email,
     new Date(record.createdAt).toLocaleString(),
-    <div className="flex gap-2">
-      <Button
+    <div className="flex items-center gap-2 justify-center">
+      <IconButton
+        iconName="edit"
+        textColor="gray-500"
         to={PATH.INVENTORY_EDIT.replace(":inventoryId", record._id)}
-        size="zeroPadding"
-        className="text-blue-600 hover:underline"
-      >
-        {t("common.edit")}
-      </Button>
+      />
+      <IconButton
+        iconName="eye"
+        textColor="gray-500"
+        to={PATH.INVENTORY_DETAIL.replace(":inventoryId", record._id)}
+      />
     </div>,
   ]);
 

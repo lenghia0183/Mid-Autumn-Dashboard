@@ -510,6 +510,7 @@
     "history": {
       "title": "Danh sách kho hàng",
       "NO": "STT",
+      "ID": "Mã lịch sử",
       "productCode": "Mã sản phẩm",
       "productName": "Tên sản phẩm",
       "type": "Loại",
