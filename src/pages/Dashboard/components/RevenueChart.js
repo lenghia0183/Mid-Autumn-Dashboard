@@ -5,10 +5,10 @@ import { getRevenueChartData } from "../utils/dataTransformers";
 
 const RevenueChart = ({ data, filterValue }) => {
   const chartData = getRevenueChartData(data, filterValue?.value);
-  
+
   return (
     <ChartCard
-      title={`Doanh thu theo ${filterValue?.label || "Tháng"}`}
+      title={`Doanh thu & Lợi nhuận theo ${filterValue?.label || "Tháng"}`}
       filterName="revenueFilterBy"
       borderColor="#00796B"
     >

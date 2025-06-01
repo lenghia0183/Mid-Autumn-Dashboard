@@ -1,5 +1,50 @@
 import { generateColors } from "./chartUtils";
 
+// Helper function to format date to Vietnamese style
+const formatDateToVietnamese = (dateString) => {
+  if (!dateString) return "N/A";
+
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return dateString; // Return original if invalid date
+
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  return `${day} tháng ${month} năm ${year}`;
+};
+
+// Helper function to format date range
+const formatDateRange = (startDate, endDate) => {
+  if (!startDate || !endDate) return "N/A";
+
+  if (startDate === endDate) {
+    return formatDateToVietnamese(startDate);
+  }
+
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+    return `${startDate} - ${endDate}`;
+  }
+
+  const startDay = start.getDate();
+  const startMonth = start.getMonth() + 1;
+  const startYear = start.getFullYear();
+  const endDay = end.getDate();
+  const endMonth = end.getMonth() + 1;
+  const endYear = end.getFullYear();
+
+  if (startYear === endYear && startMonth === endMonth) {
+    return `${startDay} - ${endDay} tháng ${startMonth} năm ${startYear}`;
+  } else if (startYear === endYear) {
+    return `${startDay} tháng ${startMonth} - ${endDay} tháng ${endMonth} năm ${startYear}`;
+  } else {
+    return `${startDay} tháng ${startMonth} năm ${startYear} - ${endDay} tháng ${endMonth} năm ${endYear}`;
+  }
+};
+
 // Create dynamic visitor data chart based on API response
 export const getVisitorChartData = (visitorData) => {
   if (!visitorData?.data?.visitsByTime) {
@@ -21,7 +66,7 @@ export const getVisitorChartData = (visitorData) => {
   const labels = visitorData.data.visitsByTime.map((item) => {
     // Nếu có trường date
     if (item.date) {
-      return item.date;
+      return formatDateToVietnamese(item.date);
     }
     // Nếu có trường week (định dạng "2025-W17")
     else if (item.week) {
@@ -95,14 +140,19 @@ export const getReviewsChartData = (reviewsData) => {
 
 // Transform revenue data for bar chart
 export const getRevenueChartData = (revenueData, filterBy) => {
-  if (!revenueData?.data) {
+  if (!revenueData?.data || !Array.isArray(revenueData.data)) {
     return {
       labels: [],
       datasets: [
         {
-          label: "Doanh thu (triệu VND)",
+          label: "Doanh thu (VND)",
           data: [],
-          backgroundColor: generateColors(1)[0],
+          backgroundColor: "#00796B",
+        },
+        {
+          label: "Lợi nhuận (VND)",
+          data: [],
+          backgroundColor: "#4CAF50",
         },
       ],
     };
@@ -110,24 +160,51 @@ export const getRevenueChartData = (revenueData, filterBy) => {
 
   const labels = revenueData.data.map((item) => {
     if (filterBy === "month") {
-      return item.month;
+      return `Tháng ${item.month}/${item.year}`;
     } else if (filterBy === "year") {
-      return item.year;
+      return `Năm ${item.year}`;
     } else if (filterBy === "week") {
-      return `Tử ${item.startDate} đến ${item.endDate}`;
+      return `Tuần ${item.week}/${item.year}`;
     } else if (filterBy === "day") {
+      // Format ngày theo kiểu "ngày tháng năm"
+      if (item.formattedDate) {
+        return item.formattedDate;
+      }
+      // Fallback: format từ startDate nếu có
+      if (item.startDate) {
+        return formatDateToVietnamese(item.startDate);
+      }
+    }
+
+    // Fallback cho các trường hợp khác
+    if (item.formattedDate) {
       return item.formattedDate;
     }
-    return "";
+    if (item.startDate && item.endDate) {
+      return formatDateRange(item.startDate, item.endDate);
+    }
+
+    return "N/A";
   });
+
+  const colors = generateColors(2);
 
   return {
     labels,
     datasets: [
       {
-        label: "Doanh thu (triệu VND)",
-        data: revenueData.data.map((item) => item.revenue),
-        backgroundColor: generateColors(1)[0],
+        label: "Doanh thu (VND)",
+        data: revenueData.data.map((item) => item.revenue || 0),
+        backgroundColor: colors[0],
+        borderColor: colors[0],
+        borderWidth: 1,
+      },
+      {
+        label: "Lợi nhuận (VND)",
+        data: revenueData.data.map((item) => item.profit || 0),
+        backgroundColor: colors[1],
+        borderColor: colors[1],
+        borderWidth: 1,
       },
     ],
   };
@@ -148,7 +225,7 @@ export const getProductDistributionData = (productDistributionData) => {
   }
 
   const hasOthers = !!productDistributionData.data.othersPercentage;
-  
+
   const labels = hasOthers
     ? productDistributionData.data.topProducts
         .map((item) => item.name)
