@@ -8,8 +8,8 @@ import { PATH } from "../../../constants/path";
 import Button from "../../../components/Button";
 import Table from "../../../components/Table";
 import Pagination from "../../../components/Pagination";
-import FormikTextField from "../../../components/Formik/FormikTextField";
 import { useGetInventoryHistory } from "../../../service/https/inventory";
+import FormikAutoComplete from "../../../components/Formik/FormikAutoComplete";
 
 const InventoryHistory = () => {
   const { page, pageSize, keyword, filters, setMultiple } = useQueryState();
@@ -23,7 +23,7 @@ const InventoryHistory = () => {
   } = useGetInventoryHistory({
     page,
     limit: pageSize,
-    // keyword,
+    type: filters?.type?.value,
   });
 
   useEffect(() => {
@@ -73,24 +73,45 @@ const InventoryHistory = () => {
     new Date(record.createdAt).toLocaleString(),
   ]);
 
+  const optionType = [
+    {
+      label: "Nhập",
+      value: "import",
+    },
+    {
+      label: "Xuất",
+      value: "export",
+    },
+  ];
+
   return (
     <div>
       <h2 className="text-[28px] font-medium mb-4">
         {t("inventory.history.title")}
       </h2>
       <Formik
-        initialValues={{ keyword }}
+        initialValues={{
+          type: filters.type,
+        }}
         onSubmit={(values) => {
           setMultiple({
-            keyword: values?.keyword,
-            filters: {},
+            filters: {
+              type: values.type,
+            },
           });
         }}
       >
         {({ resetForm }) => (
           <Form>
             <div className="grid grid-cols-4 gap-10 items-center mt-10">
-              <FormikTextField name="keyword" label={t("common.search")} />
+              <FormikAutoComplete
+                label="Loại"
+                name="type"
+                options={optionType}
+                isEqualValue={(opt, val) => {
+                  return opt.value === val.value;
+                }}
+              />
 
               <div className="flex gap-4">
                 <Button type="submit" height="40px">
