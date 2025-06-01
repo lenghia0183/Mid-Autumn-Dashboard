@@ -19,3 +19,15 @@ export const useAddProductIntoInventory = (config) => {
 
   return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
 };
+
+export const useGetInventoryDetail = (inventoryId, config) => {
+  const url = `v1/inventory/${inventoryId}`;
+  const fetcher = async (url) => {
+    return api.get(url);
+  };
+
+  return useSWR(inventoryId ? url : null, fetcher, {
+    shouldShowLoading: false,
+    ...config,
+  });
+};

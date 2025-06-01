@@ -43,6 +43,7 @@ export const PATH = {
 
   INVENTORY: "/inventory",
   INVENTORY_HISTORY: "/inventory/history",
+  INVENTORY_DETAIL: "/inventory/detail/:inventoryId",
   INVENTORY_ADD_PRODUCT: "/inventory/add-product",
 };
 

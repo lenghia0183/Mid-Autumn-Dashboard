@@ -33,6 +33,7 @@ const InventoryHistory = () => {
   const inventoryRecords = inventoryHistoryData?.data?.records || [];
   const headers = [
     t("inventory.history.NO"),
+    t("inventory.history.ID"),
     t("inventory.history.productCode"),
     t("inventory.history.productName"),
     t("inventory.history.type"),
@@ -43,10 +44,19 @@ const InventoryHistory = () => {
     t("inventory.history.note"),
     t("inventory.history.user"),
     t("inventory.history.date"),
+    t("inventory.history.action"),
   ];
 
   const rows = inventoryRecords.map((record, index) => [
     index + 1,
+
+    <Button
+      to={PATH.INVENTORY_DETAIL?.replace(":inventoryId", record._id)}
+      size="zeroPadding"
+      className="m-auto hover:underline"
+    >
+      {record._id}
+    </Button>,
     record.productId.code,
     <Button
       to={PATH.PRODUCT_DETAIL.replace(":productId", record.productId._id)}

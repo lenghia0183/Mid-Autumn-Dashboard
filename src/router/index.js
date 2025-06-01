@@ -34,6 +34,7 @@ import ContactDetail from "../pages/Contact/ContactDetail";
 import AdminChat from "../pages/AdminChat";
 import InventoryHistory from "../pages/Inventory/InventoryHistory";
 import AddProduct from "../pages/Inventory/AddProduct";
+import InventoryDetail from "../pages/Inventory/InventoryDetail";
 
 const router = createBrowserRouter([
   // main layout
@@ -207,6 +208,11 @@ const router = createBrowserRouter([
           {
             path: PATH.INVENTORY_ADD_PRODUCT,
             element: <AddProduct />,
+            loader: checkNotLoggedIn,
+          },
+          {
+            path: PATH.INVENTORY_DETAIL,
+            element: <InventoryDetail />,
             loader: checkNotLoggedIn,
           },
         ],
