@@ -298,7 +298,8 @@
       "category": "Loại sản phẩm:",
       "price": "Giá sản phẩm:",
       "images": "Danh sách hình ảnh",
-      "description": "Mô tả sản phẩm:"
+      "description": "Mô tả sản phẩm:",
+      "generateDescriptionSuccess": "Tạo mô tả sản phẩm thành công"
     }
   },
 

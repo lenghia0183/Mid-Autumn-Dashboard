@@ -6,6 +6,7 @@ import {
   useDeleteProduct,
   useGetProductDetail,
   useUpdateProduct,
+  useGenerateProductDescription,
 } from "../../../service/https";
 import Image from "../../../components/Image";
 import Button from "../../../components/Button";
@@ -66,6 +67,8 @@ const ProductEdit = () => {
   };
 
   const { trigger: handleUpdateProduct } = useUpdateProduct();
+  const { trigger: handleGenerateDescription } =
+    useGenerateProductDescription();
 
   return (
     <div>
@@ -151,7 +154,7 @@ const ProductEdit = () => {
         }}
         enableReinitialize
       >
-        {({ resetForm }) => {
+        {({ resetForm, values, setFieldValue }) => {
           return (
             <Form>
               <div className="grid grid-cols-2 gap-5">
@@ -260,6 +263,51 @@ const ProductEdit = () => {
                 />
 
                 <div className="col-span-2 mt-4 flex gap-3 justify-end w-[90%]">
+                  <Button
+                    variant="outlined"
+                    borderColor="blue"
+                    textColor="blue"
+                    type="button"
+                    bgHoverColor="blue-300"
+                    disabled={
+                      !values.name ||
+                      !values.price ||
+                      !values.manufacturerId ||
+                      !values.categoryId
+                    }
+                    onClick={() => {
+                      console.log("values", values);
+                      handleGenerateDescription(
+                        {
+                          prompt: `Tên sản phẩm: ${values.name}, giá sản phẩm: ${values.price}, thương hiệu: ${values.manufacturerId?.name}, loại sản phẩm: ${values.categoryId?.name}`,
+                        },
+                        {
+                          onSuccess: (response) => {
+                            console.log("response", response);
+                            if (validateStatus(response.code)) {
+                              toast.success(
+                                t("product.edit.generateDescriptionSuccess")
+                              );
+                              setFieldValue(
+                                "description",
+                                response?.data?.description
+                              );
+                            } else {
+                              toast.error(response?.message);
+                            }
+                          },
+                          onError: () => {
+                            toast.error(
+                              t("common.toast.hasErrorTryAgainLater")
+                            );
+                          },
+                        }
+                      );
+                    }}
+                  >
+                    Tự động tạo mô tả với AI
+                  </Button>
+
                   <Button variant="outlined" type="submit">
                     {t("common.edit")}
                   </Button>
