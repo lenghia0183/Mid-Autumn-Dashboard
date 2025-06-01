@@ -4,6 +4,7 @@ import {
   getManufacturerList,
   useAddProduct,
   useGenerateProductDescription,
+  useTranslateProduct,
 } from "../../../service/https";
 import Image from "../../../components/Image";
 import Button from "../../../components/Button";
@@ -35,6 +36,7 @@ const ProductCreate = () => {
   const { trigger: handleAddProduct } = useAddProduct();
   const { trigger: handleGenerateDescription } =
     useGenerateProductDescription();
+  const { trigger: handleTranslateProduct } = useTranslateProduct();
 
   return (
     <div>
@@ -63,6 +65,13 @@ const ProductCreate = () => {
           categoryId: null,
           description: "",
           costPrice: 0,
+          // Multi-language fields
+          nameEn: "",
+          nameZh: "",
+          nameJa: "",
+          descriptionEn: "",
+          descriptionZh: "",
+          descriptionJa: "",
         }}
         validationSchema={validateSchema(t)}
         onSubmit={(values) => {
@@ -70,11 +79,17 @@ const ProductCreate = () => {
 
           const convertValue = {
             name: values.name,
+            nameEn: values.nameEn,
+            nameJa: values.nameJa,
+            nameZh: values.nameZh,
             code: values.code,
             price: values.price,
             manufacturerId: values.manufacturerId._id,
             categoryId: values.categoryId._id,
             description: values.description,
+            descriptionEn: values.descriptionEn,
+            descriptionJa: values.descriptionJa,
+            descriptionZh: values.descriptionZh,
             images: values.images,
             costPrice: values.costPrice,
           };
@@ -196,7 +211,150 @@ const ProductCreate = () => {
                   required
                 />
 
+                {/* Multi-language fields */}
+                <div className="col-span-2 mt-6">
+                  <h3 className="text-lg font-medium mb-4 text-gray-700">
+                    Thông tin đa ngôn ngữ
+                  </h3>
+                </div>
+
+                {/* English fields */}
+                <FormikTextField
+                  name="nameEn"
+                  label="Tên tiếng Anh"
+                  labelWidth="150px"
+                  width="80%"
+                  vertical={false}
+                  inputProps={{
+                    maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON,
+                  }}
+                />
+
+                <FormikTextField
+                  name="nameZh"
+                  label="Tên tiếng Trung"
+                  labelWidth="150px"
+                  width="80%"
+                  vertical={false}
+                  inputProps={{
+                    maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON,
+                  }}
+                />
+
+                <FormikTextField
+                  name="nameJa"
+                  label="Tên tiếng Nhật"
+                  labelWidth="150px"
+                  width="80%"
+                  vertical={false}
+                  inputProps={{
+                    maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON,
+                  }}
+                />
+                <FormikTextArea
+                  name="descriptionEn"
+                  label="Mô tả tiếng Anh"
+                  labelWidth="150px"
+                  vertical={false}
+                  width="90.5%"
+                  className="col-span-2"
+                  inputProps={{
+                    maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON,
+                  }}
+                />
+
+                {/* Chinese fields */}
+
+                <FormikTextArea
+                  name="descriptionZh"
+                  label="Mô tả tiếng Trung"
+                  labelWidth="150px"
+                  vertical={false}
+                  width="90.5%"
+                  className="col-span-2"
+                  inputProps={{
+                    maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON,
+                  }}
+                />
+
+                {/* Japanese fields */}
+
+                <FormikTextArea
+                  name="descriptionJa"
+                  label="Mô tả tiếng Nhật"
+                  labelWidth="150px"
+                  vertical={false}
+                  width="90.5%"
+                  className="col-span-2"
+                  inputProps={{
+                    maxLength: TEXTFIELD_REQUIRED_LENGTH.COMMON,
+                  }}
+                />
+
                 <div className="col-span-2 mt-4 flex gap-3 justify-end w-[90%]">
+                  <Button
+                    variant="outlined"
+                    borderColor="blue"
+                    textColor="blue"
+                    type="button"
+                    bgHoverColor="blue-300"
+                    disabled={!values.name || !values.description}
+                    onClick={() => {
+                      handleTranslateProduct(
+                        {
+                          name: values.name,
+                          description: values.description,
+                        },
+                        {
+                          onSuccess: (response) => {
+                            console.log("response", response);
+                            if (validateStatus(response.code)) {
+                              toast.success(
+                                "Tạo thông tin sản phẩm thành công"
+                              );
+                              // Fill English fields
+                              setFieldValue(
+                                "nameEn",
+                                response?.data?.english?.name
+                              );
+                              setFieldValue(
+                                "descriptionEn",
+                                response?.data?.english?.description
+                              );
+                              // Fill Chinese fields
+                              setFieldValue(
+                                "nameZh",
+                                response?.data?.chinese?.name
+                              );
+                              setFieldValue(
+                                "descriptionZh",
+                                response?.data?.chinese?.description
+                              );
+                              // Fill Japanese fields
+                              setFieldValue(
+                                "nameJa",
+                                response?.data?.japanese?.name
+                              );
+                              setFieldValue(
+                                "descriptionJa",
+                                response?.data?.japanese?.description
+                              );
+                            } else {
+                              toast.error(response?.message);
+                            }
+                          },
+                          onError: () => {
+                            toast.error(
+                              t("common.toast.hasErrorTryAgainLater")
+                            );
+                          },
+                        }
+                      );
+                    }}
+                  >
+                    Tự động dịch thông tin sản phẩm
+                  </Button>
+
                   <Button
                     variant="outlined"
                     borderColor="blue"

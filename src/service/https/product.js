@@ -82,6 +82,15 @@ export const useGenerateProductDescription = (config) => {
   return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
 };
 
+export const useTranslateProduct = (config) => {
+  const url = "v1/ai/translate-product";
+  const fetcher = (url, { arg }) => {
+    return api.post(url, arg);
+  };
+
+  return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
+};
+
 export const getProductList = () => {
   return api.get("v1/product", { limit: 100 });
 };

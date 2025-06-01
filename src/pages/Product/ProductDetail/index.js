@@ -1,7 +1,11 @@
 import { Form, Formik } from "formik";
 import LabelValue from "./../../../components/LabelValue/index";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDeleteProduct, useGetProductDetail } from "../../../service/https";
+import {
+  useDeleteProduct,
+  useGetProductDetail,
+  useTranslateProduct,
+} from "../../../service/https";
 import formatCurrency from "./../../../utils/formatCurrency";
 import Image from "../../../components/Image";
 import Button from "../../../components/Button";
@@ -16,10 +20,19 @@ import DeleteDialog from "../Dialog/delete";
 const ProductDetail = () => {
   const params = useParams();
 
-  const { data: productDetail } = useGetProductDetail(params.productId);
+  const { data: productDetail, mutate: mutateProductDetail } =
+    useGetProductDetail(params.productId);
   console.log("productDetail", productDetail);
 
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+  const [multiLangData, setMultiLangData] = useState({
+    nameEn: "",
+    nameZh: "",
+    nameJa: "",
+    descriptionEn: "",
+    descriptionZh: "",
+    descriptionJa: "",
+  });
 
   const { t } = useTranslation();
 
@@ -30,6 +43,7 @@ const ProductDetail = () => {
   };
 
   const { trigger: handleDeleteProduct } = useDeleteProduct();
+  const { trigger: handleTranslateProduct } = useTranslateProduct();
 
   const handleSubmitDeleteProduct = () => {
     handleDeleteProduct(
@@ -73,6 +87,50 @@ const ProductDetail = () => {
         <div className="flex gap-3">
           <Button
             variant="outlined"
+            borderColor="green"
+            textColor="green"
+            bgHoverColor="green-300"
+            disabled={!productDetail?.name || !productDetail?.description}
+            onClick={() => {
+              handleTranslateProduct(
+                {
+                  name: productDetail?.name,
+                  description: productDetail?.description,
+                },
+                {
+                  onSuccess: (response) => {
+                    console.log("response", response);
+                    if (validateStatus(response.code)) {
+                      toast.success("Tạo thông tin sản phẩm thành công");
+                      // Update local state
+                      setMultiLangData({
+                        nameEn: response?.data?.english?.name || "",
+                        nameZh: response?.data?.chinese?.name || "",
+                        nameJa: response?.data?.japanese?.name || "",
+                        descriptionEn:
+                          response?.data?.english?.description || "",
+                        descriptionZh:
+                          response?.data?.chinese?.description || "",
+                        descriptionJa:
+                          response?.data?.japanese?.description || "",
+                      });
+                      // Refresh product detail to show updated data
+                      mutateProductDetail();
+                    } else {
+                      toast.error(response?.message);
+                    }
+                  },
+                  onError: () => {
+                    toast.error(t("common.toast.hasErrorTryAgainLater"));
+                  },
+                }
+              );
+            }}
+          >
+            Tạo thông tin sản phẩm
+          </Button>
+          <Button
+            variant="outlined"
             borderColor="crimson"
             textColor="crimson"
             bgHoverColor="crimson-300"
@@ -93,6 +151,13 @@ const ProductDetail = () => {
       <Formik>
         <Form>
           <div className="grid grid-cols-2 gap-3">
+            {/* Basic Information */}
+            <div className="col-span-2 mb-4">
+              <h3 className="text-lg font-medium mb-4 text-gray-700">
+                Thông tin cơ bản
+              </h3>
+            </div>
+
             <LabelValue
               labelWidth="150px"
               label={t("product.detail.ID")}
@@ -128,7 +193,6 @@ const ProductDetail = () => {
               label={t("product.detail.category")}
               value={productDetail?.categoryId?.name}
             />
-
             <LabelValue
               labelWidth="150px"
               label={t("product.detail.quantity")}
@@ -140,6 +204,49 @@ const ProductDetail = () => {
               className="col-span-2"
               label={t("product.detail.description")}
               value={productDetail?.description}
+            />
+
+            <div className="col-span-2 mt-6 mb-4">
+              <h3 className="text-lg font-medium mb-4 text-gray-700">
+                Thông tin đa ngôn ngữ
+              </h3>
+            </div>
+
+            <LabelValue
+              labelWidth="150px"
+              label="Tên tiếng Anh:"
+              value={productDetail?.nameEn || "Chưa có"}
+            />
+            <LabelValue
+              labelWidth="150px"
+              label="Tên tiếng Trung:"
+              value={productDetail?.nameZh || "Chưa có"}
+            />
+            <LabelValue
+              labelWidth="150px"
+              label="Tên tiếng Nhật:"
+              className="col-span-2"
+              value={productDetail?.nameJa || "Chưa có"}
+            />
+            <LabelValue
+              labelWidth="150px"
+              label="Mô tả tiếng Anh:"
+              className="col-span-2"
+              value={productDetail?.descriptionEn || "Chưa có"}
+            />
+
+            <LabelValue
+              labelWidth="150px"
+              label="Mô tả tiếng Trung:"
+              className="col-span-2"
+              value={productDetail?.descriptionZh || "Chưa có"}
+            />
+
+            <LabelValue
+              labelWidth="150px"
+              label="Mô tả tiếng Nhật:"
+              className="col-span-2"
+              value={productDetail?.descriptionJa || "Chưa có"}
             />
 
             <h2 className="col-span-2 text-xl mt-3 font-medium">
