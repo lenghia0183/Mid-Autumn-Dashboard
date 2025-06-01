@@ -46,6 +46,7 @@ export const PATH = {
   INVENTORY_DETAIL: "/inventory/detail/:inventoryId",
   INVENTORY_EDIT: "/inventory/edit/:inventoryId",
   INVENTORY_ADD_PRODUCT: "/inventory/add-product",
+  INVENTORY_STOCK: "/inventory/stock",
 };
 
 export const PAGE_TITLE = {

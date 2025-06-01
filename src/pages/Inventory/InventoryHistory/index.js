@@ -154,16 +154,26 @@ const InventoryHistory = () => {
           </Form>
         )}
       </Formik>
-      <Button
-        className="my-5"
-        to={PATH.INVENTORY_ADD_PRODUCT}
-        bgColor="emerald"
-        textColor="white"
-        bgHoverColor="yellow"
-        textHoverColor="dark"
-      >
-        {t("inventory.btn.addProduct")}
-      </Button>
+      <div className="flex gap-3 my-5">
+        <Button
+          to={PATH.INVENTORY_ADD_PRODUCT}
+          bgColor="emerald"
+          textColor="white"
+          bgHoverColor="yellow"
+          textHoverColor="dark"
+        >
+          {t("inventory.btn.addProduct")}
+        </Button>
+        <Button
+          to={PATH.INVENTORY_STOCK}
+          bgColor="blue"
+          textColor="white"
+          bgHoverColor="blue-600"
+          textHoverColor="white"
+        >
+          Xem danh sách tồn kho
+        </Button>
+      </div>
       <Table
         headers={headers}
         rows={rows}

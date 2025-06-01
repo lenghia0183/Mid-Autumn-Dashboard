@@ -40,3 +40,12 @@ export const useUpdateInventory = (config) => {
 
   return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
 };
+
+export const useGetInventoryStock = (filters, config) => {
+  const url = "v1/inventory/stock";
+  const fetcher = async (url) => {
+    return api.get(url, filters);
+  };
+
+  return useSWR(url, fetcher, { shouldShowLoading: false, ...config });
+};
