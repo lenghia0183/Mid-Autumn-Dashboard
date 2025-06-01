@@ -2,6 +2,7 @@ import { Form, Formik } from "formik";
 import LabelValue from "../../../components/LabelValue";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../../components/Button";
+import Icon from "../../../components/Icon";
 import { PATH } from "../../../constants/path";
 import { useTranslation } from "react-i18next";
 import { useGetInventoryDetail } from "../../../service/https/inventory";
@@ -35,6 +36,16 @@ const InventoryDetail = () => {
         >
           {t("common.backToList")}
         </Button>
+
+        <div className="flex gap-3">
+          <Button
+            variant="outlined"
+            startIcon={<Icon name="edit" size={1.5} />}
+            to={PATH.INVENTORY_EDIT.replace(":inventoryId", params.inventoryId)}
+          >
+            {t("common.edit")}
+          </Button>
+        </div>
       </div>
       <Formik>
         <Form>

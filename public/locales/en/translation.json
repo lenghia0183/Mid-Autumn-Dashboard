@@ -18,8 +18,20 @@
     "outOfStock": "Out of stock",
     "apply": "Apply",
     "search": "Search",
+    "deleteSearch": "Clear search",
     "logout": "Logout",
+    "login": "Login",
     "showMoreItem": "Show more items",
+    "showItemDetail": "View item details",
+    "rowPerPage": "Rows per page",
+    "selectFile": "Select file",
+    "edit": "Edit",
+    "delete": "Delete",
+    "backToList": "Back to list",
+    "showDetail": "View details",
+    "validation": {
+      "required": "This field is required"
+    },
     "toast": {
       "hasErrorTryAgainLater": "An error occurred, please try again later"
     }
@@ -261,5 +273,81 @@
     "newPassword": "New Password",
     "confirmPassword": "Confirm New Password",
     "reset": "Reset Password"
+  },
+
+  "inventory": {
+    "btn": {
+      "addProduct": "Add Product to Inventory"
+    },
+
+    "history": {
+      "title": "Inventory History",
+      "NO": "No.",
+      "ID": "History ID",
+      "productCode": "Product Code",
+      "productName": "Product Name",
+      "type": "Type",
+      "quantity": "Quantity Changed",
+      "previousQuantity": "Previous Quantity",
+      "newQuantity": "New Quantity",
+      "reason": "Reason",
+      "note": "Note",
+      "user": "User",
+      "date": "Date",
+      "action": "Action",
+      "searchInventory": "Search Inventory"
+    },
+
+    "detail": {
+      "title": "Inventory History Detail",
+      "ID": "History ID:",
+      "productID": "Product ID:",
+      "productCode": "Product Code:",
+      "productName": "Product Name:",
+      "type": "Operation Type:",
+      "quantity": "Quantity Changed:",
+      "previousQuantity": "Previous Quantity:",
+      "newQuantity": "New Quantity:",
+      "reason": "Reason:",
+      "note": "Note:",
+      "user": "User:",
+      "date": "Date:",
+      "productImage": "Product Image",
+      "noProductImage": "No product image"
+    },
+
+    "addProduct": {
+      "title": "Add Product to Inventory",
+      "product": "Product",
+      "quantity": "Quantity",
+      "reason": "Reason",
+      "note": "Note",
+      "success": "Product added to inventory successfully"
+    },
+
+    "edit": {
+      "title": "Edit Inventory History",
+      "ID": "History ID:",
+      "productCode": "Product Code:",
+      "productName": "Product Name:",
+      "type": "Operation Type:",
+      "quantity": "Quantity Changed:",
+      "previousQuantity": "Previous Quantity:",
+      "newQuantity": "New Quantity:",
+      "reason": "Reason:",
+      "note": "Note:",
+      "user": "User:",
+      "date": "Date:",
+      "success": "Inventory history updated successfully"
+    },
+
+    "validation": {
+      "quantityMin": "Quantity must be greater than 0"
+    },
+
+    "type": {
+      "import": "Import",
+      "export": "Export"
+    }
   }
 }

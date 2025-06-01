@@ -81,6 +81,15 @@ const InventoryHistory = () => {
     record.note,
     record.userId.email,
     new Date(record.createdAt).toLocaleString(),
+    <div className="flex gap-2">
+      <Button
+        to={PATH.INVENTORY_EDIT.replace(":inventoryId", record._id)}
+        size="zeroPadding"
+        className="text-blue-600 hover:underline"
+      >
+        {t("common.edit")}
+      </Button>
+    </div>,
   ]);
 
   const optionType = [

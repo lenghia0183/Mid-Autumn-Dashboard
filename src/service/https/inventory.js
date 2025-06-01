@@ -31,3 +31,12 @@ export const useGetInventoryDetail = (inventoryId, config) => {
     ...config,
   });
 };
+
+export const useUpdateInventory = (config) => {
+  const url = `v1/inventory`;
+  const fetcher = (url, { arg }) => {
+    return api.put(`${url}/${arg?._id}`, arg.body);
+  };
+
+  return useSWRMutation(url, fetcher, { shouldShowLoading: true, ...config });
+};

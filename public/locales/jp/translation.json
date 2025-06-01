@@ -261,5 +261,81 @@
     "newPassword": "新しいパスワード",
     "confirmPassword": "新しいパスワードの確認",
     "reset": "パスワードをリセット"
+  },
+
+  "inventory": {
+    "btn": {
+      "addProduct": "在庫に商品を追加"
+    },
+
+    "history": {
+      "title": "在庫履歴",
+      "NO": "番号",
+      "ID": "履歴ID",
+      "productCode": "商品コード",
+      "productName": "商品名",
+      "type": "タイプ",
+      "quantity": "数量変更",
+      "previousQuantity": "以前の数量",
+      "newQuantity": "新しい数量",
+      "reason": "理由",
+      "note": "備考",
+      "user": "ユーザー",
+      "date": "日付",
+      "action": "アクション",
+      "searchInventory": "在庫検索"
+    },
+
+    "detail": {
+      "title": "在庫履歴詳細",
+      "ID": "履歴ID：",
+      "productID": "商品ID：",
+      "productCode": "商品コード：",
+      "productName": "商品名：",
+      "type": "操作タイプ：",
+      "quantity": "数量変更：",
+      "previousQuantity": "以前の数量：",
+      "newQuantity": "新しい数量：",
+      "reason": "理由：",
+      "note": "備考：",
+      "user": "ユーザー：",
+      "date": "日付：",
+      "productImage": "商品画像",
+      "noProductImage": "商品画像なし"
+    },
+
+    "addProduct": {
+      "title": "在庫に商品を追加",
+      "product": "商品",
+      "quantity": "数量",
+      "reason": "理由",
+      "note": "備考",
+      "success": "商品が在庫に正常に追加されました"
+    },
+
+    "edit": {
+      "title": "在庫履歴編集",
+      "ID": "履歴ID：",
+      "productCode": "商品コード：",
+      "productName": "商品名：",
+      "type": "操作タイプ：",
+      "quantity": "数量変更：",
+      "previousQuantity": "以前の数量：",
+      "newQuantity": "新しい数量：",
+      "reason": "理由：",
+      "note": "備考：",
+      "user": "ユーザー：",
+      "date": "日付：",
+      "success": "在庫履歴が正常に更新されました"
+    },
+
+    "validation": {
+      "quantityMin": "数量は0より大きくなければなりません"
+    },
+
+    "type": {
+      "import": "入庫",
+      "export": "出庫"
+    }
   }
 }
