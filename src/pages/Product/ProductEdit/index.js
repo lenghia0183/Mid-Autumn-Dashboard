@@ -23,19 +23,37 @@ import {
   TEXTFIELD_ALLOW,
   TEXTFIELD_REQUIRED_LENGTH,
 } from "./../../../constants/common";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { validateStatus } from "../../../utils/api";
 import { toast } from "react-toastify";
 import DeleteDialog from "../Dialog/delete";
 import { getCategoryList } from "../../../service/https/category";
+import generateProductCode from "../../../utils/productCodeGenerator";
 
 const ProductEdit = () => {
   const params = useParams();
 
+  const [values, setValues] = useState(null);
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    if (values?.manufacturerId && values?.categoryId) {
+      formRef?.current?.setFieldValue(
+        "code",
+        generateProductCode(
+          values?.manufacturerId?.name,
+          values?.categoryId?.name,
+          params?.productId
+        )
+      );
+    } else {
+      formRef.current.setFieldValue("code", "");
+    }
+  }, [values?.manufacturerId, values?.categoryId]);
+
   const { t } = useTranslation();
 
   const { data: productDetail } = useGetProductDetail(params.productId);
-  console.log("productDetail", productDetail);
 
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
 
@@ -129,9 +147,12 @@ const ProductEdit = () => {
           descriptionZh: productDetail?.descriptionZh || "",
           descriptionJa: productDetail?.descriptionJa || "",
         }}
+        innerRef={(ref) => {
+          formRef.current = ref;
+          setValues(ref?.values);
+        }}
         validationSchema={validateSchema(t)}
         onSubmit={(values) => {
-          console.log("values", values);
           handleUpdateProduct(
             {
               _id: values?._id,
@@ -203,6 +224,7 @@ const ProductEdit = () => {
                   required
                   labelWidth="150px"
                   width="80%"
+                  disabled
                   inputProps={{
                     maxLength: TEXTFIELD_REQUIRED_LENGTH.MAX_50,
                   }}

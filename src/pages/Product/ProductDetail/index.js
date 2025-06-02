@@ -25,14 +25,6 @@ const ProductDetail = () => {
   console.log("productDetail", productDetail);
 
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
-  const [multiLangData, setMultiLangData] = useState({
-    nameEn: "",
-    nameZh: "",
-    nameJa: "",
-    descriptionEn: "",
-    descriptionZh: "",
-    descriptionJa: "",
-  });
 
   const { t } = useTranslation();
 
@@ -43,7 +35,6 @@ const ProductDetail = () => {
   };
 
   const { trigger: handleDeleteProduct } = useDeleteProduct();
-  const { trigger: handleTranslateProduct } = useTranslateProduct();
 
   const handleSubmitDeleteProduct = () => {
     handleDeleteProduct(
@@ -85,50 +76,6 @@ const ProductDetail = () => {
         </Button>
 
         <div className="flex gap-3">
-          <Button
-            variant="outlined"
-            borderColor="green"
-            textColor="green"
-            bgHoverColor="green-300"
-            disabled={!productDetail?.name || !productDetail?.description}
-            onClick={() => {
-              handleTranslateProduct(
-                {
-                  name: productDetail?.name,
-                  description: productDetail?.description,
-                },
-                {
-                  onSuccess: (response) => {
-                    console.log("response", response);
-                    if (validateStatus(response.code)) {
-                      toast.success("Tạo thông tin sản phẩm thành công");
-                      // Update local state
-                      setMultiLangData({
-                        nameEn: response?.data?.english?.name || "",
-                        nameZh: response?.data?.chinese?.name || "",
-                        nameJa: response?.data?.japanese?.name || "",
-                        descriptionEn:
-                          response?.data?.english?.description || "",
-                        descriptionZh:
-                          response?.data?.chinese?.description || "",
-                        descriptionJa:
-                          response?.data?.japanese?.description || "",
-                      });
-                      // Refresh product detail to show updated data
-                      mutateProductDetail();
-                    } else {
-                      toast.error(response?.message);
-                    }
-                  },
-                  onError: () => {
-                    toast.error(t("common.toast.hasErrorTryAgainLater"));
-                  },
-                }
-              );
-            }}
-          >
-            Tạo thông tin sản phẩm
-          </Button>
           <Button
             variant="outlined"
             borderColor="crimson"

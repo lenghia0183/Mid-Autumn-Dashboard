@@ -59,12 +59,11 @@ const ProductCreate = () => {
       <Formik
         initialValues={{
           name: "",
-          code: "",
           price: "",
           manufacturerId: null,
           categoryId: null,
           description: "",
-          costPrice: 0,
+          costPrice: "",
           // Multi-language fields
           nameEn: "",
           nameZh: "",
@@ -75,14 +74,11 @@ const ProductCreate = () => {
         }}
         validationSchema={validateSchema(t)}
         onSubmit={(values) => {
-          console.log("values", values);
-
           const convertValue = {
             name: values.name,
             nameEn: values.nameEn,
             nameJa: values.nameJa,
             nameZh: values.nameZh,
-            code: values.code,
             price: values.price,
             manufacturerId: values.manufacturerId._id,
             categoryId: values.categoryId._id,
@@ -90,7 +86,7 @@ const ProductCreate = () => {
             descriptionEn: values.descriptionEn,
             descriptionJa: values.descriptionJa,
             descriptionZh: values.descriptionZh,
-            images: values.images,
+            images: values.images || [],
             costPrice: values.costPrice,
           };
 
@@ -129,17 +125,6 @@ const ProductCreate = () => {
                   }}
                 />
 
-                <FormikTextField
-                  name="code"
-                  label={t("product.create.code")}
-                  vertical={false}
-                  required
-                  labelWidth="150px"
-                  width="80%"
-                  inputProps={{
-                    maxLength: TEXTFIELD_REQUIRED_LENGTH.MAX_50,
-                  }}
-                />
                 <FormikTextField
                   name="price"
                   label={t("product.create.price")}
