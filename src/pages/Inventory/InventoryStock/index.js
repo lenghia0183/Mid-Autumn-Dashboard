@@ -130,7 +130,7 @@ const InventoryStock = () => {
               <FormikTextField
                 name="keyword"
                 label="Tìm kiếm sản phẩm"
-                placeholder="Nhập tên hoặc mã sản phẩm..."
+                // placeholder="Nhập tên hoặc mã sản phẩm..."
               />
 
               <FormikAutoComplete

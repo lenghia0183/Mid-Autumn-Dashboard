@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import FormikAutoComplete from "../Formik/FormikAutoComplete";
 import { Form, Formik } from "formik";
 import { useQueryState } from "../../hooks/useQueryState";
@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 const SkeletonRow = ({ columns }) => (
   <tr>
     {Array.from({ length: columns }).map((_, index) => (
-      <td key={index} className="border p-2">
+      <td key={index} className="border p-2 text-center">
         <div className="h-4 w-full bg-gray-300 animate-pulse rounded"></div>
       </td>
     ))}
@@ -28,42 +28,10 @@ const Table = ({
   ];
 
   const { t } = useTranslation();
-
   const { pageSize, setPageSize } = useQueryState({ limit: 10 });
 
-  const [columnWidths, setColumnWidths] = useState(headers.map(() => 150));
-
-  const resizingColumn = useRef(null);
-
-  const handleMouseDown = (index, event) => {
-    resizingColumn.current = {
-      index,
-      startX: event.clientX,
-      startWidth: columnWidths[index],
-    };
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  };
-
-  const handleMouseMove = (event) => {
-    if (!resizingColumn.current) return;
-
-    const { index, startX, startWidth } = resizingColumn.current;
-    const newWidth = Math.max(startWidth + (event.clientX - startX), 50);
-
-    setColumnWidths((prevWidths) =>
-      prevWidths.map((width, i) => (i === index ? newWidth : width))
-    );
-  };
-
-  const handleMouseUp = () => {
-    resizingColumn.current = null;
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
-  };
-
   return (
-    <div>
+    <div className="w-full overflow-x-auto">
       {isShowPageSize && (
         <Formik initialValues={{ row: { value: 10, label: "10" } }}>
           {() => (
@@ -84,21 +52,16 @@ const Table = ({
           )}
         </Formik>
       )}
-      <table className={`w-full border-collapse ${className}`}>
+
+      <table className={`w-full border-collapse table-auto ${className}`}>
         <thead>
           <tr className="bg-emerald text-white">
             {headers.map((header, index) => (
               <th
                 key={index}
-                className="border border-gray p-2 font-semibold relative"
-                style={{ width: `${columnWidths[index]}px` }}
+                className="border border-gray-300 p-2 font-semibold whitespace-nowrap text-center"
               >
                 {header}
-                {/* Thanh kéo (resizer) */}
-                <div
-                  className="absolute right-0 top-0 h-full w-2 cursor-col-resize"
-                  onMouseDown={(event) => handleMouseDown(index, event)}
-                />
               </th>
             ))}
           </tr>
@@ -110,12 +73,11 @@ const Table = ({
             ))
           ) : rows && rows.length > 0 ? (
             rows.map((row, rowIndex) => (
-              <tr key={rowIndex} className="text-center">
+              <tr key={rowIndex}>
                 {row.map((cell, cellIndex) => (
                   <td
                     key={cellIndex}
-                    className="border p-2"
-                    style={{ width: `${columnWidths[cellIndex]}px` }}
+                    className="border border-gray-300 p-2 whitespace-nowrap text-center"
                   >
                     {cell}
                   </td>
